@@ -13,33 +13,32 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v22 selective oracle)
+## Current state (as of 2026-06-02 / v25 selective oracle)
 
-**8 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
+**9 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
 
 | Slot | CCC | LoA half | Reader |
 |---|---:|---:|---|
-| Hip adduction R / side-left | 0.94 | ±9.8° | v17 hand-engineered |
-| **Lumbar extension / side-left** | **0.88** | ±6.4° | v23 combined-cohort learned Layer 2 |
-| **Lumbar extension / side-right** | **0.85** | ±7.0° | v23 combined-cohort learned Layer 2 |
-| **Lumbar extension / front-oblique-right** | **0.79** | ±9.7° | v23 combined-cohort learned Layer 2 |
-| **Ankle dorsi/plantarflex R / front-oblique-right** | **0.73** | ±8.1° | v23 combined-cohort learned Layer 2 |
-| Lumbar extension / front-oblique-left | 0.71 | ±6.6° | v18 EE2 learned Layer 2 |
-| Hip adduction R / front-oblique-left | 0.69 | **±3.3°** | v20 ROM-aware learned Layer 2 |
-| Ankle dorsi/plantarflex R / side-right | 0.64 | ±9.5° | v17 hand-engineered (preliminary, n=9) |
+| hip_adduction_r / side_left | 0.94 | ±9.80° | v17 hand-engineered |
+| knee_angle_r / front_oblique_right | 0.89 | ±8.05° | v24 combined-cohort + ROM-aware learned Layer 2 (LL) |
+| lumbar_extension / side_left | 0.88 | ±6.42° | v23 combined-cohort learned Layer 2 |
+| lumbar_extension / side_right | 0.85 | ±7.03° | v23 combined-cohort learned Layer 2 |
+| lumbar_extension / front_oblique_right | 0.79 | ±9.68° | v23 combined-cohort learned Layer 2 |
+| ankle_angle_r / front_oblique_right | 0.73 | ±8.08° | v23 combined-cohort learned Layer 2 |
+| lumbar_extension / front_oblique_left | 0.71 | ±6.57° | v18 EE2 learned Layer 2 |
+| hip_adduction_r / front_oblique_left | 0.69 | ±3.29° | v20 ROM-aware learned Layer 2 |
+| ankle_angle_r / side_right | 0.64 | ±9.46° | v17 hand-engineered |
 
-**Range: CCC 0.64–0.94, single phone camera, no calibration.** Trunk extension validated from four independent camera angles (both sides + both front-obliques). Ankle dorsi/plantarflexion now validated from two camera angles (side-right, front-oblique-right). **+1 Good slot over v21** — the v23 combined-cohort learned Layer 2 (Agent KK Phase B build on top of Agent HH2's OpenCap+ASPset L2 training) wins 8 of 23 deploy slots in the v22 selective oracle.
+**Range: CCC 0.64–0.94, single phone camera, no calibration.** v25 selective oracle (9 Good slots, **+1 vs v22**). Reader distribution: v17=8, v18=1, v20=4, v23=8, v24=2. The new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24 (LL combined-cohort + ROM-aware).
 
-Comparison points from literature:
-- Theia3D (Kanko 2021): CMC 0.85–0.97 sagittal, 8 lab cameras + calibration, ~$80K
-- OpenCap (Uhlrich 2023): kinematic RMSE 4–8°, 2 phones + calibration
-- Couro: CCC 0.73–0.94, 1 phone, no calibration
+> **Floor lift status (LL build):** the 0.80 CCC floor was **NOT cleared** on any of the 5 sub-0.80 slots Cameron called out in the LL brief (lumbar_extension/front_oblique_right stayed at 0.79; ankle_angle_r/side_right stayed at 0.64). v24 added a new Good slot at CCC 0.89 (knee_angle_r/front_oblique_right), but no existing sub-0.80 slot was lifted. Honest recommendation per the LL brief: present validated Good slots as **Tier 1 (CCC ≥ 0.79)** vs **supplementary (CCC 0.60–0.78)** rather than headline a higher floor. See `data/v25_selective_oracle/REPORT.md` for the slot-by-slot verdict.
 
 ## Headline build cycles
 
 - **2026-05-28 build cycle:** Demoted 2 broken front_center slots (Agent Q); added view-aware blend (+0.067 Layer 2, Agent R); synthetic AMASS pipeline POC (Agent S); rear-view path documented.
 - **2026-05-29 build cycle:** Selective adoption of blend-retrained lumbar slot (Agent X); rear-view synthetic validation (Agent W, pooled \|r\| 0.74); learned Layer 2 trained on real OpenCap mocap GT (Agent EE2, pooled \|r\| 0.645 frame-level); ensemble of hand-engineered + learned Layer 2 (Agent JJ, the v19 deploy candidate).
 - **2026-06-02 build cycle:** ROM-aware learned Layer 2 (Agent GG2) → v20 deploy candidate; v21 selective oracle across v17/v18/v20 reaches 7 Good slots; combined-cohort OpenCap+ASPset learned Layer 2 (Agent HH2, pooled OpenCap-held \|r\| 0.670, +0.025 vs EE2 OpenCap-only baseline); v23 Phase B Layer 3 retrain on HH2's combined L2 (Agent KK) lifts the v22 selective oracle to **8 Good slots** (CCC 0.64–0.94). Trunk extension now validated from 4 camera angles; ankle dorsi/plantarflexion from 2.
+- **2026-06-02 LL build (this work):** LL combined-cohort + ROM-aware learned Layer 2 (Agent LL) → v24 Phase B Layer 3 retrain; v25 selective oracle adds v24 to the reader pool. Verdict: **9 Good slots** (+1 vs v22), new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24. **Floor lift to ≥0.80 was NOT achieved** on any of the 5 sub-0.80 slots Cameron called out. See `data/v25_selective_oracle/REPORT.md`.
 
 ## Deploy table candidates
 
@@ -54,6 +53,8 @@ Comparison points from literature:
 | `results/deploy_ready_models_v21_selective.json` | Per-slot oracle-best across v17/v18/v20 (7 Good slots) |
 | `results/deploy_ready_models_v23_combined_l2.json` | Full v17 + v23 combined-cohort (OpenCap+ASPset) learned Layer 2 (Agent KK build, see data/layer3_retrain_combined_l2/REPORT.md) |
 | `results/deploy_ready_models_v22_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23 (**8 Good slots**, +1 vs v21) |
+| `results/deploy_ready_models_v24_combined_rom_aware.json` | v17 base + v24 LL combined-cohort + ROM-aware learned-L2 ridge re-fit (Agent LL build) |
+| `results/deploy_ready_models_v25_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24 (**9 Good slots**, +1 vs v22 — the new Good slot is `knee_angle_r/front_oblique_right` at CCC 0.887 via v24). Recommended for use when the additional Good slot is worth the extra reader-dispatch complexity; otherwise use v22. Floor lift to CCC ≥ 0.80 was NOT achieved on any of the 5 sub-0.80 slots. |
 
 ## Methodology — what "validated" means here
 
