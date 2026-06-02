@@ -1,0 +1,415 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.expand_ankle_cohort",
+  "produced_at": "2026-05-29 02:24:33",
+  "purpose": "Audit candidate datasets for expanding the v14 ankle_angle_r / side_right LOSO cohort beyond n=9, with the goal of tightening the CCC 95% CI lower bound clear of zero (target >= 0.30).",
+  "promotion_threshold": {
+    "ccc_lower_ci_minimum": 0.3,
+    "loa_half_width_maximum_deg": 10.0,
+    "tier_required_for_promotion": "Good or Excellent"
+  },
+  "baseline_slot": {
+    "target": "ankle_angle_r",
+    "view": "side_right",
+    "approach": "v14_full_dwpose",
+    "n_subjects": 9,
+    "n_trials": 54,
+    "subjects": [
+      "opencap_subject10",
+      "opencap_subject11",
+      "opencap_subject2",
+      "opencap_subject3",
+      "opencap_subject4",
+      "opencap_subject5",
+      "opencap_subject7",
+      "opencap_subject8",
+      "opencap_subject9"
+    ],
+    "per_subject_pred_deg": [
+      76.13424367218421,
+      69.14207745879904,
+      70.86784253208381,
+      71.61608001527908,
+      77.61256730777744,
+      70.57704890152121,
+      69.5236153308236,
+      67.3462334317089,
+      78.69823999160899
+    ],
+    "per_subject_obs_deg": [
+      73.09895799333333,
+      74.26016682833334,
+      65.79085530833333,
+      75.20156640833333,
+      81.76605418166668,
+      61.40048852333333,
+      67.813847075,
+      67.49526218000001,
+      81.71282681666668
+    ],
+    "per_subject_diff_deg": [
+      3.035285678850883,
+      -5.118089369534303,
+      5.0769872237504785,
+      -3.5854863930542535,
+      -4.153486873889236,
+      9.17656037818788,
+      1.7097682558236045,
+      -0.14902874829111568,
+      -3.014586825057691
+    ],
+    "mean_observed_deg": 72.06000281277778,
+    "sd_observed_deg": 7.026451511310495,
+    "mean_predicted_deg": 72.3908831824207,
+    "sd_predicted_deg": 4.054255557724072,
+    "mean_bias_deg": 0.3308803696429163,
+    "sd_bias_deg": 4.8289224715366545,
+    "loa_lower_deg": -9.133807674568926,
+    "loa_upper_deg": 9.795568413854758,
+    "loa_half_width_deg": 9.464688044211842,
+    "pearson_r": 0.74576950627315,
+    "ccc_lin": 0.6444525837467407,
+    "mae_deg": 3.891031082937716,
+    "rmse_deg": 4.564759629305416,
+    "p_value_bias_neq_0": 0.8422677532775082,
+    "ccc_95ci_fisher_z": [
+      -0.03438627718503786,
+      0.9163717918803806
+    ],
+    "ccc_95ci_bootstrap": [
+      0.11889806166554008,
+      0.8376117987403585
+    ],
+    "ccc_bootstrap_mean": 0.5930801520300087,
+    "ccc_bootstrap_sd": 0.17719243620830596,
+    "ccc_bootstrap_n_resamples": 10000,
+    "loso_sensitivity_per_subject": [
+      {
+        "dropped_subject": "opencap_subject5",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.7415202182280104,
+        "pearson_r_no_subj": 0.8021250259595665,
+        "ccc_delta_from_full": 0.09706763448126965,
+        "pred_subj": 70.57704890152121,
+        "obs_subj": 61.40048852333333,
+        "abs_error_deg": 9.17656037818788
+      },
+      {
+        "dropped_subject": "opencap_subject11",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6881368928524395,
+        "pearson_r_no_subj": 0.8246075035794478,
+        "ccc_delta_from_full": 0.04368430910569876,
+        "pred_subj": 69.14207745879904,
+        "obs_subj": 74.26016682833334,
+        "abs_error_deg": 5.118089369534303
+      },
+      {
+        "dropped_subject": "opencap_subject2",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6631387657302138,
+        "pearson_r_no_subj": 0.7488305691425192,
+        "ccc_delta_from_full": 0.01868618198347305,
+        "pred_subj": 70.86784253208381,
+        "obs_subj": 65.79085530833333,
+        "abs_error_deg": 5.0769872237504785
+      },
+      {
+        "dropped_subject": "opencap_subject4",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.5701729792280936,
+        "pearson_r_no_subj": 0.6616628603687441,
+        "ccc_delta_from_full": -0.07427960451864712,
+        "pred_subj": 77.61256730777744,
+        "obs_subj": 81.76605418166668,
+        "abs_error_deg": 4.153486873889236
+      },
+      {
+        "dropped_subject": "opencap_subject3",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6641270880069382,
+        "pearson_r_no_subj": 0.7706480196513332,
+        "ccc_delta_from_full": 0.019674504260197456,
+        "pred_subj": 71.61608001527908,
+        "obs_subj": 75.20156640833333,
+        "abs_error_deg": 3.5854863930542535
+      },
+      {
+        "dropped_subject": "opencap_subject10",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6499994304216874,
+        "pearson_r_no_subj": 0.7756695746516609,
+        "ccc_delta_from_full": 0.005546846674946648,
+        "pred_subj": 76.13424367218421,
+        "obs_subj": 73.09895799333333,
+        "abs_error_deg": 3.035285678850883
+      },
+      {
+        "dropped_subject": "opencap_subject9",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.5320972176442547,
+        "pearson_r_no_subj": 0.6395783534334886,
+        "ccc_delta_from_full": -0.11235536610248609,
+        "pred_subj": 78.69823999160899,
+        "obs_subj": 81.71282681666668,
+        "abs_error_deg": 3.014586825057691
+      },
+      {
+        "dropped_subject": "opencap_subject7",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6286504902716011,
+        "pearson_r_no_subj": 0.7301287981115061,
+        "ccc_delta_from_full": -0.01580209347513961,
+        "pred_subj": 69.5236153308236,
+        "obs_subj": 67.813847075,
+        "abs_error_deg": 1.7097682558236045
+      },
+      {
+        "dropped_subject": "opencap_subject8",
+        "n_remaining": 8,
+        "ccc_no_subj": 0.6057505485946236,
+        "pearson_r_no_subj": 0.7368650118598633,
+        "ccc_delta_from_full": -0.03870203515211712,
+        "pred_subj": 67.3462334317089,
+        "obs_subj": 67.49526218000001,
+        "abs_error_deg": 0.14902874829111568
+      }
+    ],
+    "per_trial": {
+      "n_trials": 54,
+      "mean_bias_deg": 0.3308803696429164,
+      "sd_bias_deg": 5.969072380526752,
+      "loa_lower_deg": -11.368501496189518,
+      "loa_upper_deg": 12.03026223547535,
+      "pearson_r": 0.6226166317173594,
+      "ccc_lin": 0.5449583118641808,
+      "mae_deg": 4.676416075012232,
+      "rmse_deg": 5.9227945538701
+    }
+  },
+  "n_subjects_required_for_promotion": 22,
+  "projection_at_assumed_ccc": [
+    {
+      "n": 9,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": -0.03438627718503786,
+      "ci_upper": 0.9163717918803806,
+      "clears_lo_ge_0_30": false,
+      "clears_lo_gt_0_00": false
+    },
+    {
+      "n": 12,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.11195942741828079,
+      "ci_upper": 0.8894054707176096,
+      "clears_lo_ge_0_30": false,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 15,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.19733614707768443,
+      "ci_upper": 0.8696264265528387,
+      "clears_lo_ge_0_30": false,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 17,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.23731759938826896,
+      "ci_upper": 0.8590150622469259,
+      "clears_lo_ge_0_30": false,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 20,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.28249466428837816,
+      "ci_upper": 0.8457727860451877,
+      "clears_lo_ge_0_30": false,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 22,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.30598128867759306,
+      "ci_upper": 0.838291620298944,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 25,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.3344997471097942,
+      "ci_upper": 0.8285889898028366,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 28,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.3572755568086612,
+      "ci_upper": 0.8203035979143305,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 30,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.37011544416304387,
+      "ci_upper": 0.8154041749075301,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 35,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.3963204523179678,
+      "ci_upper": 0.8048485653398055,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    },
+    {
+      "n": 40,
+      "ccc_assumed": 0.6444525837467407,
+      "ci_lower": 0.4165711435556929,
+      "ci_upper": 0.7961353658034475,
+      "clears_lo_ge_0_30": true,
+      "clears_lo_gt_0_00": true
+    }
+  ],
+  "dataset_audit": [
+    {
+      "dataset": "OpenCap LabValidation (DJ tasks, current baseline)",
+      "subjects_advertised": "10 subjects with mocap; 9 with DWPose Cam3 keypoints",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/LabValidation_withVideos",
+      "has_paired_video_plus_mocap": true,
+      "has_foot_or_toe_markers": true,
+      "has_sagittal_ankle_gt": true,
+      "license": "CC-BY 4.0",
+      "commercial_clean": true,
+      "harness_already_processes": true,
+      "decision": "ALREADY USED",
+      "rationale": "Source of the current n=9 cohort. Subject6 has no raw VideoData (only OpenSim-precomputed HRNet/OpenPose outputs), so its keypoints cannot be extracted with DWPose without going outside the validation tree."
+    },
+    {
+      "dataset": "OpenCap LabValidation NON-DJ tasks (same 9 subjects)",
+      "subjects_advertised": "Same 9 subjects, additional motion types",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/LabValidation_withVideos",
+      "has_paired_video_plus_mocap": true,
+      "has_foot_or_toe_markers": true,
+      "has_sagittal_ankle_gt": true,
+      "license": "CC-BY 4.0",
+      "commercial_clean": true,
+      "harness_already_processes": false,
+      "decision": "DOES NOT EXPAND n_subjects",
+      "rationale": "Adding non-DJ tasks (squats, walking, STS) would only add TRIALS, not SUBJECTS. The 95% Fisher Z CI on the per-subject CCC depends on n_subjects, not n_trials \u2014 so this cannot promote the slot. Separately, the v9_phased feature pipeline is built around DJ initial-contact event detection and would require per-task-type event detectors to handle these motions. Significant engineering, no headline-CI benefit."
+    },
+    {
+      "dataset": "ASPset-510",
+      "subjects_advertised": "17 subjects trainval (paired video + 3D mocap)",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/aspset510/ASPset-510",
+      "has_paired_video_plus_mocap": true,
+      "has_foot_or_toe_markers": false,
+      "has_sagittal_ankle_gt": false,
+      "license": "CC0",
+      "commercial_clean": true,
+      "harness_already_processes": true,
+      "decision": "EXCLUDE",
+      "rationale": "17-keypoint skeleton ends at ankle \u2014 no toe, heel, or metatarsal markers. Sagittal ankle dorsi/plantarflexion requires foot-relative-to-shank, which cannot be derived from joints_3d without a foot reference. ASPset is explicitly documented as ankle-incompatible in harness/aspset_loader.py: 'ASPset HAS NO foot/toe keypoints -> ankle_angle_r cannot be derived from this dataset. That metric stays OpenCap-only.'"
+    },
+    {
+      "dataset": "Fukuchi RBDS (running kinematics, 28 runners)",
+      "subjects_advertised": "28 runners (Fukuchi 2017, PeerJ)",
+      "raw_present_in_tree": false,
+      "raw_path": null,
+      "has_paired_video_plus_mocap": false,
+      "has_foot_or_toe_markers": false,
+      "has_sagittal_ankle_gt": true,
+      "license": "CC-BY",
+      "commercial_clean": true,
+      "harness_already_processes": false,
+      "decision": "EXCLUDE",
+      "rationale": "NOT present in the validation tree. Mentioned in pitch docs as a Layer 4 calibration source (population means for running config tuning). Fukuchi RBDS is a treadmill+overground running mocap dataset \u2014 it does NOT ship with paired single-phone-camera video, so it cannot drive Layer 3 LOSO regression of phone keypoints -> mocap ROM. Even if downloaded, motion type is steady-state running, not discrete-event motion the v9 feature pipeline is built for."
+    },
+    {
+      "dataset": "ACL Jump-Landing (Calisti 2025, 42 athletes)",
+      "subjects_advertised": "42 athletes (Calisti 2025, Sci Data)",
+      "raw_present_in_tree": false,
+      "raw_path": null,
+      "has_paired_video_plus_mocap": false,
+      "has_foot_or_toe_markers": false,
+      "has_sagittal_ankle_gt": true,
+      "license": "CC-BY 4.0",
+      "commercial_clean": true,
+      "harness_already_processes": false,
+      "decision": "EXCLUDE",
+      "rationale": "NOT present in the validation tree. Pitch docs cite it as a Layer 4 calibration source for ACL risk + jump-landing config means, not as a Layer 3 paired-video dataset. The published release is markered mocap kinematics with no paired single-phone-camera video, so it cannot drive Layer 3 LOSO. Would require fresh data collection or a different study release."
+    },
+    {
+      "dataset": "GaitRec (Horsak 2020, 211 subjects)",
+      "subjects_advertised": "211 healthy (Horsak 2020, Sci Data)",
+      "raw_present_in_tree": false,
+      "raw_path": null,
+      "has_paired_video_plus_mocap": false,
+      "has_foot_or_toe_markers": false,
+      "has_sagittal_ankle_gt": true,
+      "license": "CC-BY 4.0",
+      "commercial_clean": true,
+      "harness_already_processes": false,
+      "decision": "EXCLUDE",
+      "rationale": "NOT present in the validation tree. GaitRec is force-plate + kinematic gait data without paired video \u2014 used in pitch docs for Layer 4 walking gait config calibration and force/contact validation only. Cannot drive Layer 3 LOSO of phone keypoints without paired RGB video, which the public release does not include."
+    },
+    {
+      "dataset": "MPI-INF-3DHP (Mehta 2017)",
+      "subjects_advertised": "8 subjects with rear-view (cam7) data + GT angles",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/mpi_inf_3dhp_gt",
+      "has_paired_video_plus_mocap": true,
+      "has_foot_or_toe_markers": true,
+      "has_sagittal_ankle_gt": true,
+      "license": "Non-commercial research only",
+      "commercial_clean": false,
+      "harness_already_processes": true,
+      "decision": "EXCLUDE",
+      "rationale": "MPI-INF-3DHP license is non-commercial only: 'Methods and models that make use of the provided Software in any way can only be used for non-commercial purposes.' Per the explicit constraint on this expansion task and per the validation-v2.1 doc, MPI is excluded from any commercial-footprint counts. Also, the existing 8-subject MPI cohort for ankle has mean abs(r) = 0.228 across cam7 \u2014 well below the threshold to lift the side-right CCC anyway, since cam7 is rear-oblique (azimuth -62 deg), not a true side view."
+    },
+    {
+      "dataset": "CMU Panoptic (rear sample)",
+      "subjects_advertised": "Multi-view dome; sample only is calibration JSON",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/cmu_panoptic_rear_sample",
+      "has_paired_video_plus_mocap": false,
+      "has_foot_or_toe_markers": false,
+      "has_sagittal_ankle_gt": false,
+      "license": "Non-commercial research only",
+      "commercial_clean": false,
+      "harness_already_processes": false,
+      "decision": "EXCLUDE",
+      "rationale": "Only a calibration JSON exists in the tree (no video, no GT angles). License is non-commercial. Excluded."
+    },
+    {
+      "dataset": "Synthetic AMASS / SMPL bursts",
+      "subjects_advertised": "Synthetic (no real human subjects)",
+      "raw_present_in_tree": true,
+      "raw_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/synthetic_amass",
+      "has_paired_video_plus_mocap": true,
+      "has_foot_or_toe_markers": true,
+      "has_sagittal_ankle_gt": true,
+      "license": "SMPL CC-BY 4.0",
+      "commercial_clean": true,
+      "harness_already_processes": true,
+      "decision": "EXCLUDE for headline cohort",
+      "rationale": "Synthetic 'subjects' are not real human subjects with independent biomechanics \u2014 they share the SMPL_NEUTRAL body model. Adding them to n_subjects would inflate the denominator of the Fisher Z CI without adding independent biological variance. Diligence reviewers correctly read synthetic-subject inflation as a methodological flag. Real value is at Layer 2 (keypoint -> angle), not Layer 3 LOSO."
+    }
+  ],
+  "final_decision": {
+    "can_be_promoted_with_existing_data": false,
+    "reason": "No candidate dataset in the validation tree provides (a) paired single-phone-camera video, (b) ankle dorsi/plantarflexion mocap GT in degrees, AND (c) commercial-permissive license. ASPset has paired video but no foot markers. MPI-INF-3DHP has both but is non-commercial. Fukuchi/ACL/GaitRec are L4 calibration sources (no paired single-phone-camera video). Synthetic subjects do not represent independent biological variance.",
+    "recommended_path": "To clear the promotion threshold (lower CCC 95% CI bound >= 0.30) at the current point estimate of CCC=0.644, n_subjects must reach >= 22. Required action: fresh data collection of 13 additional subjects performing the DJ task on a single side-view phone camera with paired marker mocap that includes foot/toe markers (so ankle dorsi/plantarflexion can be derived). Estimated lab time: ~15 min/subject, plus mocap setup.",
+    "current_headline_status": "Ankle slot remains 'preliminary additional measurement' in the one-pager. Per-subject CCC point estimate of 0.64 and LoA half-width 9.5deg are inside the Good-tier thresholds, but the lower 95% CI bound at n=9 includes zero (Fisher Z: [-0.034, +0.916]) so the slot cannot carry a 'headline' precision claim."
+  }
+}

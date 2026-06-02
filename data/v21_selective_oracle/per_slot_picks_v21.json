@@ -1,0 +1,253 @@
+{
+  "version": "v21_selective_oracle",
+  "description": "Per-slot oracle-best across v17 hand-engineered, v18 learned-L2 (EE2), v20 ROM-aware learned-L2 (GG2). Selection criterion: tier first (Good > Moderate > Poor), then CCC within tier.",
+  "tier_counts": {
+    "Good": 7,
+    "Mod": 9,
+    "Poor": 7
+  },
+  "promotions_vs_v17": [
+    {
+      "slot": "ankle_angle_r|front_oblique_right|v14_full_dwpose",
+      "v17_tier": "Poor",
+      "v21_tier": "Mod",
+      "reader": "v18",
+      "ccc": 0.587,
+      "loa_half": 10.11
+    },
+    {
+      "slot": "hip_adduction_r|front_oblique_left|v9_phased",
+      "v17_tier": "Poor",
+      "v21_tier": "Good",
+      "reader": "v20",
+      "ccc": 0.69,
+      "loa_half": 3.29
+    },
+    {
+      "slot": "hip_flexion_r|side_left|v12_combined",
+      "v17_tier": "Poor",
+      "v21_tier": "Mod",
+      "reader": "v20",
+      "ccc": 0.704,
+      "loa_half": 14.46
+    },
+    {
+      "slot": "knee_angle_r|front_oblique_left|v12_combined",
+      "v17_tier": "Poor",
+      "v21_tier": "Mod",
+      "reader": "v20",
+      "ccc": 0.846,
+      "loa_half": 14.94
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_left|event_anchored",
+      "v17_tier": "Mod",
+      "v21_tier": "Good",
+      "reader": "v18",
+      "ccc": 0.705,
+      "loa_half": 6.57
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_right|v13_dwpose_hybrid",
+      "v17_tier": "Mod",
+      "v21_tier": "Good",
+      "reader": "v20",
+      "ccc": 0.692,
+      "loa_half": 9.78
+    },
+    {
+      "slot": "lumbar_extension|side_right|v14_full_dwpose",
+      "v17_tier": "Mod",
+      "v21_tier": "Good",
+      "reader": "v20",
+      "ccc": 0.623,
+      "loa_half": 9.89
+    }
+  ],
+  "picks": [
+    {
+      "slot": "ankle_angle_r|front_center|event_anchored_bilateral",
+      "reader": "v17",
+      "ccc": 0.091,
+      "loa_half": 14.69,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "ankle_angle_r|front_oblique_left|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.556,
+      "loa_half": 10.78,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "ankle_angle_r|front_oblique_right|v14_full_dwpose",
+      "reader": "v18",
+      "ccc": 0.587,
+      "loa_half": 10.11,
+      "tier": "Mod",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "ankle_angle_r|side_left|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.325,
+      "loa_half": 12.24,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "ankle_angle_r|side_right|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.644,
+      "loa_half": 9.46,
+      "tier": "Good",
+      "v17_tier": "Good"
+    },
+    {
+      "slot": "hip_adduction_r|front_center|v12_combined",
+      "reader": "v17",
+      "ccc": 0.767,
+      "loa_half": 16.22,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_adduction_r|front_oblique_left|v9_phased",
+      "reader": "v20",
+      "ccc": 0.69,
+      "loa_half": 3.29,
+      "tier": "Good",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_adduction_r|front_oblique_right|v12_combined",
+      "reader": "v20",
+      "ccc": 0.838,
+      "loa_half": 15.74,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_adduction_r|side_left|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.936,
+      "loa_half": 9.8,
+      "tier": "Good",
+      "v17_tier": "Good"
+    },
+    {
+      "slot": "hip_adduction_r|side_right|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.21,
+      "loa_half": 19.64,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_flexion_r|front_oblique_left|v13_dwpose_hybrid",
+      "reader": "v17",
+      "ccc": 0.843,
+      "loa_half": 11.29,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "hip_flexion_r|front_oblique_right|v13_dwpose_hybrid",
+      "reader": "v17",
+      "ccc": 0.697,
+      "loa_half": 18.5,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_flexion_r|side_left|v12_combined",
+      "reader": "v20",
+      "ccc": 0.704,
+      "loa_half": 14.46,
+      "tier": "Mod",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "hip_flexion_r|side_right|event_anchored",
+      "reader": "v20",
+      "ccc": 0.465,
+      "loa_half": 19.2,
+      "tier": "Poor",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "knee_angle_r|front_oblique_left|v12_combined",
+      "reader": "v20",
+      "ccc": 0.846,
+      "loa_half": 14.94,
+      "tier": "Mod",
+      "v17_tier": "Poor"
+    },
+    {
+      "slot": "knee_angle_r|front_oblique_right|v9_phased",
+      "reader": "v17",
+      "ccc": 0.829,
+      "loa_half": 10.72,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "knee_angle_r|side_left|v14_full_dwpose",
+      "reader": "v17",
+      "ccc": 0.864,
+      "loa_half": 12.43,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "knee_angle_r|side_right|v12_combined",
+      "reader": "v17",
+      "ccc": 0.81,
+      "loa_half": 14.24,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "lumbar_extension|front_center|event_anchored",
+      "reader": "v17",
+      "ccc": 0.548,
+      "loa_half": 7.45,
+      "tier": "Mod",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_left|event_anchored",
+      "reader": "v18",
+      "ccc": 0.705,
+      "loa_half": 6.57,
+      "tier": "Good",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_right|v13_dwpose_hybrid",
+      "reader": "v20",
+      "ccc": 0.692,
+      "loa_half": 9.78,
+      "tier": "Good",
+      "v17_tier": "Mod"
+    },
+    {
+      "slot": "lumbar_extension|side_left|v14_full_dwpose",
+      "reader": "v20",
+      "ccc": 0.872,
+      "loa_half": 6.83,
+      "tier": "Good",
+      "v17_tier": "Good"
+    },
+    {
+      "slot": "lumbar_extension|side_right|v14_full_dwpose",
+      "reader": "v20",
+      "ccc": 0.623,
+      "loa_half": 9.89,
+      "tier": "Good",
+      "v17_tier": "Mod"
+    }
+  ]
+}

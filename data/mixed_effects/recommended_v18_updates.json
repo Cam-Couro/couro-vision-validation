@@ -1,0 +1,146 @@
+{
+  "version": "0.1.0-dd",
+  "produced_by": "harness.mixed_effects_layer3.build_v18_recommendation",
+  "summary": {
+    "n_slots_evaluated": 6,
+    "n_genuine_mixed_effects_promotions": 0,
+    "n_apparent_promotions_via_reml_boundary": 1,
+    "n_slots_with_confidence_flag_spec": 5
+  },
+  "model_swap_recommendations": [],
+  "regularisation_tuning_candidates": [
+    {
+      "slot": "knee_angle_r/front_oblique_right/v9_phased",
+      "target": "knee_angle_r",
+      "view": "front_oblique_right",
+      "approach": "v9_phased",
+      "ridge_ccc": 0.8289653636250673,
+      "ridge_loa_half_deg": 10.717005412025857,
+      "mixedlm_ccc": 0.9130131408577983,
+      "mixedlm_loa_half_deg": 8.439849220103877,
+      "icc_subject": 0.0005789513154529821,
+      "warning": "Apparent tier promotion under MixedLM, but REML parked the random-intercept variance at the boundary (ICC \u2248 0) \u2014 MixedLM is mathematically OLS for this slot. Do NOT swap models on this basis. Instead, retune ridge alpha and validate the gain on an independent split before considering a v18 production change.",
+      "recommended_next_step": "Run a ridge alpha grid (0.0, 0.1, 1.0, 10.0) inside an outer LOSO; report the alpha* whose held-out MAE is minimised. Only adopt the new alpha if the MAE gain holds across the cohort, not on a single subject's leverage."
+    }
+  ],
+  "deploy_time_confidence_flag_specs": [
+    {
+      "slot": "hip_flexion_r/front_oblique_left/v13_dwpose_hybrid",
+      "target": "hip_flexion_r",
+      "view": "front_oblique_left",
+      "approach": "v13_dwpose_hybrid",
+      "random_intercept_sd_deg": 2.8788841859944956,
+      "icc_subject": 0.03101519361499855,
+      "flag_threshold_deg": 5.757768371988991,
+      "flag_rule": "At deploy time, once an athlete has enough trials in their history to estimate u_s via empirical Bayes, raise a low-confidence flag if |u_s_estimated| > 2 * random_intercept_sd_deg for this slot. The athlete sits in a region of the predictor space where the model's Bland-Altman LoA is no longer supported.",
+      "flagged_training_subjects_at_2sigma": []
+    },
+    {
+      "slot": "knee_angle_r/side_left/v14_full_dwpose",
+      "target": "knee_angle_r",
+      "view": "side_left",
+      "approach": "v14_full_dwpose",
+      "random_intercept_sd_deg": 1.8462288668479003,
+      "icc_subject": 0.02518121082836748,
+      "flag_threshold_deg": 3.6924577336958007,
+      "flag_rule": "At deploy time, once an athlete has enough trials in their history to estimate u_s via empirical Bayes, raise a low-confidence flag if |u_s_estimated| > 2 * random_intercept_sd_deg for this slot. The athlete sits in a region of the predictor space where the model's Bland-Altman LoA is no longer supported.",
+      "flagged_training_subjects_at_2sigma": []
+    },
+    {
+      "slot": "lumbar_extension/front_oblique_right/v13_dwpose_hybrid",
+      "target": "lumbar_extension",
+      "view": "front_oblique_right",
+      "approach": "v13_dwpose_hybrid",
+      "random_intercept_sd_deg": 4.6478520877174,
+      "icc_subject": 0.2526793021110322,
+      "flag_threshold_deg": 9.2957041754348,
+      "flag_rule": "At deploy time, once an athlete has enough trials in their history to estimate u_s via empirical Bayes, raise a low-confidence flag if |u_s_estimated| > 2 * random_intercept_sd_deg for this slot. The athlete sits in a region of the predictor space where the model's Bland-Altman LoA is no longer supported.",
+      "flagged_training_subjects_at_2sigma": []
+    },
+    {
+      "slot": "lumbar_extension/front_center/event_anchored",
+      "target": "lumbar_extension",
+      "view": "front_center",
+      "approach": "event_anchored",
+      "random_intercept_sd_deg": 4.17927014096455,
+      "icc_subject": 0.7005912543079159,
+      "flag_threshold_deg": 8.3585402819291,
+      "flag_rule": "At deploy time, once an athlete has enough trials in their history to estimate u_s via empirical Bayes, raise a low-confidence flag if |u_s_estimated| > 2 * random_intercept_sd_deg for this slot. The athlete sits in a region of the predictor space where the model's Bland-Altman LoA is no longer supported.",
+      "flagged_training_subjects_at_2sigma": []
+    },
+    {
+      "slot": "lumbar_extension/front_oblique_left/event_anchored",
+      "target": "lumbar_extension",
+      "view": "front_oblique_left",
+      "approach": "event_anchored",
+      "random_intercept_sd_deg": 3.4564897225652174,
+      "icc_subject": 0.616674582006036,
+      "flag_threshold_deg": 6.912979445130435,
+      "flag_rule": "At deploy time, once an athlete has enough trials in their history to estimate u_s via empirical Bayes, raise a low-confidence flag if |u_s_estimated| > 2 * random_intercept_sd_deg for this slot. The athlete sits in a region of the predictor space where the model's Bland-Altman LoA is no longer supported.",
+      "flagged_training_subjects_at_2sigma": []
+    }
+  ],
+  "per_slot_diagnostics": [
+    {
+      "slot": "knee_angle_r/front_oblique_right/v9_phased",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Good",
+      "tier_change": "promoted",
+      "icc_subject": 0.0005789513154529821,
+      "reml_at_boundary": true,
+      "honest_verdict": "regularisation_artefact"
+    },
+    {
+      "slot": "hip_flexion_r/front_oblique_left/v13_dwpose_hybrid",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Moderate",
+      "tier_change": "no_change",
+      "icc_subject": 0.03101519361499855,
+      "reml_at_boundary": false,
+      "honest_verdict": "no_promotion"
+    },
+    {
+      "slot": "knee_angle_r/side_left/v14_full_dwpose",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Moderate",
+      "tier_change": "no_change",
+      "icc_subject": 0.02518121082836748,
+      "reml_at_boundary": false,
+      "honest_verdict": "no_promotion"
+    },
+    {
+      "slot": "lumbar_extension/front_oblique_right/v13_dwpose_hybrid",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Moderate",
+      "tier_change": "no_change",
+      "icc_subject": 0.2526793021110322,
+      "reml_at_boundary": false,
+      "honest_verdict": "no_promotion"
+    },
+    {
+      "slot": "lumbar_extension/front_center/event_anchored",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Poor",
+      "tier_change": "demoted",
+      "icc_subject": 0.7005912543079159,
+      "reml_at_boundary": false,
+      "honest_verdict": "no_promotion"
+    },
+    {
+      "slot": "lumbar_extension/front_oblique_left/event_anchored",
+      "ridge_baseline_tier": "Moderate",
+      "best_mixedlm_tier": "Moderate",
+      "tier_change": "no_change",
+      "icc_subject": 0.616674582006036,
+      "reml_at_boundary": false,
+      "honest_verdict": "no_promotion"
+    }
+  ],
+  "constraints_respected": [
+    "LOSO discipline preserved on every tier-change claim.",
+    "Held-out predictions used fixed effects only (u_held_out=0).",
+    "Single phone camera only.",
+    "v15/v17, biomech_validity_stats, and prior outputs unchanged.",
+    "No model swap recommended unless MixedLM crosses the Good gate AND REML is not at boundary."
+  ]
+}

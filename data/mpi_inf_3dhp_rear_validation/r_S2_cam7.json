@@ -1,0 +1,65 @@
+{
+  "subject": "S2",
+  "cam_id": 7,
+  "label": "S2 rear (cam7)",
+  "rear_meta": {
+    "cam_id": 7,
+    "world_xyz": [
+      1409.0,
+      1165.8,
+      -2664.0
+    ],
+    "azimuth_deg": -62.1,
+    "radius_mm": 3013.7,
+    "height_mm": 1165.8,
+    "rel_az_from_cam0": -159.0,
+    "category": "rear-oblique"
+  },
+  "results": {
+    "hip_flexion_r": {
+      "pearson_r": -0.8968496416643678,
+      "pearson_r_abs_gt": -0.8968496416643678,
+      "n_frames": 2880
+    },
+    "hip_flexion_l": {
+      "pearson_r": -0.8999856873732938,
+      "pearson_r_abs_gt": -0.8999856873732938,
+      "n_frames": 2938
+    },
+    "knee_angle_r": {
+      "pearson_r": 0.8946549032058669,
+      "pearson_r_abs_gt": 0.8946549032058669,
+      "n_frames": 2828
+    },
+    "knee_angle_l": {
+      "pearson_r": 0.8791847589168789,
+      "pearson_r_abs_gt": 0.8791847589168789,
+      "n_frames": 2952
+    },
+    "ankle_angle_r": {
+      "pearson_r": 0.40834196064681516,
+      "pearson_r_abs_gt": 0.09120539456624349,
+      "n_frames": 2762
+    },
+    "ankle_angle_l": {
+      "pearson_r": 0.4490433319132986,
+      "pearson_r_abs_gt": -0.12478213067233705,
+      "n_frames": 2923
+    },
+    "hip_adduction_r": {
+      "pearson_r": 0.47158639314089956,
+      "pearson_r_abs_gt": 0.47158639314089956,
+      "n_frames": 2946
+    },
+    "hip_adduction_l": {
+      "pearson_r": 0.4889858455775978,
+      "pearson_r_abs_gt": 0.4889858455775978,
+      "n_frames": 3008
+    },
+    "lumbar_extension": {
+      "pearson_r": 0.8972749835756927,
+      "pearson_r_abs_gt": 0.8972749835756927,
+      "n_frames": 2955
+    }
+  }
+}

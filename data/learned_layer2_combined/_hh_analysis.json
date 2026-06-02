@@ -1,0 +1,37 @@
+{
+  "headline_pooled_r": 0.6616479749579749,
+  "n_folds": 1,
+  "couro_baseline_pooled": 0.514,
+  "ee2_opencap_only_pooled": 0.6452,
+  "per_metric": {
+    "hip_flexion_r": 0.7808536514120709,
+    "hip_adduction_r": 0.5853385898959559,
+    "knee_angle_r": 0.8582035065920056,
+    "ankle_angle_r": NaN,
+    "lumbar_extension": 0.4221961519318673
+  },
+  "per_source_pooled": {
+    "opencap_held": NaN,
+    "aspset_held": 0.6616479749579749
+  },
+  "per_source_per_metric": {
+    "opencap": {
+      "hip_flexion_r": NaN,
+      "hip_adduction_r": NaN,
+      "knee_angle_r": NaN,
+      "ankle_angle_r": NaN,
+      "lumbar_extension": NaN
+    },
+    "aspset": {
+      "hip_flexion_r": 0.7808536514120709,
+      "hip_adduction_r": 0.5853385898959559,
+      "knee_angle_r": 0.8582035065920056,
+      "ankle_angle_r": NaN,
+      "lumbar_extension": 0.4221961519318673
+    }
+  },
+  "rom_analysis": {
+    "opencap": {},
+    "aspset": {}
+  }
+}

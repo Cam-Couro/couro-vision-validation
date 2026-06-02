@@ -1,0 +1,135 @@
+{
+  "version": "lever_c_v1",
+  "slots": [
+    {
+      "slot": "hip_adduction_r/front_center",
+      "builder": "v9_phased",
+      "baseline_v17_scalars_only": {
+        "n_subjects": 8,
+        "n_trials": 32,
+        "pearson_r": -0.33798705034921367,
+        "ccc": -0.30568795230525925,
+        "mean_bias": -1.0824805884655726,
+        "loa_half_width": 13.52329840748393,
+        "mae": 5.773389778433755
+      },
+      "lever_c_with_3d_features": {
+        "n_subjects": 8,
+        "n_trials": 32,
+        "pearson_r": -0.3695918392078614,
+        "ccc": -0.335516517053112,
+        "mean_bias": -1.705267041722681,
+        "loa_half_width": 14.49643828818973,
+        "mae": 5.9024640202416645
+      },
+      "delta_ccc": -0.029828564747852726,
+      "delta_loa_half": 0.9731398807057996,
+      "baseline_tier": "Poor",
+      "lever_c_tier": "Poor"
+    },
+    {
+      "slot": "hip_adduction_r/front_oblique_right",
+      "builder": "v9_phased",
+      "baseline_v17_scalars_only": {
+        "n_subjects": 9,
+        "n_trials": 46,
+        "pearson_r": 0.13532644406339894,
+        "ccc": 0.10961287332764777,
+        "mean_bias": 0.4769975263167014,
+        "loa_half_width": 9.053636285927452,
+        "mae": 3.4995021467848373
+      },
+      "lever_c_with_3d_features": {
+        "n_subjects": 9,
+        "n_trials": 46,
+        "pearson_r": 0.11037278321378396,
+        "ccc": 0.09910412129754581,
+        "mean_bias": 0.4116121319585504,
+        "loa_half_width": 9.567782365864236,
+        "mae": 3.7276292816826606
+      },
+      "delta_ccc": -0.010508752030101959,
+      "delta_loa_half": 0.5141460799367845,
+      "baseline_tier": "Poor",
+      "lever_c_tier": "Poor"
+    },
+    {
+      "slot": "knee_angle_r/front_oblique_left",
+      "builder": "v9_phased",
+      "baseline_v17_scalars_only": {
+        "n_subjects": 9,
+        "n_trials": 54,
+        "pearson_r": 0.3012585262978694,
+        "ccc": 0.27079300456744987,
+        "mean_bias": -0.16665908931179196,
+        "loa_half_width": 20.991994393309586,
+        "mae": 8.446956667244022
+      },
+      "lever_c_with_3d_features": {
+        "n_subjects": 9,
+        "n_trials": 54,
+        "pearson_r": -0.031655319636395673,
+        "ccc": -0.030470038128867952,
+        "mean_bias": 0.11563680414150633,
+        "loa_half_width": 26.544846757025883,
+        "mae": 10.806445950544946
+      },
+      "delta_ccc": -0.3012630426963178,
+      "delta_loa_half": 5.552852363716298,
+      "baseline_tier": "Poor",
+      "lever_c_tier": "Poor"
+    },
+    {
+      "slot": "hip_flexion_r/front_oblique_right",
+      "builder": "v9_phased",
+      "baseline_v17_scalars_only": {
+        "n_subjects": 8,
+        "n_trials": 40,
+        "pearson_r": 0.15026967845403977,
+        "ccc": 0.1460434751002796,
+        "mean_bias": 2.6707115511967734,
+        "loa_half_width": 33.008220556703456,
+        "mae": 13.461990827881863
+      },
+      "lever_c_with_3d_features": {
+        "n_subjects": 8,
+        "n_trials": 40,
+        "pearson_r": 0.20162989132238143,
+        "ccc": 0.2002623926745121,
+        "mean_bias": 0.9577506129338007,
+        "loa_half_width": 32.379314880511984,
+        "mae": 13.715173441409751
+      },
+      "delta_ccc": 0.0542189175742325,
+      "delta_loa_half": -0.6289056761914722,
+      "baseline_tier": "Poor",
+      "lever_c_tier": "Poor"
+    },
+    {
+      "slot": "hip_flexion_r/side_left",
+      "builder": "v9_phased",
+      "baseline_v17_scalars_only": {
+        "n_subjects": 9,
+        "n_trials": 51,
+        "pearson_r": 0.43380884515245105,
+        "ccc": 0.41982855925410373,
+        "mean_bias": 1.5189707153907648,
+        "loa_half_width": 22.624465482200737,
+        "mae": 9.868348504672271
+      },
+      "lever_c_with_3d_features": {
+        "n_subjects": 9,
+        "n_trials": 51,
+        "pearson_r": 0.5589129808714642,
+        "ccc": 0.5313945952072977,
+        "mean_bias": 1.6917140173268799,
+        "loa_half_width": 19.78696025774169,
+        "mae": 8.359677530933078
+      },
+      "delta_ccc": 0.11156603595319398,
+      "delta_loa_half": -2.837505224459047,
+      "baseline_tier": "Poor",
+      "lever_c_tier": "Poor"
+    }
+  ]
+}

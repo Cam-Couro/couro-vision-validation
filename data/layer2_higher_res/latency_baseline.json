@@ -1,0 +1,10 @@
+{
+  "coreml": {
+    "resolution": "384x288",
+    "ms_per_frame": 12.555
+  },
+  "cpu": {
+    "resolution": "384x288",
+    "ms_per_frame": 118.248
+  }
+}

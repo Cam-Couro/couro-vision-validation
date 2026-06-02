@@ -1,0 +1,473 @@
+{
+  "version": "1.0-exploratory",
+  "produced_by": "harness._explore_loo_held_out",
+  "estimator_description": "For each held-out subject s, bias intercept = mean over j != s of (held-out-fold mean residual for subject j). Leak-free because s does not contribute to its own correction. Captures across-subject systematic offset that the ridge intercept cannot.",
+  "spec_mandated_estimator_returned_zero_because": "Ridge with intercept fits train residual mean to identically zero by construction. The per-subject bias visible in Bland-Altman is across-held-out-subjects offset, not a within-train-fold offset.",
+  "slots": [
+    {
+      "target": "hip_adduction_r",
+      "view": "front_center",
+      "approach": "v12_combined",
+      "estimator": "leave-one-fold-out on held-out residuals (alternative to train-fold residual mean)",
+      "deploy_bias_correction_deg": 3.5997082241312226,
+      "fold_intercepts": [
+        {
+          "held_out_subject": "aspset_04ac",
+          "bias_intercept_deg": 3.6211966498795256
+        },
+        {
+          "held_out_subject": "aspset_11ac",
+          "bias_intercept_deg": 3.9318628585608404
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "bias_intercept_deg": 3.7195274989910727
+        },
+        {
+          "held_out_subject": "aspset_4448",
+          "bias_intercept_deg": 3.8514067144530784
+        },
+        {
+          "held_out_subject": "aspset_5ff4",
+          "bias_intercept_deg": 3.5812210486930396
+        },
+        {
+          "held_out_subject": "aspset_7b5d",
+          "bias_intercept_deg": 4.010933760904529
+        },
+        {
+          "held_out_subject": "aspset_a779",
+          "bias_intercept_deg": 4.103500486655474
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "bias_intercept_deg": 3.740111119167192
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "bias_intercept_deg": 3.855909141275802
+        },
+        {
+          "held_out_subject": "aspset_bae6",
+          "bias_intercept_deg": 3.846238394228156
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "bias_intercept_deg": 4.150391072022553
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "bias_intercept_deg": 3.5294701436470124
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "bias_intercept_deg": 4.308713356672241
+        },
+        {
+          "held_out_subject": "aspset_fb7c",
+          "bias_intercept_deg": 3.4808955849151677
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "bias_intercept_deg": 3.5348829314384553
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "bias_intercept_deg": 3.140680949232035
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "bias_intercept_deg": 3.0430502963885244
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "bias_intercept_deg": 3.0579519853162895
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "bias_intercept_deg": 3.023182139483222
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "bias_intercept_deg": 3.188321864574055
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "bias_intercept_deg": 3.4534685691318705
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "bias_intercept_deg": 3.0206643652567613
+        }
+      ],
+      "per_subject_residual_means": {
+        "aspset_04ac": 3.1484512834168554,
+        "aspset_11ac": -3.3755390988907465,
+        "aspset_14ce": 1.0835034520743652,
+        "aspset_4448": -1.6859600726277495,
+        "aspset_5ff4": 3.9879389083330614,
+        "aspset_7b5d": -5.036028048108217,
+        "aspset_a779": -6.979929288878059,
+        "aspset_b3c1": 0.6512474283758635,
+        "aspset_b8e1": -1.7805110359049339,
+        "aspset_bae6": -1.5774253479043672,
+        "aspset_c9f8": -7.964631581586716,
+        "aspset_d26c": 5.074707914299634,
+        "aspset_eb61": -11.289399559230167,
+        "aspset_fb7c": 6.0947736476683785,
+        "opencap_subject10": 4.961039370679337,
+        "opencap_subject11": 13.239280997014166,
+        "opencap_subject2": 15.28952470672788,
+        "opencap_subject3": 14.976589239244813,
+        "opencap_subject5": 15.706756001739231,
+        "opencap_subject7": 12.238821774831735,
+        "opencap_subject8": 6.670740979117618,
+        "opencap_subject9": 15.759629260494913
+      },
+      "pre_per_subject": {
+        "pearson_r": 0.9252666325169593,
+        "ccc_lin": 0.7671041662256808,
+        "mean_bias_deg": 3.599708224131223,
+        "loa_lower_deg": -12.616063045004385,
+        "loa_upper_deg": 19.81547949326683,
+        "loa_half_width_deg": 16.215771269135608,
+        "mae_deg": 7.2078376816885825,
+        "rmse_deg": 8.848444761631889,
+        "tier": "Poor"
+      },
+      "post_per_subject": {
+        "pearson_r": 0.9124533837006232,
+        "ccc_lin": 0.7749902191693038,
+        "mean_bias_deg": -4.844609562000683e-16,
+        "loa_lower_deg": -16.987950853380156,
+        "loa_upper_deg": 16.987950853380156,
+        "loa_half_width_deg": 16.987950853380156,
+        "mae_deg": 7.086001174734029,
+        "rmse_deg": 8.468046447908284,
+        "tier": "Poor"
+      },
+      "pre_per_trial": {
+        "pearson_r": 0.6340854741029327,
+        "ccc_lin": 0.577471837049423,
+        "mean_bias_deg": 0.03416200423461052,
+        "loa_lower_deg": -31.119160619220324,
+        "loa_upper_deg": 31.187484627689543,
+        "loa_half_width_deg": 31.153322623454933,
+        "mae_deg": 11.851580455581665,
+        "rmse_deg": 15.876720020154961,
+        "tier": "Poor"
+      },
+      "post_per_trial": {
+        "pearson_r": 0.6283945424549442,
+        "ccc_lin": 0.5586592249566289,
+        "mean_bias_deg": -3.735334135129784,
+        "loa_lower_deg": -35.077957598869425,
+        "loa_upper_deg": 27.60728932860986,
+        "loa_half_width_deg": 31.342623463739642,
+        "mae_deg": 11.765769485294744,
+        "rmse_deg": 16.40409880480217,
+        "tier": "Poor"
+      }
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "front_oblique_right",
+      "approach": "v12_combined",
+      "estimator": "leave-one-fold-out on held-out residuals (alternative to train-fold residual mean)",
+      "deploy_bias_correction_deg": 3.976612023151249,
+      "fold_intercepts": [
+        {
+          "held_out_subject": "aspset_04ac",
+          "bias_intercept_deg": 3.9930395460502908
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "bias_intercept_deg": 4.289589818867441
+        },
+        {
+          "held_out_subject": "aspset_a779",
+          "bias_intercept_deg": 5.033211080989645
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "bias_intercept_deg": 4.24076854037526
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "bias_intercept_deg": 4.275159956575521
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "bias_intercept_deg": 4.58533068021496
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "bias_intercept_deg": 4.2340299569901925
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "bias_intercept_deg": 4.927237848541498
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "bias_intercept_deg": 3.825899712906371
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "bias_intercept_deg": 3.5182363109463015
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "bias_intercept_deg": 3.8228181257298317
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "bias_intercept_deg": 3.2616534039618688
+        },
+        {
+          "held_out_subject": "opencap_subject4",
+          "bias_intercept_deg": 3.925877746759891
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "bias_intercept_deg": 3.164692207703596
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "bias_intercept_deg": 3.3826642209578166
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "bias_intercept_deg": 3.466195627707359
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "bias_intercept_deg": 3.655999608293384
+        }
+      ],
+      "per_subject_residual_means": {
+        "aspset_04ac": 3.7137716567665855,
+        "aspset_14ce": -1.0310327083078281,
+        "aspset_a779": -12.928972902263093,
+        "aspset_b3c1": -0.24989225243293497,
+        "aspset_b8e1": -0.800154911637116,
+        "aspset_c9f8": -5.762886489868128,
+        "aspset_d26c": -0.14207491827185134,
+        "aspset_eb61": -11.233401183092745,
+        "opencap_subject10": 6.388008987069295,
+        "opencap_subject11": 11.310623418430406,
+        "opencap_subject2": 6.4373143818939225,
+        "opencap_subject3": 15.415949930181329,
+        "opencap_subject4": 4.788360445412966,
+        "opencap_subject5": 16.967329070313696,
+        "opencap_subject7": 13.479776858246163,
+        "opencap_subject8": 12.14327435025348,
+        "opencap_subject9": 9.106410660877083
+      },
+      "pre_per_subject": {
+        "pearson_r": 0.9186705575430303,
+        "ccc_lin": 0.7752861217863488,
+        "mean_bias_deg": 3.97661202315125,
+        "loa_lower_deg": -13.306183451104125,
+        "loa_upper_deg": 21.259407497406627,
+        "loa_half_width_deg": 17.282795474255376,
+        "mae_deg": 7.758778536783448,
+        "rmse_deg": 9.433584445065883,
+        "tier": "Poor"
+      },
+      "post_per_subject": {
+        "pearson_r": 0.9008795481233852,
+        "ccc_lin": 0.7789590371585247,
+        "mean_bias_deg": 1.9853399969767506e-15,
+        "loa_lower_deg": -18.362970191396336,
+        "loa_upper_deg": 18.362970191396343,
+        "loa_half_width_deg": 18.36297019139634,
+        "mae_deg": 7.530942486789637,
+        "rmse_deg": 9.089131536518087,
+        "tier": "Poor"
+      },
+      "pre_per_trial": {
+        "pearson_r": 0.5827510757498663,
+        "ccc_lin": 0.518129677432443,
+        "mean_bias_deg": 0.11383289449462768,
+        "loa_lower_deg": -35.45772171816275,
+        "loa_upper_deg": 35.68538750715201,
+        "loa_half_width_deg": 35.57155461265738,
+        "mae_deg": 14.187876462554177,
+        "rmse_deg": 18.106255930437968,
+        "tier": "Poor"
+      },
+      "post_per_trial": {
+        "pearson_r": 0.570220719211306,
+        "ccc_lin": 0.49226431749586724,
+        "mean_bias_deg": -4.104202824197659,
+        "loa_lower_deg": -40.072130371549854,
+        "loa_upper_deg": 31.863724723154537,
+        "loa_half_width_deg": 35.9679275473522,
+        "mae_deg": 14.058837531542446,
+        "rmse_deg": 18.762051865383512,
+        "tier": "Poor"
+      }
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "front_oblique_left",
+      "approach": "v12_combined",
+      "estimator": "leave-one-fold-out on held-out residuals (alternative to train-fold residual mean)",
+      "deploy_bias_correction_deg": -3.203404860163615,
+      "fold_intercepts": [
+        {
+          "held_out_subject": "aspset_11ac",
+          "bias_intercept_deg": -3.3153600541064607
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "bias_intercept_deg": -3.6318961789104725
+        },
+        {
+          "held_out_subject": "aspset_4d9e",
+          "bias_intercept_deg": -3.2310758521659495
+        },
+        {
+          "held_out_subject": "aspset_5ff4",
+          "bias_intercept_deg": -3.5435959642841253
+        },
+        {
+          "held_out_subject": "aspset_7b5d",
+          "bias_intercept_deg": -3.158242000995373
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "bias_intercept_deg": -3.35872133995012
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "bias_intercept_deg": -3.4602423878757165
+        },
+        {
+          "held_out_subject": "aspset_bae6",
+          "bias_intercept_deg": -3.84423298633275
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "bias_intercept_deg": -3.176416100038111
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "bias_intercept_deg": -3.696310988290223
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "bias_intercept_deg": -3.0013613118582967
+        },
+        {
+          "held_out_subject": "aspset_fb7c",
+          "bias_intercept_deg": -3.840270549796112
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "bias_intercept_deg": -2.610350987325912
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "bias_intercept_deg": -3.198260567991121
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "bias_intercept_deg": -2.6440105758744137
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "bias_intercept_deg": -2.940094580975969
+        },
+        {
+          "held_out_subject": "opencap_subject4",
+          "bias_intercept_deg": -3.0744918643579466
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "bias_intercept_deg": -3.4980090422169683
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "bias_intercept_deg": -2.5901682349289166
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "bias_intercept_deg": -2.738779106177243
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "bias_intercept_deg": -2.719611388983729
+        }
+      ],
+      "per_subject_residual_means": {
+        "aspset_11ac": -0.964300981306715,
+        "aspset_14ce": 5.366421514773522,
+        "aspset_4d9e": -2.649985020116939,
+        "aspset_5ff4": 3.6004172222465862,
+        "aspset_7b5d": -4.106662043528465,
+        "aspset_b3c1": -0.09707526443352923,
+        "aspset_b8e1": 1.933345694078398,
+        "aspset_bae6": 9.613157663219074,
+        "aspset_c9f8": -3.743180062673715,
+        "aspset_d26c": 6.654717702368532,
+        "aspset_eb61": -7.244275826269994,
+        "aspset_fb7c": 9.53390893248631,
+        "opencap_subject10": -15.064482316917688,
+        "opencap_subject11": -3.306290703613508,
+        "opencap_subject2": -14.391290545947653,
+        "opencap_subject3": -8.469610443916553,
+        "opencap_subject4": -5.781664776277,
+        "opencap_subject5": 2.6886787809034325,
+        "opencap_subject7": -15.468137364857599,
+        "opencap_subject8": -12.495919939891076,
+        "opencap_subject9": -12.879274283761353
+      },
+      "pre_per_subject": {
+        "pearson_r": 0.9126835318162716,
+        "ccc_lin": 0.7839992110483176,
+        "mean_bias_deg": -3.2034048601636185,
+        "loa_lower_deg": -18.807083095456882,
+        "loa_upper_deg": 12.400273375129643,
+        "loa_half_width_deg": 15.603678235293263,
+        "mae_deg": 6.954895099218458,
+        "rmse_deg": 8.40370520988894,
+        "tier": "Poor"
+      },
+      "post_per_subject": {
+        "pearson_r": 0.8980241487427886,
+        "ccc_lin": 0.7870782877357895,
+        "mean_bias_deg": 1.3534147347811431e-15,
+        "loa_lower_deg": -16.383862147057933,
+        "loa_upper_deg": 16.383862147057933,
+        "loa_half_width_deg": 16.383862147057933,
+        "mae_deg": 6.771333484585479,
+        "rmse_deg": 8.157659318618647,
+        "tier": "Poor"
+      },
+      "pre_per_trial": {
+        "pearson_r": 0.7764597146615018,
+        "ccc_lin": 0.7540290036235708,
+        "mean_bias_deg": -0.1317697383797901,
+        "loa_lower_deg": -30.23031564097751,
+        "loa_upper_deg": 29.966776164217926,
+        "loa_half_width_deg": 30.098545902597717,
+        "mae_deg": 12.305826179767847,
+        "rmse_deg": 15.339506564722035,
+        "tier": "Poor"
+      },
+      "post_per_trial": {
+        "pearson_r": 0.771988569773065,
+        "ccc_lin": 0.7412623639764082,
+        "mean_bias_deg": 3.2252168778730166,
+        "loa_lower_deg": -27.136489349685387,
+        "loa_upper_deg": 33.586923105431424,
+        "loa_half_width_deg": 30.361706227558408,
+        "mae_deg": 12.772475406315932,
+        "rmse_deg": 15.805613098278629,
+        "tier": "Poor"
+      }
+    }
+  ]
+}

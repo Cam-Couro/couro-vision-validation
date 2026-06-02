@@ -1,0 +1,395 @@
+{
+  "n_subjects_included": 8,
+  "subjects_included": [
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "S7",
+    "S8",
+    "S1"
+  ],
+  "per_subject": [
+    {
+      "subject": "S2",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 2880,
+      "r": {
+        "hip_flexion_r": 0.897,
+        "hip_flexion_l": 0.9,
+        "knee_angle_r": 0.895,
+        "knee_angle_l": 0.879,
+        "ankle_angle_r": 0.408,
+        "ankle_angle_l": 0.449,
+        "hip_adduction_r": 0.472,
+        "hip_adduction_l": 0.489,
+        "lumbar_extension": 0.897
+      }
+    },
+    {
+      "subject": "S3",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 4456,
+      "r": {
+        "hip_flexion_r": 0.806,
+        "hip_flexion_l": 0.767,
+        "knee_angle_r": 0.792,
+        "knee_angle_l": 0.712,
+        "ankle_angle_r": 0.274,
+        "ankle_angle_l": 0.173,
+        "hip_adduction_r": 0.534,
+        "hip_adduction_l": 0.397,
+        "lumbar_extension": 0.78
+      }
+    },
+    {
+      "subject": "S4",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 3018,
+      "r": {
+        "hip_flexion_r": 0.808,
+        "hip_flexion_l": 0.75,
+        "knee_angle_r": 0.509,
+        "knee_angle_l": 0.59,
+        "ankle_angle_r": 0.17,
+        "ankle_angle_l": 0.222,
+        "hip_adduction_r": 0.587,
+        "hip_adduction_l": 0.539,
+        "lumbar_extension": 0.862
+      }
+    },
+    {
+      "subject": "S5",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 5574,
+      "r": {
+        "hip_flexion_r": 0.913,
+        "hip_flexion_l": 0.924,
+        "knee_angle_r": 0.849,
+        "knee_angle_l": 0.828,
+        "ankle_angle_r": 0.436,
+        "ankle_angle_l": 0.347,
+        "hip_adduction_r": 0.28,
+        "hip_adduction_l": 0.216,
+        "lumbar_extension": 0.906
+      }
+    },
+    {
+      "subject": "S6",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 2671,
+      "r": {
+        "hip_flexion_r": 0.898,
+        "hip_flexion_l": 0.896,
+        "knee_angle_r": 0.858,
+        "knee_angle_l": 0.838,
+        "ankle_angle_r": 0.499,
+        "ankle_angle_l": 0.322,
+        "hip_adduction_r": 0.446,
+        "hip_adduction_l": 0.475,
+        "lumbar_extension": 0.837
+      }
+    },
+    {
+      "subject": "S7",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 3042,
+      "r": {
+        "hip_flexion_r": 0.915,
+        "hip_flexion_l": 0.842,
+        "knee_angle_r": 0.812,
+        "knee_angle_l": 0.787,
+        "ankle_angle_r": 0.292,
+        "ankle_angle_l": 0.298,
+        "hip_adduction_r": 0.26,
+        "hip_adduction_l": 0.39,
+        "lumbar_extension": 0.847
+      }
+    },
+    {
+      "subject": "S8",
+      "cam_id": 7,
+      "rear_meta": {
+        "cam_id": 7,
+        "world_xyz": [
+          1409.0,
+          1165.8,
+          -2664.0
+        ],
+        "azimuth_deg": -62.1,
+        "radius_mm": 3013.7,
+        "height_mm": 1165.8,
+        "rel_az_from_cam0": -159.0,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 2041,
+      "r": {
+        "hip_flexion_r": 0.842,
+        "hip_flexion_l": 0.876,
+        "knee_angle_r": 0.802,
+        "knee_angle_l": 0.587,
+        "ankle_angle_r": 0.111,
+        "ankle_angle_l": 0.297,
+        "hip_adduction_r": 0.39,
+        "hip_adduction_l": 0.345,
+        "lumbar_extension": 0.707
+      }
+    },
+    {
+      "subject": "S1",
+      "cam_id": 7,
+      "rear_meta": {
+        "rel_az_from_cam0": -159.0,
+        "height_mm": 1166,
+        "radius_mm": 3014,
+        "category": "rear-oblique"
+      },
+      "n_frames_first_metric": 5036,
+      "r": {
+        "hip_flexion_r": 0.87,
+        "hip_flexion_l": 0.914,
+        "knee_angle_r": 0.814,
+        "knee_angle_l": 0.809,
+        "ankle_angle_r": 0.305,
+        "ankle_angle_l": 0.388,
+        "hip_adduction_r": 0.281,
+        "hip_adduction_l": 0.24,
+        "lumbar_extension": 0.805
+      }
+    }
+  ],
+  "cross_subject": {
+    "hip_flexion_r": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.869,
+      "sd_abs_r": 0.045,
+      "min_abs_r": 0.806,
+      "max_abs_r": 0.915,
+      "per_subject": {
+        "S2": 0.897,
+        "S3": 0.806,
+        "S4": 0.808,
+        "S5": 0.913,
+        "S6": 0.898,
+        "S7": 0.915,
+        "S8": 0.842,
+        "S1": 0.87
+      }
+    },
+    "hip_flexion_l": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.859,
+      "sd_abs_r": 0.067,
+      "min_abs_r": 0.75,
+      "max_abs_r": 0.924,
+      "per_subject": {
+        "S2": 0.9,
+        "S3": 0.767,
+        "S4": 0.75,
+        "S5": 0.924,
+        "S6": 0.896,
+        "S7": 0.842,
+        "S8": 0.876,
+        "S1": 0.914
+      }
+    },
+    "knee_angle_r": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.791,
+      "sd_abs_r": 0.119,
+      "min_abs_r": 0.509,
+      "max_abs_r": 0.895,
+      "per_subject": {
+        "S2": 0.895,
+        "S3": 0.792,
+        "S4": 0.509,
+        "S5": 0.849,
+        "S6": 0.858,
+        "S7": 0.812,
+        "S8": 0.802,
+        "S1": 0.814
+      }
+    },
+    "knee_angle_l": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.754,
+      "sd_abs_r": 0.112,
+      "min_abs_r": 0.587,
+      "max_abs_r": 0.879,
+      "per_subject": {
+        "S2": 0.879,
+        "S3": 0.712,
+        "S4": 0.59,
+        "S5": 0.828,
+        "S6": 0.838,
+        "S7": 0.787,
+        "S8": 0.587,
+        "S1": 0.809
+      }
+    },
+    "ankle_angle_r": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.312,
+      "sd_abs_r": 0.132,
+      "min_abs_r": 0.111,
+      "max_abs_r": 0.499,
+      "per_subject": {
+        "S2": 0.408,
+        "S3": 0.274,
+        "S4": 0.17,
+        "S5": 0.436,
+        "S6": 0.499,
+        "S7": 0.292,
+        "S8": 0.111,
+        "S1": 0.305
+      }
+    },
+    "ankle_angle_l": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.312,
+      "sd_abs_r": 0.088,
+      "min_abs_r": 0.173,
+      "max_abs_r": 0.449,
+      "per_subject": {
+        "S2": 0.449,
+        "S3": 0.173,
+        "S4": 0.222,
+        "S5": 0.347,
+        "S6": 0.322,
+        "S7": 0.298,
+        "S8": 0.297,
+        "S1": 0.388
+      }
+    },
+    "hip_adduction_r": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.406,
+      "sd_abs_r": 0.124,
+      "min_abs_r": 0.26,
+      "max_abs_r": 0.587,
+      "per_subject": {
+        "S2": 0.472,
+        "S3": 0.534,
+        "S4": 0.587,
+        "S5": 0.28,
+        "S6": 0.446,
+        "S7": 0.26,
+        "S8": 0.39,
+        "S1": 0.281
+      }
+    },
+    "hip_adduction_l": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.386,
+      "sd_abs_r": 0.116,
+      "min_abs_r": 0.216,
+      "max_abs_r": 0.539,
+      "per_subject": {
+        "S2": 0.489,
+        "S3": 0.397,
+        "S4": 0.539,
+        "S5": 0.216,
+        "S6": 0.475,
+        "S7": 0.39,
+        "S8": 0.345,
+        "S1": 0.24
+      }
+    },
+    "lumbar_extension": {
+      "n_subjects": 8,
+      "mean_abs_r": 0.83,
+      "sd_abs_r": 0.065,
+      "min_abs_r": 0.707,
+      "max_abs_r": 0.906,
+      "per_subject": {
+        "S2": 0.897,
+        "S3": 0.78,
+        "S4": 0.862,
+        "S5": 0.906,
+        "S6": 0.837,
+        "S7": 0.847,
+        "S8": 0.707,
+        "S1": 0.805
+      }
+    }
+  }
+}

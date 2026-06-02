@@ -1,0 +1,459 @@
+{
+  "version": "1.0",
+  "model": "VideoPose3D pretrained_h36m_detectron_coco.bin",
+  "license": "Apache 2.0",
+  "device": "cpu",
+  "remap": "Halpe-26 -> H36M-17 (see harness/videopose3d.py)",
+  "clips": [
+    {
+      "clip": "subject10_DJ1_Cam0",
+      "subject": "subject10",
+      "trial": "DJ1",
+      "cam": "Cam0",
+      "n_frames": 138,
+      "inference_seconds": 0.011414051055908203,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.3071479920994421,
+          "lifter_abs_r": 0.3071479920994421,
+          "lifter_mae": 32.796556574141746,
+          "couro_r": 0.7722425889660485,
+          "couro_abs_r": 0.7722425889660485,
+          "couro_mae": 23.34395430918594
+        },
+        "hip_adduction_r": {
+          "lifter_r": 0.19572219248958,
+          "lifter_abs_r": 0.19572219248958,
+          "lifter_mae": 42.77634096762442,
+          "couro_r": -0.108485032276869,
+          "couro_abs_r": 0.108485032276869,
+          "couro_mae": 212.2924348023806
+        },
+        "knee_angle_r": {
+          "lifter_r": -0.23055687712400613,
+          "lifter_abs_r": 0.23055687712400613,
+          "lifter_mae": 38.44809878726112,
+          "couro_r": 0.6739592832168104,
+          "couro_abs_r": 0.6739592832168104,
+          "couro_mae": 23.544958310617613
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.8851131194461327,
+          "lifter_abs_r": 0.8851131194461327,
+          "lifter_mae": 52.8514079586068,
+          "couro_r": 0.5649971207889144,
+          "couro_abs_r": 0.5649971207889144,
+          "couro_mae": 25.36902586470709
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.5132707518613074,
+          "lifter_abs_r": 0.5132707518613074,
+          "lifter_mae": 20.659168392356325,
+          "couro_r": -0.8143124686944903,
+          "couro_abs_r": 0.8143124686944903,
+          "couro_mae": 55.06677847711291
+        }
+      }
+    },
+    {
+      "clip": "subject10_DJ1_Cam2",
+      "subject": "subject10",
+      "trial": "DJ1",
+      "cam": "Cam2",
+      "n_frames": 138,
+      "inference_seconds": 0.010526895523071289,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.7707123734813739,
+          "lifter_abs_r": 0.7707123734813739,
+          "lifter_mae": 36.618861574434156,
+          "couro_r": 0.48202154823720306,
+          "couro_abs_r": 0.48202154823720306,
+          "couro_mae": 38.33875276703569
+        },
+        "hip_adduction_r": {
+          "lifter_r": -0.041885811140436054,
+          "lifter_abs_r": 0.041885811140436054,
+          "lifter_mae": 58.75761215386615,
+          "couro_r": -0.13233980811303472,
+          "couro_abs_r": 0.13233980811303472,
+          "couro_mae": 195.8878578991957
+        },
+        "knee_angle_r": {
+          "lifter_r": 0.3849448103892983,
+          "lifter_abs_r": 0.3849448103892983,
+          "lifter_mae": 39.70191698013259,
+          "couro_r": 0.6146579590136212,
+          "couro_abs_r": 0.6146579590136212,
+          "couro_mae": 51.62403662079656
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.6497717910746413,
+          "lifter_abs_r": 0.6497717910746413,
+          "lifter_mae": 56.80472807476373,
+          "couro_r": -0.721469209172469,
+          "couro_abs_r": 0.721469209172469,
+          "couro_mae": 73.6363700597571
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.6291660961458554,
+          "lifter_abs_r": 0.6291660961458554,
+          "lifter_mae": 24.076602476358786,
+          "couro_r": -0.36401224694074236,
+          "couro_abs_r": 0.36401224694074236,
+          "couro_mae": 30.46315265324603
+        }
+      }
+    },
+    {
+      "clip": "subject10_DJ1_Cam4",
+      "subject": "subject10",
+      "trial": "DJ1",
+      "cam": "Cam4",
+      "n_frames": 138,
+      "inference_seconds": 0.010487794876098633,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.8590652881293578,
+          "lifter_abs_r": 0.8590652881293578,
+          "lifter_mae": 42.94612054179293,
+          "couro_r": 0.49980713297018836,
+          "couro_abs_r": 0.49980713297018836,
+          "couro_mae": 24.12008239573253
+        },
+        "hip_adduction_r": {
+          "lifter_r": -0.2698520993792862,
+          "lifter_abs_r": 0.2698520993792862,
+          "lifter_mae": 38.993871878409806,
+          "couro_r": 0.20746838467456968,
+          "couro_abs_r": 0.20746838467456968,
+          "couro_mae": 216.8766928775895
+        },
+        "knee_angle_r": {
+          "lifter_r": 0.44336955514293824,
+          "lifter_abs_r": 0.44336955514293824,
+          "lifter_mae": 36.43092717668082,
+          "couro_r": 0.39305248319969915,
+          "couro_abs_r": 0.39305248319969915,
+          "couro_mae": 34.80539427165734
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.5144759844858332,
+          "lifter_abs_r": 0.5144759844858332,
+          "lifter_mae": 50.89985575323994,
+          "couro_r": 0.3367860508022923,
+          "couro_abs_r": 0.3367860508022923,
+          "couro_mae": 38.45865122535121
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.5400706433348551,
+          "lifter_abs_r": 0.5400706433348551,
+          "lifter_mae": 26.394266127109105,
+          "couro_r": 0.5796434453221823,
+          "couro_abs_r": 0.5796434453221823,
+          "couro_mae": 12.193562100365634
+        }
+      }
+    },
+    {
+      "clip": "subject10_DJ2_Cam2",
+      "subject": "subject10",
+      "trial": "DJ2",
+      "cam": "Cam2",
+      "n_frames": 146,
+      "inference_seconds": 0.010601282119750977,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.7708041348315925,
+          "lifter_abs_r": 0.7708041348315925,
+          "lifter_mae": 37.550165184851366,
+          "couro_r": 0.710479718432673,
+          "couro_abs_r": 0.710479718432673,
+          "couro_mae": 33.25296954715788
+        },
+        "hip_adduction_r": {
+          "lifter_r": 0.2629457029744494,
+          "lifter_abs_r": 0.2629457029744494,
+          "lifter_mae": 53.916730426024806,
+          "couro_r": 0.2722363620050087,
+          "couro_abs_r": 0.2722363620050087,
+          "couro_mae": 187.78446889336635
+        },
+        "knee_angle_r": {
+          "lifter_r": -0.3591023738716319,
+          "lifter_abs_r": 0.3591023738716319,
+          "lifter_mae": 44.246017025794146,
+          "couro_r": 0.5340591413594771,
+          "couro_abs_r": 0.5340591413594771,
+          "couro_mae": 55.728208744991456
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.668767249624767,
+          "lifter_abs_r": 0.668767249624767,
+          "lifter_mae": 59.194723911331224,
+          "couro_r": -0.4666158739811721,
+          "couro_abs_r": 0.4666158739811721,
+          "couro_mae": 75.5390379483451
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.6087438189757356,
+          "lifter_abs_r": 0.6087438189757356,
+          "lifter_mae": 26.31978763251412,
+          "couro_r": -0.5117370563200994,
+          "couro_abs_r": 0.5117370563200994,
+          "couro_mae": 31.66677811942848
+        }
+      }
+    },
+    {
+      "clip": "subject2_DJ1_Cam0",
+      "subject": "subject2",
+      "trial": "DJ1",
+      "cam": "Cam0",
+      "n_frames": 166,
+      "inference_seconds": 0.0114288330078125,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.7125424757487042,
+          "lifter_abs_r": 0.7125424757487042,
+          "lifter_mae": 40.30455474944726,
+          "couro_r": 0.9943214747871454,
+          "couro_abs_r": 0.9943214747871454,
+          "couro_mae": 4.401813793350717
+        },
+        "hip_adduction_r": {
+          "lifter_r": 0.49656794314100966,
+          "lifter_abs_r": 0.49656794314100966,
+          "lifter_mae": 52.78714265631972,
+          "couro_r": -0.20530052169388935,
+          "couro_abs_r": 0.20530052169388935,
+          "couro_mae": 206.5577502956737
+        },
+        "knee_angle_r": {
+          "lifter_r": 0.41501140671502035,
+          "lifter_abs_r": 0.41501140671502035,
+          "lifter_mae": 30.60696071303789,
+          "couro_r": 0.9950937033771704,
+          "couro_abs_r": 0.9950937033771704,
+          "couro_mae": 7.6999697933868685
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.40981460152369126,
+          "lifter_abs_r": 0.40981460152369126,
+          "lifter_mae": 72.37387981000956,
+          "couro_r": 0.9315272622961845,
+          "couro_abs_r": 0.9315272622961845,
+          "couro_mae": 13.913143712975497
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.22142368545647667,
+          "lifter_abs_r": 0.22142368545647667,
+          "lifter_mae": 25.711715568674144,
+          "couro_r": -0.9243744479736845,
+          "couro_abs_r": 0.9243744479736845,
+          "couro_mae": 47.91928640297903
+        }
+      }
+    },
+    {
+      "clip": "subject2_DJ1_Cam2",
+      "subject": "subject2",
+      "trial": "DJ1",
+      "cam": "Cam2",
+      "n_frames": 166,
+      "inference_seconds": 0.010625839233398438,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.7952874231091692,
+          "lifter_abs_r": 0.7952874231091692,
+          "lifter_mae": 38.263751323967384,
+          "couro_r": 0.45537671884114383,
+          "couro_abs_r": 0.45537671884114383,
+          "couro_mae": 46.52706105909919
+        },
+        "hip_adduction_r": {
+          "lifter_r": -0.14036324122598107,
+          "lifter_abs_r": 0.14036324122598107,
+          "lifter_mae": 61.280165384286036,
+          "couro_r": -0.22106196083495644,
+          "couro_abs_r": 0.22106196083495644,
+          "couro_mae": 166.56290460813955
+        },
+        "knee_angle_r": {
+          "lifter_r": 0.3698766268113828,
+          "lifter_abs_r": 0.3698766268113828,
+          "lifter_mae": 35.92100446931718,
+          "couro_r": 0.40130076251684066,
+          "couro_abs_r": 0.40130076251684066,
+          "couro_mae": 51.19014388841564
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.326828380181684,
+          "lifter_abs_r": 0.326828380181684,
+          "lifter_mae": 68.35741014058868,
+          "couro_r": 0.056363539967251505,
+          "couro_abs_r": 0.056363539967251505,
+          "couro_mae": 54.88175490863519
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.8761747233520805,
+          "lifter_abs_r": 0.8761747233520805,
+          "lifter_mae": 28.38035174492115,
+          "couro_r": -0.06589101051502524,
+          "couro_abs_r": 0.06589101051502524,
+          "couro_mae": 24.63137838694258
+        }
+      }
+    },
+    {
+      "clip": "subject2_DJ1_Cam4",
+      "subject": "subject2",
+      "trial": "DJ1",
+      "cam": "Cam4",
+      "n_frames": 166,
+      "inference_seconds": 0.010748147964477539,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.8001536681772485,
+          "lifter_abs_r": 0.8001536681772485,
+          "lifter_mae": 41.79618349517461,
+          "couro_r": 0.9635868531886522,
+          "couro_abs_r": 0.9635868531886522,
+          "couro_mae": 14.169374060520623
+        },
+        "hip_adduction_r": {
+          "lifter_r": -0.20502935607088535,
+          "lifter_abs_r": 0.20502935607088535,
+          "lifter_mae": 45.48315944861709,
+          "couro_r": 0.12805810665173736,
+          "couro_abs_r": 0.12805810665173736,
+          "couro_mae": 218.4037507073069
+        },
+        "knee_angle_r": {
+          "lifter_r": -0.37013509556137214,
+          "lifter_abs_r": 0.37013509556137214,
+          "lifter_mae": 37.76372131359141,
+          "couro_r": 0.9799632865516386,
+          "couro_abs_r": 0.9799632865516386,
+          "couro_mae": 11.971194051441485
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.5716594054440589,
+          "lifter_abs_r": 0.5716594054440589,
+          "lifter_mae": 64.6724930708864,
+          "couro_r": 0.9126247596420022,
+          "couro_abs_r": 0.9126247596420022,
+          "couro_mae": 19.56775815013884
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.927697919323842,
+          "lifter_abs_r": 0.927697919323842,
+          "lifter_mae": 29.73047612025945,
+          "couro_r": 0.8040200638980942,
+          "couro_abs_r": 0.8040200638980942,
+          "couro_mae": 7.0916904193354435
+        }
+      }
+    },
+    {
+      "clip": "subject3_DJ1_Cam2",
+      "subject": "subject3",
+      "trial": "DJ1",
+      "cam": "Cam2",
+      "n_frames": 158,
+      "inference_seconds": 0.010481834411621094,
+      "metrics": {
+        "hip_flexion_r": {
+          "lifter_r": -0.9672456560200859,
+          "lifter_abs_r": 0.9672456560200859,
+          "lifter_mae": 31.05891999082689,
+          "couro_r": 0.2744934692901387,
+          "couro_abs_r": 0.2744934692901387,
+          "couro_mae": 39.657139249830465
+        },
+        "hip_adduction_r": {
+          "lifter_r": 0.5064279692554158,
+          "lifter_abs_r": 0.5064279692554158,
+          "lifter_mae": 56.780927235197005,
+          "couro_r": -0.7308224142214811,
+          "couro_abs_r": 0.7308224142214811,
+          "couro_mae": 172.89820947394102
+        },
+        "knee_angle_r": {
+          "lifter_r": -0.7301227390334089,
+          "lifter_abs_r": 0.7301227390334089,
+          "lifter_mae": 33.26326544017486,
+          "couro_r": -0.27323148140656534,
+          "couro_abs_r": 0.27323148140656534,
+          "couro_mae": 45.522411568477104
+        },
+        "ankle_angle_r": {
+          "lifter_r": 0.23702249063522307,
+          "lifter_abs_r": 0.23702249063522307,
+          "lifter_mae": 71.77775393030582,
+          "couro_r": 0.18352494905615482,
+          "couro_abs_r": 0.18352494905615482,
+          "couro_mae": 57.72789840099118
+        },
+        "lumbar_extension": {
+          "lifter_r": 0.65914752125959,
+          "lifter_abs_r": 0.65914752125959,
+          "lifter_mae": 39.63184498624317,
+          "couro_r": 0.30688855290660455,
+          "couro_abs_r": 0.30688855290660455,
+          "couro_mae": 12.830387594985485
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "per_metric": {
+      "hip_flexion_r": {
+        "n_lifter": 8,
+        "n_couro": 8,
+        "lifter_mean_abs_r": 0.7478698764496219,
+        "couro_mean_abs_r": 0.644041188089149,
+        "lifter_mean_mae": 37.666889179329544,
+        "couro_mean_mae": 27.97639339773913
+      },
+      "hip_adduction_r": {
+        "n_lifter": 8,
+        "n_couro": 8,
+        "lifter_mean_abs_r": 0.2648492894596305,
+        "couro_mean_abs_r": 0.25072157380894333,
+        "lifter_mean_mae": 51.346993768793126,
+        "couro_mean_mae": 197.15800869469916
+      },
+      "knee_angle_r": {
+        "n_lifter": 8,
+        "n_couro": 8,
+        "lifter_mean_abs_r": 0.4128899355811323,
+        "couro_mean_abs_r": 0.6081647625802278,
+        "lifter_mean_mae": 37.04773898824875,
+        "couro_mean_mae": 35.26078965622301
+      },
+      "ankle_angle_r": {
+        "n_lifter": 8,
+        "n_couro": 8,
+        "lifter_mean_abs_r": 0.532931627802004,
+        "couro_mean_abs_r": 0.5217385957133052,
+        "lifter_mean_mae": 62.11653158121652,
+        "couro_mean_mae": 44.886705033862654
+      },
+      "lumbar_extension": {
+        "n_lifter": 8,
+        "n_couro": 8,
+        "lifter_mean_abs_r": 0.6219618949637178,
+        "couro_mean_abs_r": 0.5463599115713653,
+        "lifter_mean_mae": 27.61302663105453,
+        "couro_mean_mae": 27.732876769299452
+      }
+    },
+    "overall": {
+      "n_lifter": 40,
+      "n_couro": 40,
+      "lifter_mean_abs_r": 0.5161005248512213,
+      "couro_mean_abs_r": 0.5142052063525981
+    }
+  }
+}

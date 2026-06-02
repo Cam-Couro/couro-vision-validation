@@ -13,19 +13,21 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-05-29 / v19 ensemble)
+## Current state (as of 2026-06-02 / v21 selective oracle)
 
-**5 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
+**7 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
 
-| Slot | CCC | LoA half | Source |
+| Slot | CCC | LoA half | Reader |
 |---|---:|---:|---|
-| Hip adduction R / side-left | 0.94 | ±9.8° | v15 hand-engineered |
-| Lumbar extension / side-left | 0.83 | ±7.2° | v15 hand-engineered |
-| Lumbar extension / front-oblique-right | 0.74 | ±9.2° | v16 view-aware blend retrain |
-| Lumbar extension / front-oblique-left | 0.71 | ±8.7° | v18 learned Layer 2 |
-| Ankle dorsi/plantarflex R / side-right | 0.64 | ±9.5° | v15 hand-engineered (preliminary, n=9) |
+| Hip adduction R / side-left | 0.94 | ±9.8° | v17 hand-engineered |
+| **Lumbar extension / side-left** | **0.87** | ±6.8° | v20 ROM-aware learned Layer 2 |
+| Lumbar extension / front-oblique-left | 0.71 | ±6.6° | v18 EE2 learned Layer 2 |
+| Lumbar extension / front-oblique-right | 0.69 | ±9.8° | v20 ROM-aware learned Layer 2 |
+| Hip adduction R / front-oblique-left | 0.69 | **±3.3°** | v20 ROM-aware learned Layer 2 |
+| Ankle dorsi/plantarflex R / side-right | 0.64 | ±9.5° | v17 hand-engineered (preliminary, n=9) |
+| Lumbar extension / side-right | 0.62 | ±9.9° | v20 ROM-aware learned Layer 2 |
 
-**Range: CCC 0.71–0.94, single phone camera, no calibration.**
+**Range: CCC 0.62–0.94, single phone camera, no calibration.** Trunk extension validated from four independent camera angles (both sides + both front-obliques).
 
 Comparison points from literature:
 - Theia3D (Kanko 2021): CMC 0.85–0.97 sagittal, 8 lab cameras + calibration, ~$80K

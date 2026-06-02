@@ -1,0 +1,947 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.slope_correction_test",
+  "from_version": "v15",
+  "methodology": "Nested LOSO. Inner LOSO produces leak-free (pred, obs) pairs for the calibration fit. Outer LOSO held-out subject never participates in fitting its own (a, b). Conditions reported: baseline_v15, intercept_only (Agent Q leave-one-fold-out form), slope_only (a=0), slope_and_intercept (main candidate).",
+  "loso_alpha": 10.0,
+  "good_tier_thresholds": {
+    "ccc_lin_min": 0.6,
+    "loa_half_width_max_deg": 10.0
+  },
+  "elapsed_sec": 21.391520977020264,
+  "slots": [
+    {
+      "target": "hip_adduction_r",
+      "view": "front_center",
+      "approach": "v12_combined",
+      "n_subjects": 22,
+      "n_trials": 445,
+      "methodology": "Nested LOSO. For each outer held-out subject s_out, inner LOSO is run over the remaining subjects to produce (pred, obs) pairs where each prediction was made without the corresponding subject in the training set. OLS regression observed = a + b * predicted is fit on the inner-LOSO pairs (subject s_out never participates in the calibration term). The outer held-out predictions are corrected as pred_corrected = a + b * outer_pred. This is the discipline the spec mandates; no post-hoc cherry-picking and no leakage of the outer held-out subject into its own calibration parameters.",
+      "conditions": {
+        "baseline_v15": {
+          "per_subject": {
+            "n_subjects": 22,
+            "n_trials": 445,
+            "mean_bias_deg": 3.599708224131223,
+            "sd_bias_deg": 8.273352688334494,
+            "loa_lower_deg": -12.616063045004385,
+            "loa_upper_deg": 19.81547949326683,
+            "loa_half_width_deg": 16.215771269135608,
+            "pearson_r": 0.9252666325169593,
+            "ccc_lin": 0.7671041662256808,
+            "mae_deg": 7.2078376816885825,
+            "rmse_deg": 8.848444761631889,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 445,
+            "mean_bias_deg": 0.03416200423461052,
+            "sd_bias_deg": 15.894552358905578,
+            "loa_lower_deg": -31.119160619220324,
+            "loa_upper_deg": 31.187484627689543,
+            "pearson_r": 0.6340854741029327,
+            "ccc_lin": 0.577471837049423,
+            "mae_deg": 11.851580455581665,
+            "rmse_deg": 15.876720020154961
+          }
+        },
+        "intercept_only": {
+          "per_subject": {
+            "n_subjects": 22,
+            "n_trials": 445,
+            "mean_bias_deg": -0.009518104933879522,
+            "sd_bias_deg": 8.434612784094497,
+            "loa_lower_deg": -16.541359161759093,
+            "loa_upper_deg": 16.522322951891336,
+            "loa_half_width_deg": 16.531841056825215,
+            "pearson_r": 0.9218961558626034,
+            "ccc_lin": 0.7881854470242807,
+            "mae_deg": 6.844006487267734,
+            "rmse_deg": 8.240693214013918,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 445,
+            "mean_bias_deg": -3.709511505284716,
+            "sd_bias_deg": 15.893693924235917,
+            "loa_lower_deg": -34.86115159678711,
+            "loa_upper_deg": 27.44212858621768,
+            "pearson_r": 0.6341155871709722,
+            "ccc_lin": 0.5639847246454751,
+            "mae_deg": 11.673567191497973,
+            "rmse_deg": 16.303445045530868
+          }
+        },
+        "slope_only": {
+          "per_subject": {
+            "n_subjects": 22,
+            "n_trials": 445,
+            "mean_bias_deg": 3.5116851440040375,
+            "sd_bias_deg": 8.290057927371691,
+            "loa_lower_deg": -12.736828393644476,
+            "loa_upper_deg": 19.76019868165255,
+            "loa_half_width_deg": 16.248513537648513,
+            "pearson_r": 0.9253776075509175,
+            "ccc_lin": 0.7674176901140735,
+            "mae_deg": 7.197289594193452,
+            "rmse_deg": 8.827974094105503,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 445,
+            "mean_bias_deg": -0.06801996278384348,
+            "sd_bias_deg": 15.897556013679072,
+            "loa_lower_deg": -31.227229749594823,
+            "loa_upper_deg": 31.091189824027136,
+            "pearson_r": 0.6338825158932417,
+            "ccc_lin": 0.5766040718765024,
+            "mae_deg": 11.841659058483982,
+            "rmse_deg": 15.87982922450168
+          }
+        },
+        "slope_and_intercept": {
+          "per_subject": {
+            "n_subjects": 22,
+            "n_trials": 445,
+            "mean_bias_deg": 3.6505139895082706,
+            "sd_bias_deg": 8.384734940461104,
+            "loa_lower_deg": -12.783566493795492,
+            "loa_upper_deg": 20.084594472812032,
+            "loa_half_width_deg": 16.434080483303763,
+            "pearson_r": 0.9255724132509112,
+            "ccc_lin": 0.7588982219073391,
+            "mae_deg": 7.299676134053073,
+            "rmse_deg": 8.968523069310695,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 445,
+            "mean_bias_deg": -0.009222689258511212,
+            "sd_bias_deg": 15.907673016995238,
+            "loa_lower_deg": -31.188261802569176,
+            "loa_upper_deg": 31.169816424052154,
+            "pearson_r": 0.6332204911056779,
+            "ccc_lin": 0.5721949900657859,
+            "mae_deg": 11.883196158028806,
+            "rmse_deg": 15.889791850833475
+          }
+        }
+      },
+      "fold_calibrations": [
+        {
+          "held_out_subject": "aspset_04ac",
+          "n_inner_pairs": 421,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7276361789814689,
+          "slope_b": 0.9803820532879752,
+          "slope_only_b": 0.9968296076446815,
+          "inner_residual_mean": 3.7121683308810534
+        },
+        {
+          "held_out_subject": "aspset_11ac",
+          "n_inner_pairs": 401,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.5966014611105644,
+          "slope_b": 0.9841418088965083,
+          "slope_only_b": 0.9976800724305399,
+          "inner_residual_mean": 3.620021614505363
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "n_inner_pairs": 425,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.2789651043252557,
+          "slope_b": 0.9918967505436479,
+          "slope_only_b": 0.9981471485904726,
+          "inner_residual_mean": 3.3596277250629565
+        },
+        {
+          "held_out_subject": "aspset_4448",
+          "n_inner_pairs": 409,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7467590945760075,
+          "slope_b": 0.9802458561691059,
+          "slope_only_b": 0.9973048690977858,
+          "inner_residual_mean": 3.7770465408018006
+        },
+        {
+          "held_out_subject": "aspset_5ff4",
+          "n_inner_pairs": 403,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7256865510247056,
+          "slope_b": 0.9819536691668866,
+          "slope_only_b": 0.9983215301521957,
+          "inner_residual_mean": 4.066115868075071
+        },
+        {
+          "held_out_subject": "aspset_7b5d",
+          "n_inner_pairs": 429,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6109098014929335,
+          "slope_b": 0.9840564492938241,
+          "slope_only_b": 0.99792776590248,
+          "inner_residual_mean": 3.771648774039111
+        },
+        {
+          "held_out_subject": "aspset_a779",
+          "n_inner_pairs": 407,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6525182716874991,
+          "slope_b": 0.9814103652377141,
+          "slope_only_b": 0.9965266428846609,
+          "inner_residual_mean": 3.589731270156411
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "n_inner_pairs": 423,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7137665800867227,
+          "slope_b": 0.9811335009493002,
+          "slope_only_b": 0.9973502544014209,
+          "inner_residual_mean": 3.5078037189531375
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "n_inner_pairs": 424,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.5026013703856477,
+          "slope_b": 0.9860452544197579,
+          "slope_only_b": 0.9974269914877009,
+          "inner_residual_mean": 3.6608745588341676
+        },
+        {
+          "held_out_subject": "aspset_bae6",
+          "n_inner_pairs": 397,
+          "n_inner_subjects": 21,
+          "intercept_a": 1.1087982725276768,
+          "slope_b": 0.9704977450482097,
+          "slope_only_b": 0.9963115318035423,
+          "inner_residual_mean": 3.869251487153558
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "n_inner_pairs": 420,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.5954384577357611,
+          "slope_b": 0.9840234451485173,
+          "slope_only_b": 0.9977410885007969,
+          "inner_residual_mean": 3.8016314085040714
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "n_inner_pairs": 426,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.8489834868316003,
+          "slope_b": 0.97700876982114,
+          "slope_only_b": 0.99633188264154,
+          "inner_residual_mean": 3.7190645350211766
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "n_inner_pairs": 433,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6609597122416997,
+          "slope_b": 0.9828997776021954,
+          "slope_only_b": 0.997965054733633,
+          "inner_residual_mean": 3.8345662563202567
+        },
+        {
+          "held_out_subject": "aspset_fb7c",
+          "n_inner_pairs": 399,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.34594000598635216,
+          "slope_b": 0.9906932799526369,
+          "slope_only_b": 0.9984989469054952,
+          "inner_residual_mean": 4.011273929303588
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "n_inner_pairs": 439,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7234576469738743,
+          "slope_b": 0.981094058588405,
+          "slope_only_b": 0.997475316538026,
+          "inner_residual_mean": 3.688318098214456
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "n_inner_pairs": 443,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6297608669260272,
+          "slope_b": 0.983144917690464,
+          "slope_only_b": 0.9974343248482817,
+          "inner_residual_mean": 3.2672233949723157
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "n_inner_pairs": 439,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6350069652659456,
+          "slope_b": 0.9831264158751277,
+          "slope_only_b": 0.9974862505916285,
+          "inner_residual_mean": 3.461806016265087
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "n_inner_pairs": 444,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6021978646961769,
+          "slope_b": 0.9838577874562267,
+          "slope_only_b": 0.9975324115842162,
+          "inner_residual_mean": 3.1170009835834827
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "n_inner_pairs": 442,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6630904955033642,
+          "slope_b": 0.9823930222337593,
+          "slope_only_b": 0.9974258245416832,
+          "inner_residual_mean": 3.200687679791212
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "n_inner_pairs": 441,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6495738036296211,
+          "slope_b": 0.9826419414659094,
+          "slope_only_b": 0.9973625287883777,
+          "inner_residual_mean": 3.430053118898148
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "n_inner_pairs": 439,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.7082586623925394,
+          "slope_b": 0.9813343419464887,
+          "slope_only_b": 0.9973653351025429,
+          "inner_residual_mean": 3.614602921724083
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "n_inner_pairs": 441,
+          "n_inner_subjects": 21,
+          "intercept_a": 0.6142688784509193,
+          "slope_b": 0.9837901680690256,
+          "slope_only_b": 0.9977085035261147,
+          "inner_residual_mean": 3.3224610083717616
+        }
+      ],
+      "deploy_calibration": {
+        "intercept_a_deploy": 0.6518717969469257,
+        "slope_b_deploy": 0.9826259717664921,
+        "slope_only_b_deploy": 0.9974615401226281,
+        "inference_rule_slope_and_intercept": "pred_deg_corrected = intercept_a_deploy + slope_b_deploy * pred_deg",
+        "inference_rule_slope_only": "pred_deg_corrected = slope_only_b_deploy * pred_deg"
+      }
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "front_oblique_right",
+      "approach": "v12_combined",
+      "n_subjects": 17,
+      "n_trials": 212,
+      "methodology": "Nested LOSO. For each outer held-out subject s_out, inner LOSO is run over the remaining subjects to produce (pred, obs) pairs where each prediction was made without the corresponding subject in the training set. OLS regression observed = a + b * predicted is fit on the inner-LOSO pairs (subject s_out never participates in the calibration term). The outer held-out predictions are corrected as pred_corrected = a + b * outer_pred. This is the discipline the spec mandates; no post-hoc cherry-picking and no leakage of the outer held-out subject into its own calibration parameters.",
+      "conditions": {
+        "baseline_v15": {
+          "per_subject": {
+            "n_subjects": 17,
+            "n_trials": 212,
+            "mean_bias_deg": 3.97661202315125,
+            "sd_bias_deg": 8.817752792987438,
+            "loa_lower_deg": -13.306183451104125,
+            "loa_upper_deg": 21.259407497406627,
+            "loa_half_width_deg": 17.282795474255376,
+            "pearson_r": 0.9186705575430303,
+            "ccc_lin": 0.7752861217863488,
+            "mae_deg": 7.758778536783448,
+            "rmse_deg": 9.433584445065883,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 212,
+            "mean_bias_deg": 0.11383289449462768,
+            "sd_bias_deg": 18.148752353396624,
+            "loa_lower_deg": -35.45772171816275,
+            "loa_upper_deg": 35.68538750715201,
+            "pearson_r": 0.5827510757498663,
+            "ccc_lin": 0.518129677432443,
+            "mae_deg": 14.187876462554177,
+            "rmse_deg": 18.106255930437968
+          }
+        },
+        "intercept_only": {
+          "per_subject": {
+            "n_subjects": 17,
+            "n_trials": 212,
+            "mean_bias_deg": -0.022441279480227273,
+            "sd_bias_deg": 8.768578232875933,
+            "loa_lower_deg": -17.208854615917055,
+            "loa_upper_deg": 17.163972056956602,
+            "loa_half_width_deg": 17.18641333643683,
+            "pearson_r": 0.9189432597073203,
+            "ccc_lin": 0.8103400642852122,
+            "mae_deg": 7.021499346268049,
+            "rmse_deg": 8.506800010111185,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 212,
+            "mean_bias_deg": -3.845247523850714,
+            "sd_bias_deg": 18.117194571953,
+            "loa_lower_deg": -39.354948884878596,
+            "loa_upper_deg": 31.664453837177167,
+            "pearson_r": 0.5846786080588354,
+            "ccc_lin": 0.5092057325836777,
+            "mae_deg": 13.80184039224859,
+            "rmse_deg": 18.478917718312008
+          }
+        },
+        "slope_only": {
+          "per_subject": {
+            "n_subjects": 17,
+            "n_trials": 212,
+            "mean_bias_deg": 3.7066451278331303,
+            "sd_bias_deg": 8.87499844112337,
+            "loa_lower_deg": -13.688351816768677,
+            "loa_upper_deg": 21.101642072434938,
+            "loa_half_width_deg": 17.394996944601807,
+            "pearson_r": 0.9191648228821637,
+            "ccc_lin": 0.7757956382148748,
+            "mae_deg": 7.813657479836158,
+            "rmse_deg": 9.373982344897941,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 212,
+            "mean_bias_deg": -0.21922813608197383,
+            "sd_bias_deg": 18.148663358136666,
+            "loa_lower_deg": -35.79060831802984,
+            "loa_upper_deg": 35.35215204586589,
+            "pearson_r": 0.5825046444184149,
+            "ccc_lin": 0.5153996764177962,
+            "mae_deg": 14.138128062861208,
+            "rmse_deg": 18.107136488291253
+          }
+        },
+        "slope_and_intercept": {
+          "per_subject": {
+            "n_subjects": 17,
+            "n_trials": 212,
+            "mean_bias_deg": 4.153652681512106,
+            "sd_bias_deg": 9.190498252929848,
+            "loa_lower_deg": -13.859723894230395,
+            "loa_upper_deg": 22.167029257254608,
+            "loa_half_width_deg": 18.0133765757425,
+            "pearson_r": 0.9182884312279206,
+            "ccc_lin": 0.7499384755606214,
+            "mae_deg": 8.259274198059465,
+            "rmse_deg": 9.836134613731092,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 212,
+            "mean_bias_deg": -0.04372663656454976,
+            "sd_bias_deg": 18.18542605294751,
+            "loa_lower_deg": -35.68716170034167,
+            "loa_upper_deg": 35.59970842721257,
+            "pearson_r": 0.57981762446491,
+            "ccc_lin": 0.5022260759496663,
+            "mae_deg": 14.277415241885691,
+            "rmse_deg": 18.14253789394149
+          }
+        }
+      },
+      "fold_calibrations": [
+        {
+          "held_out_subject": "aspset_04ac",
+          "n_inner_pairs": 187,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.5234632555427674,
+          "slope_b": 0.9596065893342031,
+          "slope_only_b": 0.9960990190314405,
+          "inner_residual_mean": 3.9217336789807495
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "n_inner_pairs": 192,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.0651705886929654,
+          "slope_b": 0.9664440474570913,
+          "slope_only_b": 0.9915925886131283,
+          "inner_residual_mean": 4.021449393248551
+        },
+        {
+          "held_out_subject": "aspset_a779",
+          "n_inner_pairs": 193,
+          "n_inner_subjects": 16,
+          "intercept_a": 0.9215605780080489,
+          "slope_b": 0.9710868432784439,
+          "slope_only_b": 0.993691772323822,
+          "inner_residual_mean": 3.5719418082911716
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "n_inner_pairs": 189,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.954231968710974,
+          "slope_b": 0.9411858259415407,
+          "slope_only_b": 0.9888881678425921,
+          "inner_residual_mean": 3.8776072641152495
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "n_inner_pairs": 191,
+          "n_inner_subjects": 16,
+          "intercept_a": 0.9111055661762879,
+          "slope_b": 0.969846127730693,
+          "slope_only_b": 0.9916907159636841,
+          "inner_residual_mean": 3.8422916658892223
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "n_inner_pairs": 187,
+          "n_inner_subjects": 16,
+          "intercept_a": 2.5768345674210855,
+          "slope_b": 0.9245206685661367,
+          "slope_only_b": 0.9886106328651488,
+          "inner_residual_mean": 3.9262943188081185
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "n_inner_pairs": 191,
+          "n_inner_subjects": 16,
+          "intercept_a": 2.347094991440888,
+          "slope_b": 0.9270852128710098,
+          "slope_only_b": 0.9842807794156041,
+          "inner_residual_mean": 4.2495787086437575
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "n_inner_pairs": 200,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.5172180443798307,
+          "slope_b": 0.9570605501968626,
+          "slope_only_b": 0.9938572421786115,
+          "inner_residual_mean": 4.027954771776419
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "n_inner_pairs": 206,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.7536708617288734,
+          "slope_b": 0.9493162557050365,
+          "slope_only_b": 0.9910498240323058,
+          "inner_residual_mean": 4.294710395190178
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "n_inner_pairs": 208,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.7469011643716505,
+          "slope_b": 0.9499018624731256,
+          "slope_only_b": 0.9916193879230549,
+          "inner_residual_mean": 3.956749444960405
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "n_inner_pairs": 207,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.7330420566114384,
+          "slope_b": 0.9494456530405286,
+          "slope_only_b": 0.9907561154935676,
+          "inner_residual_mean": 4.22067545016974
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "n_inner_pairs": 208,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.559547546223919,
+          "slope_b": 0.9543478532848484,
+          "slope_only_b": 0.9915263293905973,
+          "inner_residual_mean": 3.7398220692161
+        },
+        {
+          "held_out_subject": "opencap_subject4",
+          "n_inner_pairs": 209,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.6346597075189244,
+          "slope_b": 0.9523192221754947,
+          "slope_only_b": 0.9914259658791967,
+          "inner_residual_mean": 4.092581470180427
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "n_inner_pairs": 206,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.6294227818416303,
+          "slope_b": 0.9523061731143361,
+          "slope_only_b": 0.9909958079487865,
+          "inner_residual_mean": 3.947283926074486
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "n_inner_pairs": 206,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.885423262186843,
+          "slope_b": 0.9454418149198125,
+          "slope_only_b": 0.9902547866980014,
+          "inner_residual_mean": 4.143291373705818
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "n_inner_pairs": 206,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.6687052142249714,
+          "slope_b": 0.9537373335657271,
+          "slope_only_b": 0.9934921575132715,
+          "inner_residual_mean": 4.009660616352772
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "n_inner_pairs": 206,
+          "n_inner_subjects": 16,
+          "intercept_a": 1.9758186521411856,
+          "slope_b": 0.9443288404972882,
+          "slope_only_b": 0.9913744203030924,
+          "inner_residual_mean": 4.1402797891319265
+        }
+      ],
+      "deploy_calibration": {
+        "intercept_a_deploy": 1.670815929836605,
+        "slope_b_deploy": 0.9510576984795399,
+        "slope_only_b_deploy": 0.9912473949068179,
+        "inference_rule_slope_and_intercept": "pred_deg_corrected = intercept_a_deploy + slope_b_deploy * pred_deg",
+        "inference_rule_slope_only": "pred_deg_corrected = slope_only_b_deploy * pred_deg"
+      }
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "front_oblique_left",
+      "approach": "v12_combined",
+      "n_subjects": 21,
+      "n_trials": 440,
+      "methodology": "Nested LOSO. For each outer held-out subject s_out, inner LOSO is run over the remaining subjects to produce (pred, obs) pairs where each prediction was made without the corresponding subject in the training set. OLS regression observed = a + b * predicted is fit on the inner-LOSO pairs (subject s_out never participates in the calibration term). The outer held-out predictions are corrected as pred_corrected = a + b * outer_pred. This is the discipline the spec mandates; no post-hoc cherry-picking and no leakage of the outer held-out subject into its own calibration parameters.",
+      "conditions": {
+        "baseline_v15": {
+          "per_subject": {
+            "n_subjects": 21,
+            "n_trials": 440,
+            "mean_bias_deg": -3.2034048601636185,
+            "sd_bias_deg": 7.961060324129216,
+            "loa_lower_deg": -18.807083095456882,
+            "loa_upper_deg": 12.400273375129643,
+            "loa_half_width_deg": 15.603678235293263,
+            "pearson_r": 0.9126835318162716,
+            "ccc_lin": 0.7839992110483176,
+            "mae_deg": 6.954895099218458,
+            "rmse_deg": 8.40370520988894,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 440,
+            "mean_bias_deg": -0.1317697383797901,
+            "sd_bias_deg": 15.356400970713121,
+            "loa_lower_deg": -30.23031564097751,
+            "loa_upper_deg": 29.966776164217926,
+            "pearson_r": 0.7764597146615018,
+            "ccc_lin": 0.7540290036235708,
+            "mae_deg": 12.305826179767847,
+            "rmse_deg": 15.339506564722035
+          }
+        },
+        "intercept_only": {
+          "per_subject": {
+            "n_subjects": 21,
+            "n_trials": 440,
+            "mean_bias_deg": 0.011520244614414667,
+            "sd_bias_deg": 8.011125027832849,
+            "loa_lower_deg": -15.690284809937967,
+            "loa_upper_deg": 15.713325299166797,
+            "loa_half_width_deg": 15.701805054552382,
+            "pearson_r": 0.9113945674231055,
+            "ccc_lin": 0.8065157661607356,
+            "mae_deg": 6.480160084192862,
+            "rmse_deg": 7.8180659868457205,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 440,
+            "mean_bias_deg": 3.1135555155897587,
+            "sd_bias_deg": 15.350246357453532,
+            "loa_lower_deg": -26.972927345019162,
+            "loa_upper_deg": 33.20003837619868,
+            "pearson_r": 0.7766578470379034,
+            "ccc_lin": 0.7465438886242598,
+            "mae_deg": 12.62383457917665,
+            "rmse_deg": 15.645726838730994
+          }
+        },
+        "slope_only": {
+          "per_subject": {
+            "n_subjects": 21,
+            "n_trials": 440,
+            "mean_bias_deg": -3.1138396899488647,
+            "sd_bias_deg": 7.948548653030108,
+            "loa_lower_deg": -18.692995049887877,
+            "loa_upper_deg": 12.465315669990147,
+            "loa_half_width_deg": 15.579155359939012,
+            "pearson_r": 0.912901552007388,
+            "ccc_lin": 0.7861060434438703,
+            "mae_deg": 6.916206378743162,
+            "rmse_deg": 8.358640991442991,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 440,
+            "mean_bias_deg": -0.05265759768014675,
+            "sd_bias_deg": 15.353387489002058,
+            "loa_lower_deg": -30.14529707612418,
+            "loa_upper_deg": 30.03998188076389,
+            "pearson_r": 0.7765667162800545,
+            "ccc_lin": 0.7543174559098403,
+            "mae_deg": 12.303840474718342,
+            "rmse_deg": 15.336020935946657
+          }
+        },
+        "slope_and_intercept": {
+          "per_subject": {
+            "n_subjects": 21,
+            "n_trials": 440,
+            "mean_bias_deg": -3.1106712874326385,
+            "sd_bias_deg": 8.016417803098488,
+            "loa_lower_deg": -18.822850181505675,
+            "loa_upper_deg": 12.601507606640396,
+            "loa_half_width_deg": 15.712178894073038,
+            "pearson_r": 0.913111450529874,
+            "ccc_lin": 0.7815708775628388,
+            "mae_deg": 6.957831928175933,
+            "rmse_deg": 8.418972001786887,
+            "classification": "Poor",
+            "crosses_good_gate": false
+          },
+          "per_trial": {
+            "n_trials": 440,
+            "mean_bias_deg": 0.0039925624960103915,
+            "sd_bias_deg": 15.355508111819828,
+            "loa_lower_deg": -30.092803336670855,
+            "loa_upper_deg": 30.100788461662873,
+            "pearson_r": 0.7764520370592113,
+            "ccc_lin": 0.7522238711962952,
+            "mae_deg": 12.316388719916635,
+            "rmse_deg": 15.338049264686983
+          }
+        }
+      },
+      "fold_calibrations": [
+        {
+          "held_out_subject": "aspset_11ac",
+          "n_inner_pairs": 411,
+          "n_inner_subjects": 20,
+          "intercept_a": 1.2818460987252807,
+          "slope_b": 0.985934669072315,
+          "slope_only_b": 1.0012279867779814,
+          "inner_residual_mean": -3.421448288062778
+        },
+        {
+          "held_out_subject": "aspset_14ce",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9165138903339284,
+          "slope_b": 0.9895723927115865,
+          "slope_only_b": 1.0005804113060035,
+          "inner_residual_mean": -3.050510649252411
+        },
+        {
+          "held_out_subject": "aspset_4d9e",
+          "n_inner_pairs": 380,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.436728601426151,
+          "slope_b": 0.9950701246438998,
+          "slope_only_b": 1.000349485193076,
+          "inner_residual_mean": -3.3075814775968766
+        },
+        {
+          "held_out_subject": "aspset_5ff4",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9915968424038166,
+          "slope_b": 0.9889776458160523,
+          "slope_only_b": 1.000798070767432,
+          "inner_residual_mean": -3.096741692011053
+        },
+        {
+          "held_out_subject": "aspset_7b5d",
+          "n_inner_pairs": 411,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9511993524044381,
+          "slope_b": 0.9898063989847035,
+          "slope_only_b": 1.0012431734400369,
+          "inner_residual_mean": -3.2609630499050537
+        },
+        {
+          "held_out_subject": "aspset_b3c1",
+          "n_inner_pairs": 411,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9972868499557247,
+          "slope_b": 0.9893703851413056,
+          "slope_only_b": 1.0012909496482856,
+          "inner_residual_mean": -3.368844772902618
+        },
+        {
+          "held_out_subject": "aspset_b8e1",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.8482560652227269,
+          "slope_b": 0.991191892872999,
+          "slope_only_b": 1.001393455755631,
+          "inner_residual_mean": -3.1794256808873858
+        },
+        {
+          "held_out_subject": "aspset_bae6",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 1.0295426860213477,
+          "slope_b": 0.9884283974987611,
+          "slope_only_b": 1.0007138037607233,
+          "inner_residual_mean": -3.1858304969442366
+        },
+        {
+          "held_out_subject": "aspset_c9f8",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 1.197338366318167,
+          "slope_b": 0.9868379490732567,
+          "slope_only_b": 1.0011464128881211,
+          "inner_residual_mean": -3.330593764504119
+        },
+        {
+          "held_out_subject": "aspset_d26c",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.7985455073134101,
+          "slope_b": 0.9917513555005563,
+          "slope_only_b": 1.0012745263021565,
+          "inner_residual_mean": -3.1615092750091405
+        },
+        {
+          "held_out_subject": "aspset_eb61",
+          "n_inner_pairs": 410,
+          "n_inner_subjects": 20,
+          "intercept_a": 1.2194928204866573,
+          "slope_b": 0.9867743818143336,
+          "slope_only_b": 1.0016202217271173,
+          "inner_residual_mean": -3.3834260915093637
+        },
+        {
+          "held_out_subject": "aspset_fb7c",
+          "n_inner_pairs": 411,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.7646542606580529,
+          "slope_b": 0.9918147881791818,
+          "slope_only_b": 1.000948358294081,
+          "inner_residual_mean": -3.2939719391953575
+        },
+        {
+          "held_out_subject": "opencap_subject10",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.8003525000642034,
+          "slope_b": 0.9913596787145088,
+          "slope_only_b": 1.0010318393175814,
+          "inner_residual_mean": -3.039738668846067
+        },
+        {
+          "held_out_subject": "opencap_subject11",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.8980266269269395,
+          "slope_b": 0.9903482428157182,
+          "slope_only_b": 1.0011740073717097,
+          "inner_residual_mean": -3.2861665631922676
+        },
+        {
+          "held_out_subject": "opencap_subject2",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9704880210361022,
+          "slope_b": 0.9894289430374142,
+          "slope_only_b": 1.0011659429808286,
+          "inner_residual_mean": -3.072141541968496
+        },
+        {
+          "held_out_subject": "opencap_subject3",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.875050048864544,
+          "slope_b": 0.9906532862827898,
+          "slope_only_b": 1.0012074979721428,
+          "inner_residual_mean": -3.2598612639256954
+        },
+        {
+          "held_out_subject": "opencap_subject4",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 1.0114671019634465,
+          "slope_b": 0.9889249182140701,
+          "slope_only_b": 1.001152017737377,
+          "inner_residual_mean": -3.287313605163979
+        },
+        {
+          "held_out_subject": "opencap_subject5",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.8770760500541704,
+          "slope_b": 0.9904993697117005,
+          "slope_only_b": 1.0010435524784185,
+          "inner_residual_mean": -3.4174929363959157
+        },
+        {
+          "held_out_subject": "opencap_subject7",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.933239581013329,
+          "slope_b": 0.9900098629742807,
+          "slope_only_b": 1.001290109532032,
+          "inner_residual_mean": -3.0688713230742586
+        },
+        {
+          "held_out_subject": "opencap_subject8",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.7274488453667154,
+          "slope_b": 0.9919661178139421,
+          "slope_only_b": 1.0007296081475632,
+          "inner_residual_mean": -2.9315082626173794
+        },
+        {
+          "held_out_subject": "opencap_subject9",
+          "n_inner_pairs": 434,
+          "n_inner_subjects": 20,
+          "intercept_a": 0.9339494856146583,
+          "slope_b": 0.9898354287066119,
+          "slope_only_b": 1.0011399530578633,
+          "inner_residual_mean": -3.1094858573741537
+        }
+      ],
+      "deploy_calibration": {
+        "intercept_a_deploy": 0.9266714096273242,
+        "slope_b_deploy": 0.9899312490276183,
+        "slope_only_b_deploy": 1.0010724468788648,
+        "inference_rule_slope_and_intercept": "pred_deg_corrected = intercept_a_deploy + slope_b_deploy * pred_deg",
+        "inference_rule_slope_only": "pred_deg_corrected = slope_only_b_deploy * pred_deg"
+      }
+    }
+  ]
+}

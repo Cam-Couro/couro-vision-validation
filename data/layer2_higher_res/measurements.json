@@ -1,0 +1,45 @@
+{
+  "experiment": "DWPose-L higher-input-resolution probe",
+  "date": "2026-05-28",
+  "hypothesis": "Running DWPose-L ONNX at >288x384 input would yield sub-pixel keypoint precision and improve Layer 2 joint angle |r|.",
+  "result": "BLOCKED at gate 1 — ONNX has fixed spatial input shape.",
+  "gate_1_dynamic_input": {
+    "model_path": "models/dw-ll_ucoco_384.onnx",
+    "declared_input_shape": ["batch", 3, 384, 288],
+    "spatial_dynamic": false,
+    "batch_dynamic": true,
+    "tests": [
+      {"hxw": "384x288", "result": "OK",  "simcc_x_shape": [1, 133, 576], "simcc_y_shape": [1, 133, 768]},
+      {"hxw": "480x352", "result": "ERR", "error": "INVALID_ARGUMENT Got: 480/352 Expected: 384/288"},
+      {"hxw": "576x432", "result": "ERR", "error": "INVALID_ARGUMENT Got: 576/432 Expected: 384/288"},
+      {"hxw": "768x576", "result": "ERR", "error": "INVALID_ARGUMENT Got: 768/576 Expected: 384/288"}
+    ],
+    "evidence": "onnxruntime InferenceSession.get_inputs()[0].shape returns ['batch', 3, 384, 288] — spatial dims are fixed literals, not symbolic dim_params. Empirical run confirms ORT raises INVALID_ARGUMENT for any other (H,W)."
+  },
+  "gate_2_higher_res_layer1": {
+    "ran": false,
+    "reason": "Blocked by gate 1 — cannot feed 432x576 into the fixed-shape ONNX."
+  },
+  "gate_3_higher_res_layer2": {
+    "ran": false,
+    "reason": "Blocked by gate 1."
+  },
+  "latency_baseline_384x288": {
+    "platform": "Mac M-series, onnxruntime",
+    "coreml_ms_per_frame": 12.555,
+    "cpu_ms_per_frame": 118.248,
+    "note": "Single-image batch=1. The 12.6 ms CoreML number is the on-device proxy budget."
+  },
+  "layer1_baseline_priors": {
+    "source": "Agent G — data/mpi_inf_3dhp_rear_validation, data/mpi_inf_3dhp_keypoint_r",
+    "mpjpe_px": 10.3,
+    "pck_at_50px": 0.987,
+    "rear_camera_pearson_r": 0.98
+  },
+  "layer2_baseline_priors": {
+    "source": "Agent H — data/layer2_joint_angle_r/layer2_summary.json",
+    "mae_deg": 4.75,
+    "pooled_abs_r": 0.54
+  },
+  "verdict": "SHELVE — at the ONNX level this lever is dead. Higher input resolution requires re-export from the original PyTorch checkpoint with new SimCC head bin counts, which is out of scope ('Don't retrain the model'). Layer 1 is already at r=0.98 — the Layer 2 ceiling is dominated by 2D->joint-angle ambiguity, not keypoint sub-pixel error."
+}
