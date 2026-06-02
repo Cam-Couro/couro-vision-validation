@@ -1,0 +1,1492 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.train_multi_metric",
+  "produced_date": "2026-05-27",
+  "description": "Per-(metric \u00d7 camera-view) ridge regressions for Couro 2D\u21923D biomechanical recovery. Trained on OpenCap LabValidation drop-jump trials with Vicon mocap GT. Same recipe as metrics_calculator/metrics/knee_rotation.py.",
+  "training_dataset": {
+    "name": "OpenCap LabValidation_withVideos (drop jumps)",
+    "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+    "license": "Apache 2.0"
+  },
+  "usage": "For each metric \u00d7 view bucket:\n  z = (raw_features - feature_mean) / feature_std\n  pred_rom_deg = z @ weights_zscored + intercept",
+  "alpha": 10.0,
+  "targets": {
+    "hip_flexion_r": {
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "lumbar_extension_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "lumbar_extension_rom",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "hip_y_range_px",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            96.85417596094963,
+            88.9874679773319,
+            44.11754606092364,
+            358.80676805293007,
+            12.390760545478553,
+            236.90480324074073,
+            746.5478779456462
+          ],
+          "feature_std": [
+            15.424598112407239,
+            10.305465475757307,
+            10.933935812137156,
+            0.2758236312238049,
+            6.569775941469114,
+            121.3704026518055,
+            269.2388244541104
+          ],
+          "weights_zscored": [
+            5.7873663895447836,
+            3.2163050358775402,
+            0.24900982499080995,
+            -1.3388046451882554,
+            -0.9214475769209964,
+            0.4480475405102178,
+            -1.8711100538729613
+          ],
+          "intercept": 77.02687707814917,
+          "naive_baseline": {
+            "rmse": 21.853457007475004,
+            "mae": 20.171362173590644,
+            "pearson_r": 0.8031536846671931
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.14750485120925,
+            "mae_deg": 7.1180092133746,
+            "bias_deg": -0.05373191305240768,
+            "sd_of_difference_deg": 9.23323950771147,
+            "loa_95_lower_deg": -18.150881348166887,
+            "loa_95_upper_deg": 18.043417522062075,
+            "pearson_r": 0.6872923136967113
+          },
+          "rmse_reduction_pct": 58.14161188282323
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "lumbar_extension_rom",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "hip_y_range_px",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            72.83055191404712,
+            65.51930357570278,
+            34.51264531574935,
+            359.2075434850242,
+            9.767285455621098,
+            252.50122748480902,
+            668.2124361053807
+          ],
+          "feature_std": [
+            14.232637566267568,
+            8.032074391057462,
+            12.385005645250422,
+            0.1776921761504614,
+            7.747995100669473,
+            113.97348554671946,
+            342.4926375524447
+          ],
+          "weights_zscored": [
+            8.1247604214331,
+            -0.7037470304921519,
+            -0.07354323183002258,
+            1.3805870149171586,
+            0.1720737213577577,
+            -1.323435107721176,
+            -1.6783902831958293
+          ],
+          "intercept": 77.0268770781483,
+          "naive_baseline": {
+            "rmse": 9.62892487220157,
+            "mae": 7.9521087921783025,
+            "pearson_r": 0.7970507096367692
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 10.870271710973382,
+            "mae_deg": 8.911298118392667,
+            "bias_deg": 1.6272527801878407,
+            "sd_of_difference_deg": 10.848704117749344,
+            "loa_95_lower_deg": -19.636207290600872,
+            "loa_95_upper_deg": 22.890712850976556,
+            "pearson_r": 0.5542982645535747
+          },
+          "rmse_reduction_pct": -12.891852987196378
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "lumbar_extension_rom",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "hip_y_range_px",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            30.5961246588821,
+            51.33702000015422,
+            10.346576014638636,
+            333.1186825182795,
+            4.604984193328982,
+            223.59445303457755,
+            599.7814773323545
+          ],
+          "feature_std": [
+            8.268137987894699,
+            10.015929788485911,
+            9.020838410729976,
+            92.86959819778252,
+            5.504936388735896,
+            95.46305445823258,
+            400.8312781114297
+          ],
+          "weights_zscored": [
+            2.8687007251941554,
+            2.4563530966661977,
+            1.8485476326076584,
+            -0.603618240943965,
+            -4.099832542747476,
+            2.4367850113998273,
+            -0.6059488867016508
+          ],
+          "intercept": 77.02687707814813,
+          "naive_baseline": {
+            "rmse": 47.97493629330363,
+            "mae": 46.43075241926604,
+            "pearson_r": 0.3770768881552124
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 21.447273073797128,
+            "mae_deg": 12.977557338021324,
+            "bias_deg": 3.888255643911226,
+            "sd_of_difference_deg": 21.289920318044057,
+            "loa_95_lower_deg": -37.83998817945512,
+            "loa_95_upper_deg": 45.61649946727758,
+            "pearson_r": 0.2266657536419619
+          },
+          "rmse_reduction_pct": 55.29483782391025
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "lumbar_extension_rom",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "hip_y_range_px",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            61.62734790671071,
+            65.86761822296288,
+            36.15522553194427,
+            359.2710004716001,
+            8.975235774080241,
+            228.9848237214265,
+            686.4386752751775
+          ],
+          "feature_std": [
+            18.258955198713835,
+            13.69753403040052,
+            12.290825665217882,
+            0.12835504538090753,
+            6.414085118121567,
+            86.31518642797802,
+            353.0852021973537
+          ],
+          "weights_zscored": [
+            3.518195461571786,
+            0.5177577370231644,
+            3.179108017452998,
+            0.3988684716083072,
+            1.2137825006572318,
+            0.9138926197063477,
+            -1.357245835125588
+          ],
+          "intercept": 77.02687707814815,
+          "naive_baseline": {
+            "rmse": 21.098396548320373,
+            "mae": 18.528502663631382,
+            "pearson_r": 0.616743151495411
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 14.573241951771621,
+            "mae_deg": 12.413915431196452,
+            "bias_deg": 1.3885445109600998,
+            "sd_of_difference_deg": 14.64315897766997,
+            "loa_95_lower_deg": -27.31204708527304,
+            "loa_95_upper_deg": 30.089136107193237,
+            "pearson_r": 0.14674463759842782
+          },
+          "rmse_reduction_pct": 30.927253555049024
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "lumbar_extension_rom",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "hip_y_range_px",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            84.78138727517651,
+            78.39917414867506,
+            43.94816054402307,
+            358.77822141547574,
+            11.14308316921717,
+            218.303219265408,
+            895.8031601932258
+          ],
+          "feature_std": [
+            19.727961246165624,
+            12.821965092871302,
+            11.12140662440426,
+            0.4482028810578039,
+            7.058584973471746,
+            84.81574221886119,
+            305.43248629436306
+          ],
+          "weights_zscored": [
+            3.739009755368171,
+            3.034056899910113,
+            1.717228625123177,
+            -1.0436092826377312,
+            1.0962630500119799,
+            -2.2156368889210385,
+            -0.24397891555944365
+          ],
+          "intercept": 77.02687707814815,
+          "naive_baseline": {
+            "rmse": 17.368277298207506,
+            "mae": 14.430790359676537,
+            "pearson_r": 0.616155607195139
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 17.34006349418884,
+            "mae_deg": 12.561280816043384,
+            "bias_deg": 1.9176376181595738,
+            "sd_of_difference_deg": 17.395523859948323,
+            "loa_95_lower_deg": -32.17758914733914,
+            "loa_95_upper_deg": 36.01286438365829,
+            "pearson_r": -0.02677274361286277
+          },
+          "rmse_reduction_pct": 0.16244445856226467
+        }
+      }
+    },
+    "hip_adduction_r": {
+      "feature_names": [
+        "hip_add_rom_r",
+        "hip_add_rom_l",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "knee_flex_rom_r_2d3d",
+        "hip_flex_rom_r_2d3d",
+        "hip_y_range_px"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_add_rom_r",
+            "hip_add_rom_l",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            63.308832823402845,
+            68.16841475619933,
+            358.80676805293007,
+            12.390760545478553,
+            88.9874679773319,
+            96.85417596094963,
+            236.90480324074073
+          ],
+          "feature_std": [
+            8.802898369996763,
+            10.168775065254515,
+            0.2758236312238049,
+            6.569775941469114,
+            10.305465475757307,
+            15.424598112407239,
+            121.3704026518055
+          ],
+          "weights_zscored": [
+            1.353408052276623,
+            -0.7055340964560273,
+            0.8249474556795031,
+            -0.10627698839268426,
+            -0.6493248052531742,
+            -0.3409492878699655,
+            -0.48960849853155675
+          ],
+          "intercept": 11.213052722962315,
+          "naive_baseline": {
+            "rmse": 53.01105051293687,
+            "mae": 52.09578010043988,
+            "pearson_r": -0.015994291153358327
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.645929954764854,
+            "mae_deg": 3.650085051329257,
+            "bias_deg": 0.024224248796500633,
+            "sd_of_difference_deg": 4.689490920270731,
+            "loa_95_lower_deg": -9.167177954934132,
+            "loa_95_upper_deg": 9.215626452527133,
+            "pearson_r": -0.08171732796758231
+          },
+          "rmse_reduction_pct": 91.23592173742895
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_add_rom_r",
+            "hip_add_rom_l",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            43.2334905554491,
+            48.51567077954795,
+            359.2075434850242,
+            9.767285455621098,
+            65.51930357570278,
+            72.83055191404712,
+            252.50122748480902
+          ],
+          "feature_std": [
+            6.777555226128415,
+            8.53531339830982,
+            0.1776921761504614,
+            7.747995100669473,
+            8.032074391057462,
+            14.232637566267568,
+            113.97348554671946
+          ],
+          "weights_zscored": [
+            -0.3728359207955292,
+            -1.0651136635978222,
+            -0.17808466886743382,
+            -0.8262305074709003,
+            -0.011931683993345172,
+            1.1086255074602425,
+            -0.7763563348574427
+          ],
+          "intercept": 11.21305272296293,
+          "naive_baseline": {
+            "rmse": 33.066131208045036,
+            "mae": 32.02043783248615,
+            "pearson_r": -0.08094755772815204
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.434915129568267,
+            "mae_deg": 3.3252700676473514,
+            "bias_deg": -0.027342256316375723,
+            "sd_of_difference_deg": 4.476473360920475,
+            "loa_95_lower_deg": -8.801230043720507,
+            "loa_95_upper_deg": 8.746545531087756,
+            "pearson_r": 0.1334310463880838
+          },
+          "rmse_reduction_pct": 86.58774108871484
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_add_rom_r",
+            "hip_add_rom_l",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            13.862913627612029,
+            16.590889651706053,
+            333.1186825182795,
+            4.604984193328982,
+            51.33702000015422,
+            30.5961246588821,
+            223.59445303457755
+          ],
+          "feature_std": [
+            6.188460749649004,
+            7.502852273457345,
+            92.86959819778252,
+            5.504936388735896,
+            10.015929788485911,
+            8.268137987894699,
+            95.46305445823258
+          ],
+          "weights_zscored": [
+            -0.22440382071967574,
+            0.16127814519271452,
+            -0.03570001621225146,
+            -0.09725902800682898,
+            1.2939938074562218,
+            0.4307541551362836,
+            -0.9380668411670507
+          ],
+          "intercept": 11.213052722962962,
+          "naive_baseline": {
+            "rmse": 8.164772031791632,
+            "mae": 5.748259903089404,
+            "pearson_r": -0.07358927368995101
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.213526898326918,
+            "mae_deg": 4.006721318988571,
+            "bias_deg": -0.12705015309519507,
+            "sd_of_difference_deg": 5.260918444855935,
+            "loa_95_lower_deg": -10.438450305012829,
+            "loa_95_upper_deg": 10.184349998822437,
+            "pearson_r": 0.17910245925519594
+          },
+          "rmse_reduction_pct": 36.14608126195422
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_add_rom_r",
+            "hip_add_rom_l",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            48.048838600155975,
+            43.652481173892156,
+            359.2710004716001,
+            8.975235774080241,
+            65.86761822296288,
+            61.62734790671071,
+            228.9848237214265
+          ],
+          "feature_std": [
+            9.849217184612199,
+            7.535765120516062,
+            0.12835504538090753,
+            6.414085118121567,
+            13.69753403040052,
+            18.258955198713835,
+            86.31518642797802
+          ],
+          "weights_zscored": [
+            -1.0413764709445554,
+            0.7227443353785785,
+            0.30361807735067703,
+            -0.46477944855758413,
+            -0.4010662876456584,
+            0.8838070940148077,
+            -0.5690923144551241
+          ],
+          "intercept": 11.213052722962967,
+          "naive_baseline": {
+            "rmse": 38.501229771515646,
+            "mae": 36.83578587719302,
+            "pearson_r": -0.1325373122907798
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.133430143082033,
+            "mae_deg": 3.732540884975679,
+            "bias_deg": -0.12165271920176893,
+            "sd_of_difference_deg": 5.180177211746095,
+            "loa_95_lower_deg": -10.274800054224116,
+            "loa_95_upper_deg": 10.031494615820577,
+            "pearson_r": 0.07411985590044244
+          },
+          "rmse_reduction_pct": 86.6668411020993
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "hip_add_rom_r",
+            "hip_add_rom_l",
+            "pelvis_tilt_rom",
+            "knee_flex_rom_diff_lr",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            65.24626437375495,
+            61.87608150645927,
+            358.77822141547574,
+            11.14308316921717,
+            78.39917414867506,
+            84.78138727517651,
+            218.303219265408
+          ],
+          "feature_std": [
+            10.004179183177893,
+            8.686892600290816,
+            0.4482028810578039,
+            7.058584973471746,
+            12.821965092871302,
+            19.727961246165624,
+            84.81574221886119
+          ],
+          "weights_zscored": [
+            -1.446488163715206,
+            0.720398947750315,
+            -0.49243400576418894,
+            -0.07200164227077527,
+            0.6325534421415405,
+            0.3668810025732576,
+            -0.6416565808687127
+          ],
+          "intercept": 11.213052722962967,
+          "naive_baseline": {
+            "rmse": 55.18181289976943,
+            "mae": 54.033211650792005,
+            "pearson_r": -0.09346175156584713
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.542975257188684,
+            "mae_deg": 3.7415841399631864,
+            "bias_deg": -0.6987907654939998,
+            "sd_of_difference_deg": 5.550383928697115,
+            "loa_95_lower_deg": -11.577543265740344,
+            "loa_95_upper_deg": 10.179961734752345,
+            "pearson_r": 0.008863262778694087
+          },
+          "rmse_reduction_pct": 89.95506858889037
+        }
+      }
+    },
+    "knee_angle_r": {
+      "feature_names": [
+        "knee_flex_rom_r_2d3d",
+        "hip_flex_rom_r_2d3d",
+        "ankle_rom_r_2d3d",
+        "hip_y_range_px",
+        "pelvis_tilt_rom",
+        "lumbar_extension_rom",
+        "hip_flex_vel_peak"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "ankle_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "lumbar_extension_rom",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            88.9874679773319,
+            96.85417596094963,
+            49.80288653243271,
+            236.90480324074073,
+            358.80676805293007,
+            44.11754606092364,
+            746.5478779456462
+          ],
+          "feature_std": [
+            10.305465475757307,
+            15.424598112407239,
+            6.371487936435556,
+            121.3704026518055,
+            0.2758236312238049,
+            10.933935812137156,
+            269.2388244541104
+          ],
+          "weights_zscored": [
+            6.788592488728652,
+            0.33747689224658806,
+            -0.7534360905969452,
+            0.14268964995400257,
+            0.1414740585604553,
+            -1.2132204506001478,
+            -2.4035232164297002
+          ],
+          "intercept": 101.69553695407392,
+          "naive_baseline": {
+            "rmse": 14.39491931977487,
+            "mae": 12.708068976742151,
+            "pearson_r": 0.7897106314640107
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.110560682506353,
+            "mae_deg": 7.205516665394338,
+            "bias_deg": 0.04127393049600941,
+            "sd_of_difference_deg": 9.196013359227464,
+            "loa_95_lower_deg": -17.982912253589824,
+            "loa_95_upper_deg": 18.06546011458184,
+            "pearson_r": 0.5462084314904362
+          },
+          "rmse_reduction_pct": 36.70988714753812
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "ankle_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "lumbar_extension_rom",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            65.51930357570278,
+            72.83055191404712,
+            41.07456440034818,
+            252.50122748480902,
+            359.2075434850242,
+            34.51264531574935,
+            668.2124361053807
+          ],
+          "feature_std": [
+            8.032074391057462,
+            14.232637566267568,
+            5.976625529074634,
+            113.97348554671946,
+            0.1776921761504614,
+            12.385005645250422,
+            342.4926375524447
+          ],
+          "weights_zscored": [
+            4.80956761008282,
+            3.9895323659800663,
+            -1.4817307806352205,
+            1.1044147166000404,
+            0.9273307918419164,
+            -0.5029742320313417,
+            -2.4604931238986785
+          ],
+          "intercept": 101.69553695407421,
+          "naive_baseline": {
+            "rmse": 37.11092843964766,
+            "mae": 36.1762333783713,
+            "pearson_r": 0.6323112607572913
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.765156512784442,
+            "mae_deg": 6.793519156616621,
+            "bias_deg": -0.09236164528701668,
+            "sd_of_difference_deg": 8.846969050412518,
+            "loa_95_lower_deg": -17.432420984095554,
+            "loa_95_upper_deg": 17.24769769352152,
+            "pearson_r": 0.5640227968401856
+          },
+          "rmse_reduction_pct": 76.38119852743931
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "ankle_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "lumbar_extension_rom",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            51.33702000015422,
+            30.5961246588821,
+            49.56653293346282,
+            223.59445303457755,
+            333.1186825182795,
+            10.346576014638636,
+            599.7814773323545
+          ],
+          "feature_std": [
+            10.015929788485911,
+            8.268137987894699,
+            9.521597478249626,
+            95.46305445823258,
+            92.86959819778252,
+            9.020838410729976,
+            400.8312781114297
+          ],
+          "weights_zscored": [
+            4.314119846842845,
+            1.4221795514154068,
+            2.8005665168672533,
+            1.4683100629094525,
+            -0.6917993541570592,
+            -0.8297498801214903,
+            2.6293420020142904
+          ],
+          "intercept": 101.69553695407407,
+          "naive_baseline": {
+            "rmse": 51.52692932888214,
+            "mae": 50.35851695391985,
+            "pearson_r": 0.4372370628144581
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 20.85150286442593,
+            "mae_deg": 10.911351851924087,
+            "bias_deg": 3.656727900734606,
+            "sd_of_difference_deg": 20.721117516176854,
+            "loa_95_lower_deg": -36.956662430972024,
+            "loa_95_upper_deg": 44.27011823244124,
+            "pearson_r": 0.15218264227233158
+          },
+          "rmse_reduction_pct": 59.53280520301034
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "ankle_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "lumbar_extension_rom",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            65.86761822296288,
+            61.62734790671071,
+            46.1793127647566,
+            228.9848237214265,
+            359.2710004716001,
+            36.15522553194427,
+            686.4386752751775
+          ],
+          "feature_std": [
+            13.69753403040052,
+            18.258955198713835,
+            10.238154538201979,
+            86.31518642797802,
+            0.12835504538090753,
+            12.290825665217882,
+            353.0852021973537
+          ],
+          "weights_zscored": [
+            6.76210032810745,
+            1.9477979543215636,
+            -1.4212945978188853,
+            1.4644498177183762,
+            0.09058414163104248,
+            -2.549899752174064,
+            -1.1091545983631663
+          ],
+          "intercept": 101.69553695407409,
+          "naive_baseline": {
+            "rmse": 37.12350863245332,
+            "mae": 35.827918731111204,
+            "pearson_r": 0.7071731487470658
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 10.442176117994258,
+            "mae_deg": 8.370548356349149,
+            "bias_deg": 1.2437004161169345,
+            "sd_of_difference_deg": 10.465199808894607,
+            "loa_95_lower_deg": -19.268091209316495,
+            "loa_95_upper_deg": 21.75549204155036,
+            "pearson_r": 0.35919065693184515
+          },
+          "rmse_reduction_pct": 71.87179632890162
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "ankle_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "lumbar_extension_rom",
+            "hip_flex_vel_peak"
+          ],
+          "feature_mean": [
+            78.39917414867506,
+            84.78138727517651,
+            51.65216965020905,
+            218.303219265408,
+            358.77822141547574,
+            43.94816054402307,
+            895.8031601932258
+          ],
+          "feature_std": [
+            12.821965092871302,
+            19.727961246165624,
+            9.63554329950639,
+            84.81574221886119,
+            0.4482028810578039,
+            11.12140662440426,
+            305.43248629436306
+          ],
+          "weights_zscored": [
+            6.3989959866443655,
+            2.3317756945069785,
+            -2.3186572182528686,
+            1.2189367863966631,
+            -1.3637453170584104,
+            -3.114590588718372,
+            -0.6484669299248942
+          ],
+          "intercept": 101.69553695407409,
+          "naive_baseline": {
+            "rmse": 25.304375304645184,
+            "mae": 23.296362805399017,
+            "pearson_r": 0.6581392938900547
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.095432880128385,
+            "mae_deg": 7.343159881513435,
+            "bias_deg": 1.078542989189074,
+            "sd_of_difference_deg": 9.116061703512546,
+            "loa_95_lower_deg": -16.788937949695516,
+            "loa_95_upper_deg": 18.946023928073664,
+            "pearson_r": 0.5544840448997868
+          },
+          "rmse_reduction_pct": 64.05588847530761
+        }
+      }
+    },
+    "ankle_angle_r": {
+      "feature_names": [
+        "ankle_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "hip_flex_rom_r_2d3d",
+        "hip_y_range_px",
+        "pelvis_tilt_rom",
+        "ankle_rom_l_2d3d"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "ankle_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "ankle_rom_l_2d3d"
+          ],
+          "feature_mean": [
+            49.80288653243271,
+            88.9874679773319,
+            96.85417596094963,
+            236.90480324074073,
+            358.80676805293007,
+            45.541839110374845
+          ],
+          "feature_std": [
+            6.371487936435556,
+            10.305465475757307,
+            15.424598112407239,
+            121.3704026518055,
+            0.2758236312238049,
+            7.635208502502233
+          ],
+          "weights_zscored": [
+            1.7690659694562114,
+            2.8028829080655995,
+            -2.79816478798328,
+            1.532660923415489,
+            0.46678484392577785,
+            -0.18948150522789325
+          ],
+          "intercept": 72.06000281277741,
+          "naive_baseline": {
+            "rmse": 23.906074203793747,
+            "mae": 22.25711628034507,
+            "pearson_r": 0.22337266970386904
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.35115661327176,
+            "mae_deg": 7.777081681454983,
+            "bias_deg": 0.22577127278658082,
+            "sd_of_difference_deg": 9.436211360247814,
+            "loa_95_lower_deg": -18.269202993299135,
+            "loa_95_upper_deg": 18.720745538872297,
+            "pearson_r": -0.1650431175268421
+          },
+          "rmse_reduction_pct": 60.88376312415282
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "ankle_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "ankle_rom_l_2d3d"
+          ],
+          "feature_mean": [
+            41.07456440034818,
+            65.51930357570278,
+            72.83055191404712,
+            252.50122748480902,
+            359.2075434850242,
+            46.96568492148723
+          ],
+          "feature_std": [
+            5.976625529074634,
+            8.032074391057462,
+            14.232637566267568,
+            113.97348554671946,
+            0.1776921761504614,
+            8.857138962077569
+          ],
+          "weights_zscored": [
+            0.05060395379225814,
+            2.7023530646182694,
+            -0.17107933928428648,
+            1.4205983615142257,
+            -0.28656220886221556,
+            -0.13963608752389103
+          ],
+          "intercept": 72.06000281277774,
+          "naive_baseline": {
+            "rmse": 32.524918534222316,
+            "mae": 30.985438412429602,
+            "pearson_r": -0.05577115340092295
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.30296765261935,
+            "mae_deg": 7.920251311725921,
+            "bias_deg": -0.23253358527763096,
+            "sd_of_difference_deg": 9.387387468842492,
+            "loa_95_lower_deg": -18.631813024208917,
+            "loa_95_upper_deg": 18.16674585365365,
+            "pearson_r": -0.30748785079407637
+          },
+          "rmse_reduction_pct": 71.39741443831478
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "ankle_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "ankle_rom_l_2d3d"
+          ],
+          "feature_mean": [
+            49.56653293346282,
+            51.33702000015422,
+            30.5961246588821,
+            223.59445303457755,
+            333.1186825182795,
+            48.4605250627184
+          ],
+          "feature_std": [
+            9.521597478249626,
+            10.015929788485911,
+            8.268137987894699,
+            95.46305445823258,
+            92.86959819778252,
+            9.158916245026717
+          ],
+          "weights_zscored": [
+            1.3023899247558621,
+            0.8983737538433142,
+            0.9810912064491693,
+            -0.3448926044309969,
+            -0.29842508822832986,
+            -0.45485580099405065
+          ],
+          "intercept": 72.06000281277778,
+          "naive_baseline": {
+            "rmse": 25.04094348415618,
+            "mae": 22.493469879314958,
+            "pearson_r": 0.18489360402004057
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 13.159981218702082,
+            "mae_deg": 9.79667882200339,
+            "bias_deg": 0.8453868501562809,
+            "sd_of_difference_deg": 13.256115032145004,
+            "loa_95_lower_deg": -25.136598612847926,
+            "loa_95_upper_deg": 26.827372313160488,
+            "pearson_r": -0.373121487804209
+          },
+          "rmse_reduction_pct": 47.44614464295796
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "ankle_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "ankle_rom_l_2d3d"
+          ],
+          "feature_mean": [
+            46.1793127647566,
+            65.86761822296288,
+            61.62734790671071,
+            228.9848237214265,
+            359.2710004716001,
+            41.36249742983959
+          ],
+          "feature_std": [
+            10.238154538201979,
+            13.69753403040052,
+            18.258955198713835,
+            86.31518642797802,
+            0.12835504538090753,
+            5.8272079185127685
+          ],
+          "weights_zscored": [
+            -1.9578678424472196,
+            3.576359387844965,
+            -1.8636036752994352,
+            0.8423376975340341,
+            0.39424576129278127,
+            1.4083645268559157
+          ],
+          "intercept": 72.06000281277778,
+          "naive_baseline": {
+            "rmse": 29.11301997372395,
+            "mae": 25.88069004802118,
+            "pearson_r": -0.1029568861668592
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 12.830369912967308,
+            "mae_deg": 9.400228437626694,
+            "bias_deg": 1.1146222348854764,
+            "sd_of_difference_deg": 12.901882637496648,
+            "loa_95_lower_deg": -24.17306773460795,
+            "loa_95_upper_deg": 26.402312204378905,
+            "pearson_r": -0.21002041570392677
+          },
+          "rmse_reduction_pct": 55.92910002278225
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "ankle_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "hip_flex_rom_r_2d3d",
+            "hip_y_range_px",
+            "pelvis_tilt_rom",
+            "ankle_rom_l_2d3d"
+          ],
+          "feature_mean": [
+            51.65216965020905,
+            78.39917414867506,
+            84.78138727517651,
+            218.303219265408,
+            358.77822141547574,
+            53.56173095010063
+          ],
+          "feature_std": [
+            9.63554329950639,
+            12.821965092871302,
+            19.727961246165624,
+            84.81574221886119,
+            0.4482028810578039,
+            8.374568260571571
+          ],
+          "weights_zscored": [
+            -2.4455926305849554,
+            1.4536480470276796,
+            -1.0639445627174666,
+            1.4212537988981429,
+            -0.7695911828772761,
+            2.3913304476230217
+          ],
+          "intercept": 72.0600028127778,
+          "naive_baseline": {
+            "rmse": 24.578430855984056,
+            "mae": 20.878698628024857,
+            "pearson_r": -0.25946629210278915
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.73730221806136,
+            "mae_deg": 6.752034993305004,
+            "bias_deg": 0.36006387952340874,
+            "sd_of_difference_deg": 8.81185245856423,
+            "loa_95_lower_deg": -16.911166939262483,
+            "loa_95_upper_deg": 17.6312946983093,
+            "pearson_r": -0.18258758776497627
+          },
+          "rmse_reduction_pct": 64.45134244225315
+        }
+      }
+    },
+    "lumbar_extension": {
+      "feature_names": [
+        "lumbar_extension_rom",
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "pelvis_tilt_rom",
+        "hip_y_range_px"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "lumbar_extension_rom",
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "pelvis_tilt_rom",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            44.11754606092364,
+            96.85417596094963,
+            88.9874679773319,
+            358.80676805293007,
+            236.90480324074073
+          ],
+          "feature_std": [
+            10.933935812137156,
+            15.424598112407239,
+            10.305465475757307,
+            0.2758236312238049,
+            121.3704026518055
+          ],
+          "weights_zscored": [
+            2.3287113678408646,
+            1.0312999304412793,
+            0.3220378434518426,
+            1.0173535533131501,
+            0.5280961574349454
+          ],
+          "intercept": 36.258474215184386,
+          "naive_baseline": {
+            "rmse": 11.189570814509006,
+            "mae": 8.796468537498269,
+            "pearson_r": 0.7154570121910544
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.973615537300478,
+            "mae_deg": 3.9583296490926014,
+            "bias_deg": 0.13207398895712844,
+            "sd_of_difference_deg": 5.018546791488688,
+            "loa_95_lower_deg": -9.7042777223607,
+            "loa_95_upper_deg": 9.968425700274956,
+            "pearson_r": 0.4911370494957477
+          },
+          "rmse_reduction_pct": 55.55132882441374
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "lumbar_extension_rom",
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "pelvis_tilt_rom",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            34.51264531574935,
+            72.83055191404712,
+            65.51930357570278,
+            359.2075434850242,
+            252.50122748480902
+          ],
+          "feature_std": [
+            12.385005645250422,
+            14.232637566267568,
+            8.032074391057462,
+            0.1776921761504614,
+            113.97348554671946
+          ],
+          "weights_zscored": [
+            2.2243220219162083,
+            1.1842073286751194,
+            0.06187550124377564,
+            0.6006727199547516,
+            0.4581515997464635
+          ],
+          "intercept": 36.25847421518527,
+          "naive_baseline": {
+            "rmse": 9.751195536909014,
+            "mae": 8.533176968059681,
+            "pearson_r": 0.6696353606022541
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.242744729840478,
+            "mae_deg": 4.3850975048180265,
+            "bias_deg": -0.1574000463693808,
+            "sd_of_difference_deg": 5.289587968571065,
+            "loa_95_lower_deg": -10.524992464768667,
+            "loa_95_upper_deg": 10.210192372029907,
+            "pearson_r": 0.40511229228867957
+          },
+          "rmse_reduction_pct": 46.23485181897654
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "lumbar_extension_rom",
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "pelvis_tilt_rom",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            10.346576014638636,
+            30.5961246588821,
+            51.33702000015422,
+            333.1186825182795,
+            223.59445303457755
+          ],
+          "feature_std": [
+            9.020838410729976,
+            8.268137987894699,
+            10.015929788485911,
+            92.86959819778252,
+            95.46305445823258
+          ],
+          "weights_zscored": [
+            1.7558427520976365,
+            1.6049378724271712,
+            -0.5762023166621119,
+            0.44151942609915046,
+            0.10257275567010139
+          ],
+          "intercept": 36.25847421518518,
+          "naive_baseline": {
+            "rmse": 27.059716721570183,
+            "mae": 26.401102850544657,
+            "pearson_r": 0.5134130027994106
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 6.6951672186171285,
+            "mae_deg": 5.082358621785484,
+            "bias_deg": 0.0319127425754434,
+            "sd_of_difference_deg": 6.75795724655738,
+            "loa_95_lower_deg": -13.213683460677021,
+            "loa_95_upper_deg": 13.277508945827908,
+            "pearson_r": 0.07373642621885228
+          },
+          "rmse_reduction_pct": 75.25780743565511
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "lumbar_extension_rom",
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "pelvis_tilt_rom",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            36.15522553194427,
+            61.62734790671071,
+            65.86761822296288,
+            359.2710004716001,
+            228.9848237214265
+          ],
+          "feature_std": [
+            12.290825665217882,
+            18.258955198713835,
+            13.69753403040052,
+            0.12835504538090753,
+            86.31518642797802
+          ],
+          "weights_zscored": [
+            2.630389195129341,
+            -0.08604586583375987,
+            1.1370249589873462,
+            -0.27727189058647056,
+            0.035880105736800776
+          ],
+          "intercept": 36.25847421518518,
+          "naive_baseline": {
+            "rmse": 9.861861831765308,
+            "mae": 8.090517628679246,
+            "pearson_r": 0.6197336502027921
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 6.777756524803192,
+            "mae_deg": 4.814837423869191,
+            "bias_deg": 0.6545252860321495,
+            "sd_of_difference_deg": 6.809423726220899,
+            "loa_95_lower_deg": -12.691945217360814,
+            "loa_95_upper_deg": 14.000995789425112,
+            "pearson_r": 0.13532272841222223
+          },
+          "rmse_reduction_pct": 31.2730532994098
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "feature_names": [
+            "lumbar_extension_rom",
+            "hip_flex_rom_r_2d3d",
+            "knee_flex_rom_r_2d3d",
+            "pelvis_tilt_rom",
+            "hip_y_range_px"
+          ],
+          "feature_mean": [
+            43.94816054402307,
+            84.78138727517651,
+            78.39917414867506,
+            358.77822141547574,
+            218.303219265408
+          ],
+          "feature_std": [
+            11.12140662440426,
+            19.727961246165624,
+            12.821965092871302,
+            0.4482028810578039,
+            84.81574221886119
+          ],
+          "weights_zscored": [
+            2.8776087487110273,
+            0.18956208213322234,
+            0.4878834437367882,
+            -0.26594607554763006,
+            0.09494256510543975
+          ],
+          "intercept": 36.258474215185196,
+          "naive_baseline": {
+            "rmse": 11.35503822034507,
+            "mae": 9.070301631437756,
+            "pearson_r": 0.6853940739947814
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.6260640155503205,
+            "mae_deg": 4.4926954186201185,
+            "bias_deg": 0.3281896866419615,
+            "sd_of_difference_deg": 5.669221674939846,
+            "loa_95_lower_deg": -10.783484796240137,
+            "loa_95_upper_deg": 11.439864169524059,
+            "pearson_r": 0.31534346266822066
+          },
+          "rmse_reduction_pct": 50.45314770081549
+        }
+      }
+    }
+  }
+}

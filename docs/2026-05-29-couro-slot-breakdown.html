@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro — Slot Breakdown & Promotability</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a26;
+    --border: #2a2a3a; --text: #e0e0e8; --text-dim: #8888a0;
+    --accent: #6c5ce7; --accent-light: #a29bfe;
+    --green: #00d4aa; --green-dim: #00d4aa22; --green-bg: #00d4aa14;
+    --blue: #4da6ff; --blue-bg: #4da6ff14;
+    --orange: #ffa04d; --orange-bg: #ffa04d14;
+    --red: #ff6b6b; --red-bg: #ff6b6b14;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.6;
+         padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
+  .header { text-align: center; padding: 24px 0 36px; border-bottom: 1px solid var(--border);
+            margin-bottom: 36px; }
+  .eyebrow { font-size: 12px; color: var(--text-dim); text-transform: uppercase;
+             letter-spacing: 2px; font-weight: 600; margin-bottom: 14px; }
+  h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.15;
+       background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+       background-clip: text; margin-bottom: 10px; }
+  .subtitle { font-size: 16px; color: var(--text); max-width: 800px; margin: 0 auto; }
+  h2 { font-size: 18px; color: #fff; font-weight: 600; padding-bottom: 10px;
+       border-bottom: 1px solid var(--border); margin: 48px 0 14px; }
+  h2 .count { font-size: 13px; color: var(--text-dim); font-weight: 500; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px;
+          background: var(--surface); border-radius: 10px; overflow: hidden;
+          border: 1px solid var(--border); margin: 8px 0 12px; }
+  thead th { background: var(--surface2); color: var(--text-dim); font-weight: 600;
+             font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px;
+             padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid #1e1e2e; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { font-weight: 600; color: #fff; }
+  td.num, th.num { font-variant-numeric: tabular-nums;
+                   font-family: 'SF Mono', monospace; text-align: right; }
+  .z-good { color: var(--green); font-weight: 600; }
+  .z-ok { color: var(--orange); font-weight: 600; }
+  .z-bad { color: var(--red); font-weight: 600; }
+  .row-good { background: #00d4aa0c; }
+  .row-poor { background: #ff6b6b06; }
+  .row-promotable { background: #ffa04d0c; }
+  .pill-good { background: var(--green-dim); color: var(--green);
+               padding: 2px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700;
+               white-space: nowrap; }
+  .pill-warn { background: #ffa04d22; color: var(--orange);
+               padding: 2px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700;
+               white-space: nowrap; }
+  .pill-bad { background: #ff6b6b22; color: var(--red);
+              padding: 2px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700;
+              white-space: nowrap; }
+  .pill-easy { background: #00d4aa30; color: var(--green); padding: 2px 8px;
+               border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+  .pill-mid { background: #ffa04d30; color: var(--orange); padding: 2px 8px;
+              border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+  .pill-hard { background: #ff6b6b30; color: var(--red); padding: 2px 8px;
+               border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+  .section-intro { color: var(--text); font-size: 14px; line-height: 1.7;
+                   margin-bottom: 14px; }
+  .section-intro strong { color: #fff; }
+  .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+            font-size: 11px; color: var(--text-dim); text-align: center; line-height: 1.6; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: var(--text-dim);
+            margin: 16px 0; flex-wrap: wrap; }
+  .legend strong { color: var(--text); }
+  .summary-card { background: var(--surface); border: 1px solid var(--border);
+                  border-left: 4px solid var(--accent-light); border-radius: 10px;
+                  padding: 18px 24px; margin: 16px 0; font-size: 14px; line-height: 1.7; }
+  .summary-card strong { color: #fff; }
+  .grouping-note { font-size: 12.5px; color: var(--text-dim); font-style: italic;
+                   margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Couro Vision · Layer 3 Slot Breakdown · 2026-05-29</div>
+  <h1>The 23 deploy slots — what's validated, what's close, what's hard</h1>
+  <p class="subtitle">v15 deploy table after yesterday's demotion of 2 broken front_center slots. Each slot is one metric × one camera angle. The question this doc answers: "which ones can we realistically promote, and what would it take?"</p>
+</div>
+
+<div class="summary-card">
+  <strong>Quick summary</strong> &nbsp;·&nbsp;
+  <strong style="color: var(--green)">3 Good</strong> (publication-grade validated) &nbsp;·&nbsp;
+  <strong style="color: var(--orange)">9 Moderate</strong> (usable, not yet publication-grade) &nbsp;·&nbsp;
+  <strong style="color: var(--red)">11 Poor</strong> (not deployed)
+</div>
+
+<div class="legend">
+  <span><strong>Validity gate:</strong> CCC ≥ 0.60 AND Bland-Altman LoA half-width &lt; ±10°</span>
+</div>
+
+<h2>✅ Good — Publication-grade validated <span class="count">(3 slots — today's headline)</span></h2>
+<p class="section-intro">These are the slots we promote. CCC > 0.60 AND LoA half-width < ±10° on per-subject LOSO analysis.</p>
+<table>
+  <thead><tr>
+    <th>Metric</th>
+    <th>Camera angle</th>
+    <th class="num">n subj</th>
+    <th class="num">CCC</th>
+    <th class="num">LoA ±</th>
+    <th class="num">Bias</th>
+    <th>Note</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-good"><td>Hip adduction R</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.94</td><td class="num">9.8°</td><td class="num">+1.3°</td><td>Headline lead; mirror-twin asymmetry caveat (side_right CCC 0.21)</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.83</td><td class="num">7.2°</td><td class="num">−1.4°</td><td>Sagittal-plane on side view — geometrically optimal, no caveat</td></tr>
+    <tr class="row-good"><td>Ankle dorsi/plantarflex R</td><td>side_right</td><td class="num">9</td><td class="num z-good">0.64</td><td class="num">9.5°</td><td class="num">+0.3°</td><td>Preliminary — n=9 CI is wide; cohort expansion needs fresh data collection (Agent V audit, 2026-05-29)</td></tr>
+  </tbody>
+</table>
+
+<h2>🟡 Moderate — close to validated <span class="count">(9 slots)</span></h2>
+<p class="section-intro">
+  These work, but don't quite clear the publication bar. Two failure modes: <strong>(A) CCC is strong but LoA is just over ±10°</strong> — these are the most promotable. <strong>(B) CCC is below 0.60 but LoA is tight</strong> — these need a different fix.
+</p>
+<table>
+  <thead><tr>
+    <th>Metric</th>
+    <th>View</th>
+    <th class="num">n</th>
+    <th class="num">CCC</th>
+    <th class="num">LoA ±</th>
+    <th>Why it's Moderate, not Good</th>
+    <th>Promotability</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-promotable"><td>Knee R</td><td>front_oblique_right</td><td class="num">8</td><td class="num z-good">0.83</td><td class="num">10.7°</td><td>LoA 0.7° over the gate. CCC strong.</td><td><span class="pill-easy">Closest</span></td></tr>
+    <tr class="row-promotable"><td>Hip flexion R</td><td>front_oblique_left</td><td class="num">21</td><td class="num z-good">0.84</td><td class="num">11.3°</td><td>LoA 1.3° over. Largest n in the table.</td><td><span class="pill-easy">Close</span></td></tr>
+    <tr class="row-promotable"><td>Knee R</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.86</td><td class="num">12.4°</td><td>LoA 2.4° over. CCC very strong.</td><td><span class="pill-easy">Close</span></td></tr>
+    <tr><td>Knee R</td><td>side_right</td><td class="num">10</td><td class="num z-good">0.81</td><td class="num">14.2°</td><td>LoA 4.2° over. CCC strong.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-good">0.63</td><td class="num">10.2°</td><td>LoA 0.2° over. CCC at threshold. NOTE: Agent U's blend lifted this to CCC 0.74 / LoA 9.2° (Good tier) — adoptable today.</td><td><span class="pill-easy">Adoptable now</span></td></tr>
+    <tr><td>Ankle angle R</td><td>front_oblique_left</td><td class="num">9</td><td class="num z-ok">0.56</td><td class="num">10.8°</td><td>Both metrics borderline.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_center</td><td class="num">9</td><td class="num z-ok">0.55</td><td class="num">7.5°</td><td>LoA passes. CCC 0.05 below gate.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_oblique_left</td><td class="num">9</td><td class="num z-ok">0.53</td><td class="num">8.0°</td><td>LoA passes. CCC 0.07 below.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr><td>Lumbar extension</td><td>side_right</td><td class="num">10</td><td class="num z-ok">0.45</td><td class="num">13.3°</td><td>Both metrics weak.</td><td><span class="pill-hard">Hard</span></td></tr>
+  </tbody>
+</table>
+
+<div class="summary-card">
+  <strong>The 4 most-promotable Moderate slots</strong> (top 4 rows): all have CCC ≥ 0.81 — the model already ranks athletes well; the only thing standing between them and Good tier is variance reduction in the Bland-Altman LoA. <strong>What it would take:</strong> (1) confidence-channel filtering at the keypoint level — removes high-jitter frames before angle computation, tightens trial-to-trial noise; (2) outlier-subject audit (Agent V found one OpenCap outlier driving the ankle wide CI — same pattern may apply); (3) per-event-window smoothing tuning. Likely 1-week build to land 1–3 of these.
+</div>
+
+<h2>❌ Poor — not deployed <span class="count">(11 slots)</span></h2>
+<p class="section-intro">
+  These don't clear the validity gate. Two clusters: <strong>(A) high CCC but LoA way over ±10°</strong> — model tracks the truth but with too much trial-to-trial spread. <strong>(B) low CCC</strong> — structural geometry failure (the camera can't physically see the motion well).
+</p>
+<table>
+  <thead><tr>
+    <th>Metric</th>
+    <th>View</th>
+    <th class="num">n</th>
+    <th class="num">CCC</th>
+    <th class="num">LoA ±</th>
+    <th>Why it's Poor</th>
+    <th>Promotability</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-poor"><td>Hip adduction R</td><td>front_center</td><td class="num">22</td><td class="num z-ok">0.77</td><td class="num">16.2°</td><td>High CCC + bias (+3.6°). LoA way over. Yesterday's calibration-fix attempt failed (Agent Q null).</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr class="row-poor"><td>Hip adduction R</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-ok">0.78</td><td class="num">17.3°</td><td>Same pattern: high CCC, +4.0° bias, wide LoA.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr class="row-poor"><td>Knee R</td><td>front_oblique_left</td><td class="num">21</td><td class="num z-ok">0.78</td><td class="num">15.6°</td><td>High CCC, −3.2° bias, LoA over. Largest n.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr class="row-poor"><td>Hip flexion R</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-ok">0.70</td><td class="num">18.5°</td><td>CCC OK; LoA dramatically over.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr class="row-poor"><td>Hip flexion R</td><td>side_left</td><td class="num">12</td><td class="num">0.60</td><td class="num">16.2°</td><td>CCC at threshold; LoA over.</td><td><span class="pill-mid">Mid</span></td></tr>
+    <tr class="row-poor"><td>Hip flexion R</td><td>side_right</td><td class="num">9</td><td class="num">0.46</td><td class="num">19.0°</td><td>Both metrics weak.</td><td><span class="pill-hard">Hard</span></td></tr>
+    <tr class="row-poor"><td>Hip adduction R</td><td>front_oblique_left</td><td class="num">9</td><td class="num">0.29</td><td class="num">6.5°</td><td>Frontal-plane on oblique view. Structural.</td><td><span class="pill-hard">Hard</span></td></tr>
+    <tr class="row-poor"><td>Hip adduction R</td><td>side_right</td><td class="num">10</td><td class="num">0.21</td><td class="num">19.6°</td><td><strong>Mirror twin of our 0.94 headline slot.</strong> Strong evidence the 0.94 is partial overfit. Structural.</td><td><span class="pill-hard">Hard</span></td></tr>
+    <tr class="row-poor"><td>Ankle angle R</td><td>side_left</td><td class="num">9</td><td class="num">0.33</td><td class="num">12.2°</td><td>Side ankle should work; doesn't here. L vs R asymmetry on the model side.</td><td><span class="pill-hard">Hard</span></td></tr>
+    <tr class="row-poor"><td>Ankle angle R</td><td>front_center</td><td class="num">9</td><td class="num z-bad">0.09</td><td class="num">14.7°</td><td>Ankle from directly front — small joint, depth ambiguous.</td><td><span class="pill-hard">Structural</span></td></tr>
+    <tr class="row-poor"><td>Ankle angle R</td><td>front_oblique_right</td><td class="num">9</td><td class="num z-bad">−0.13</td><td class="num">19.3°</td><td>Negative CCC — model is wrong on average. Worst slot in table.</td><td><span class="pill-hard">Structural</span></td></tr>
+  </tbody>
+</table>
+
+<div class="summary-card">
+  <strong>The 5 most-promotable Poor slots</strong> (top 5 rows): all have CCC ≥ 0.60. The model already learns the right ranking — it's the trial-to-trial variance that kills them. <strong>What it would take:</strong> (1) per-athlete calibration (a one-rep warm-up against known reference) — this is a product-level feature, multi-week; (2) confidence-channel filtering + temporal smoothing tuning per slot; (3) accept these as "monitoring-grade" (informative across sessions for the same athlete) rather than "ranking-grade" (comparing across athletes), which is what the per-trial vs per-subject divergence Agent P diagnosed actually means.
+</div>
+
+<h2>🎯 Realistic promotion roadmap</h2>
+<p class="section-intro">If the goal is "get more slots into the headline range," ranked by ROI:</p>
+<table>
+  <thead><tr>
+    <th>Build</th>
+    <th>Effort</th>
+    <th>Expected new Good slots</th>
+    <th>Confidence</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Adopt v16 weights for <strong>Lumbar extension / front_oblique_right</strong> only (Agent U produced this today)</td>
+      <td>1 hour</td>
+      <td>+1 (CCC 0.74)</td>
+      <td><span class="pill-easy">High</span></td>
+    </tr>
+    <tr>
+      <td>Variance-reduction pass on the 4 promotable Moderate slots (confidence-channel filtering + temporal smoothing tuning)</td>
+      <td>~1 week</td>
+      <td>+1–3 (Knee × side_left, Knee × oblique_right, Hip flex × oblique_left)</td>
+      <td><span class="pill-mid">Medium</span></td>
+    </tr>
+    <tr>
+      <td>Per-athlete calibration feature (one warm-up rep vs reference) — addresses the +3–4° bias on 3 front-view slots</td>
+      <td>Multi-week (product)</td>
+      <td>+2–3 (Hip add × front_center, × oblique_right; Knee × oblique_left)</td>
+      <td><span class="pill-mid">Medium</span></td>
+    </tr>
+    <tr>
+      <td>Fresh ankle data collection (~13 more subjects, side_right phone + foot/toe-markered mocap)</td>
+      <td>~1 quarter</td>
+      <td>+0 (promotes the existing preliminary ankle slot from "preliminary" to "headline")</td>
+      <td><span class="pill-easy">High if data collected</span></td>
+    </tr>
+    <tr>
+      <td>Sport-specific Layer 3 retrain (Fukuchi runners, ACL jump-landing, DVJ basketball) — sport-specific motion patterns may unlock currently-Poor slots</td>
+      <td>~2 weeks</td>
+      <td>Unknown — possible +1–4</td>
+      <td><span class="pill-hard">Speculative</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="summary-card">
+  <strong>Realistic end-of-week target:</strong> Adopt v16 lumbar slot + variance-reduction pass on the top 2 Moderate promotables. Lands the validated slot count at <strong>5–6 slots</strong> with headline range likely <strong>CCC 0.74–0.94</strong> or <strong>0.81–0.94</strong> depending on which Moderates promote.
+  <br><br>
+  <strong>Realistic end-of-quarter target:</strong> Fresh ankle data + per-athlete calibration shipped. Validated slot count <strong>7–9</strong>, headline range likely <strong>0.74–0.94 across hip / knee / lumbar / ankle joints, both side and oblique views</strong>.
+</div>
+
+<div class="footer">
+  Source data: <code>data/biomech_validity_stats/per_slot_validity.json</code> · v15 deploy: <code>results/deploy_ready_models_v15.json</code> · Agent V audit: <code>data/ankle_cohort_expansion/REPORT.md</code> · Agent U blend results: <code>data/blend_layer3_integration/REPORT.md</code><br>
+  Companion docs: <code>docs/2026-05-29-couro-accuracy-mental-model.html</code> · <code>docs/2026-05-28-couro-validation-v2.1-post-build-cycle.html</code>
+</div>
+
+</body>
+</html>

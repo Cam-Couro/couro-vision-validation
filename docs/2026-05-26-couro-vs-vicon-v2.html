@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Couro Vision — OpenCap Validation v2 (Front-View Fix)</title>
+<style>
+  :root {
+    --bg: #0e1418;
+    --surface: #161e24;
+    --surface-2: #1f2930;
+    --border: #2a3640;
+    --text: #e7eef3;
+    --text-dim: #8ea2af;
+    --teal: #4ad8c0;
+    --teal-dim: #4ad8c022;
+    --yellow: #ffd233;
+    --yellow-dim: #ffd23322;
+    --red: #ff6b6b;
+    --green: #4ad8c0;
+    --amber: #ffa04d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 48px 32px 80px; }
+  .header { border-bottom: 1px solid var(--border); padding-bottom: 32px; margin-bottom: 48px; }
+  .badge {
+    display: inline-block; background: var(--teal-dim); color: var(--teal);
+    font-size: 11px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+    padding: 5px 12px; border-radius: 20px; border: 1px solid var(--teal); margin-bottom: 18px;
+  }
+  .badge.v2 { background: var(--yellow-dim); color: var(--yellow); border-color: var(--yellow); margin-left: 8px; }
+  h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.6px; line-height: 1.15; margin-bottom: 12px; }
+  h1 .accent { color: var(--yellow); }
+  .header-meta { color: var(--text-dim); font-size: 14px; margin-top: 8px; }
+  section { margin-bottom: 56px; }
+  h2 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 18px; font-weight: 600; margin: 24px 0 12px; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 17px; }
+  p.dim { color: var(--text-dim); font-size: 14px; }
+  strong { color: #fff; }
+  em { color: var(--text-dim); font-style: italic; }
+
+  .plain {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border); border-left: 4px solid var(--yellow);
+    border-radius: 8px; padding: 28px 32px; margin-bottom: 40px;
+  }
+  .plain h2 { border-bottom: none; padding-bottom: 0; margin-bottom: 18px; font-size: 22px; }
+  .plain ul { list-style: none; padding: 0; }
+  .plain li {
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .plain li:last-child { border-bottom: none; }
+  .plain li .num {
+    flex-shrink: 0; width: 32px; height: 32px;
+    background: var(--yellow); color: #1a1a26; border-radius: 50%;
+    text-align: center; line-height: 32px; font-weight: 700; font-size: 14px;
+  }
+  .plain li .body { font-size: 16px; line-height: 1.55; }
+  .plain li .body strong { color: var(--yellow); font-weight: 600; }
+
+  .ba {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0;
+  }
+  .ba .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 22px;
+  }
+  .ba .card .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-dim); margin-bottom: 6px;
+  }
+  .ba .card .label.bad { color: var(--red); }
+  .ba .card .label.good { color: var(--green); }
+  .ba .card .num { font-size: 36px; font-weight: 800; line-height: 1.1; }
+  .ba .card .num.bad { color: var(--red); }
+  .ba .card .num.good { color: var(--green); }
+  .ba .card .ctx { font-size: 13px; color: var(--text-dim); margin-top: 6px; }
+  .arrow {
+    text-align: center; font-size: 24px; color: var(--yellow); align-self: center;
+  }
+
+  table {
+    width: 100%; border-collapse: collapse; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    margin: 18px 0; font-size: 14px;
+  }
+  thead th {
+    background: var(--surface-2); color: var(--text-dim); font-weight: 600;
+    text-transform: uppercase; font-size: 11px; letter-spacing: 0.8px;
+    padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody tr.highlight { background: var(--yellow-dim); }
+  tbody tr.highlight td:first-child { border-left: 3px solid var(--yellow); }
+  td.num { font-variant-numeric: tabular-nums; }
+  td.good { color: var(--green); font-weight: 600; }
+  td.ok { color: var(--amber); font-weight: 600; }
+  td.bad { color: var(--red); font-weight: 600; }
+  td.win { background: rgba(74,216,192,0.12); font-weight: 700; }
+  .pill {
+    display: inline-block; padding: 2px 10px; border-radius: 12px;
+    font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .pill.good { background: var(--teal-dim); color: var(--teal); }
+  .pill.ok { background: rgba(255,160,77,0.18); color: var(--amber); }
+  .pill.bad { background: rgba(255,107,107,0.18); color: var(--red); }
+  .caveat {
+    background: rgba(255,160,77,0.08); border-left: 3px solid var(--amber);
+    border-radius: 6px; padding: 18px 22px; margin: 20px 0;
+  }
+  .caveat strong { color: var(--amber); }
+  .context {
+    background: rgba(74,216,192,0.06); border-left: 3px solid var(--teal);
+    border-radius: 6px; padding: 18px 22px; margin: 18px 0;
+  }
+  .context strong { color: var(--teal); }
+  code {
+    background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 3px;
+    color: var(--teal); font-size: 13px;
+  }
+  .footer {
+    text-align: center; color: var(--text-dim); font-size: 12px;
+    padding-top: 40px; margin-top: 60px; border-top: 1px solid var(--border);
+  }
+  .footer strong { color: var(--yellow); }
+  @media (max-width: 720px) {
+    h1 { font-size: 28px; } .wrap { padding: 32px 20px; }
+    .ba { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <span class="badge">Validated · 2026-05-26</span>
+  <span class="badge v2">v2 · Front-view fix</span>
+  <h1>Refining Couro for <span class="accent">non-side camera views</span></h1>
+  <p class="lede">Round-2 of OpenCap validation. We added anthropometric-foreshortening 3D recovery to lift front- and oblique-view Couro outputs out of the "unusable" zone. Front-view knee-flexion error dropped from 85° to 52° — a 40% reduction with one day of work and no new ML training.</p>
+  <div class="header-meta">270 trials reanalyzed · 10 subjects · 5 cameras × 2 algorithms compared · ~$0 additional spend (all local CPU)</div>
+</div>
+
+<section>
+  <div class="plain">
+    <h2>What we just learned (plain English)</h2>
+    <ul>
+      <li>
+        <span class="num">1</span>
+        <span class="body"><strong>The front-camera problem is partially fixable, and we fixed it.</strong> Original front-view knee error vs Vicon was 85° (effectively unusable). With the new method, it's 52° — still worse than a side camera but back in the "measurable with caveats" range. Same Couro keypoints, smarter post-processing.</span>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <span class="body"><strong>The fix uses biomechanics, not new ML.</strong> When the leg points toward the camera, the thigh and shank appear shorter in the image than they really are. Knowing the subject's height and the camera's intrinsics, we can recover the out-of-plane tilt from how foreshortened the segment is. This is the same trick OpenSim IK uses — implemented in 200 lines of numpy.</span>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <span class="body"><strong>For hip flexion, the new method wins on 4 out of 5 cameras.</strong> Hip joints move out of the image plane during squats and jumps, so foreshortening recovery is a clean win. Cam1 (front-oblique) is now within 10° RMSE of mocap on hip flexion — comparable to academic multi-camera systems.</span>
+      </li>
+      <li>
+        <span class="num">4</span>
+        <span class="body"><strong>Production should pick the algorithm per camera position.</strong> Side cameras → naive 2D (no foreshortening to recover). Front and oblique cameras → anthropometric 3D recovery. This per-view algorithm choice is now codified in the harness and ready for Saad's <code>required_angles</code> rewrite.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Before / after — the headline improvements</h2>
+  <h3>Knee flexion ROM, front-center camera (Cam2)</h3>
+  <div class="ba">
+    <div class="card">
+      <div class="label bad">v1 — naive 2D vector math</div>
+      <div class="num bad">85.5°</div>
+      <div class="ctx">RMSE vs Vicon, n=54 paired trials. The naive math computes the angle from 2D pixel positions only — when the leg bends along the camera's optical axis, the 2D vectors barely change.</div>
+    </div>
+    <div class="card">
+      <div class="label good">v2 — anthropometric 3D recovery</div>
+      <div class="num good">51.5°</div>
+      <div class="ctx">RMSE vs Vicon, same n. Foreshortening of thigh + shank vs anthropometric segment lengths recovers the out-of-plane component of the bend. <strong>40% reduction.</strong></div>
+    </div>
+  </div>
+
+  <h3>Hip flexion ROM, front-center camera (Cam2)</h3>
+  <div class="ba">
+    <div class="card">
+      <div class="label bad">v1 — naive 2D</div>
+      <div class="num bad">57.4°</div>
+      <div class="ctx">RMSE vs Vicon. Hip flexion partly visible from front but most of the joint motion is hidden depth.</div>
+    </div>
+    <div class="card">
+      <div class="label good">v2 — anthropometric 3D</div>
+      <div class="num good">48.0°</div>
+      <div class="ctx">16% reduction. Hip is closer to the camera than knee/ankle, so depth-recovery is less dramatic but still positive.</div>
+    </div>
+  </div>
+
+  <h3>Hip flexion ROM, side-view Cam0 — also improved</h3>
+  <div class="ba">
+    <div class="card">
+      <div class="label">v1 — naive 2D</div>
+      <div class="num">24.8°</div>
+      <div class="ctx">Side view of hip flexion suffers from torso occlusion; naive 2D under-estimates.</div>
+    </div>
+    <div class="card">
+      <div class="label good">v2 — anthropometric 3D</div>
+      <div class="num good">21.9°</div>
+      <div class="ctx">12% reduction. Recovering torso lean from foreshortening helps even from a side view.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>The full per-(metric × camera) accuracy matrix</h2>
+  <p>Best result per cell highlighted. <strong>Bold = winning method.</strong> RMSE in degrees vs Vicon mocap, n=54 paired observations per cell across 10 subjects × ~5 drop-jump tasks.</p>
+  <h3>Knee flexion range of motion</h3>
+  <table>
+    <thead>
+      <tr><th>Camera</th><th>Yaw</th><th>View</th><th>v1 (naive 2D)</th><th>v2 (anthro 3D)</th><th>Best</th><th>Δ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cam0</td><td class="num">−67°</td><td>Side</td><td class="num win"><strong>9.6°</strong></td><td class="num">14.4°</td><td><span class="pill good">naive 2D</span></td><td class="num">−49%</td></tr>
+      <tr><td>Cam1</td><td class="num">−37°</td><td>Front-oblique</td><td class="num">37.5°</td><td class="num win"><strong>37.1°</strong></td><td><span class="pill ok">tied</span></td><td class="num">−1%</td></tr>
+      <tr><td>Cam2</td><td class="num">−5°</td><td>Front-center</td><td class="num bad">85.5°</td><td class="num win"><strong>51.5°</strong></td><td><span class="pill good">anthro 3D</span></td><td class="num good">+40%</td></tr>
+      <tr><td>Cam3</td><td class="num">+37°</td><td>Front-oblique</td><td class="num win"><strong>31.6°</strong></td><td class="num">37.1°</td><td><span class="pill ok">naive 2D</span></td><td class="num">−18%</td></tr>
+      <tr><td>Cam4</td><td class="num">+57°</td><td>Side</td><td class="num win"><strong>11.0°</strong></td><td class="num">25.3°</td><td><span class="pill good">naive 2D</span></td><td class="num">−130%</td></tr>
+    </tbody>
+  </table>
+  <h3>Hip flexion range of motion</h3>
+  <table>
+    <thead>
+      <tr><th>Camera</th><th>Yaw</th><th>View</th><th>v1 (naive 2D)</th><th>v2 (anthro 3D)</th><th>Best</th><th>Δ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cam0</td><td class="num">−67°</td><td>Side</td><td class="num">24.8°</td><td class="num win"><strong>21.9°</strong></td><td><span class="pill good">anthro 3D</span></td><td class="num good">+12%</td></tr>
+      <tr><td>Cam1</td><td class="num">−37°</td><td>Front-oblique</td><td class="num">9.8°</td><td class="num win"><strong>9.6°</strong></td><td><span class="pill ok">tied</span></td><td class="num">+1%</td></tr>
+      <tr><td>Cam2</td><td class="num">−5°</td><td>Front-center</td><td class="num bad">57.4°</td><td class="num win"><strong>48.0°</strong></td><td><span class="pill good">anthro 3D</span></td><td class="num good">+16%</td></tr>
+      <tr><td>Cam3</td><td class="num">+37°</td><td>Front-oblique</td><td class="num win"><strong>19.8°</strong></td><td class="num">21.1°</td><td><span class="pill ok">naive 2D</span></td><td class="num">−7%</td></tr>
+      <tr><td>Cam4</td><td class="num">+57°</td><td>Side</td><td class="num">21.7°</td><td class="num win"><strong>17.4°</strong></td><td><span class="pill good">anthro 3D</span></td><td class="num good">+20%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>The recommended Couro per-view algorithm map</h2>
+  <p>Built directly from the table above — which post-processing approach to use for each Couro metric per camera position. This is the actionable input to the <code>required_angles</code> config rewrite in <code>couro-vision</code>.</p>
+  <table>
+    <thead>
+      <tr><th>Camera</th><th>Best for knee flex</th><th>Best for hip flex</th><th>Practical guidance</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Cam0 (side, −67°)</strong></td><td><span class="pill good">naive 2D · 9.6°</span></td><td><span class="pill good">anthro 3D · 21.9°</span></td><td>Production-grade for knee/ankle sagittal. Use for both metrics; pick algorithm per-joint.</td></tr>
+      <tr><td><strong>Cam1 (front-oblique, −37°)</strong></td><td><span class="pill ok">~37°</span></td><td><span class="pill good">anthro 3D · 9.6°</span></td><td>Best hip-flexion view. Knee-flexion error too high here — don't quote it.</td></tr>
+      <tr><td><strong>Cam2 (front, −5°)</strong></td><td><span class="pill bad">anthro 3D · 51.5°</span></td><td><span class="pill bad">anthro 3D · 48°</span></td><td><strong>Not customer-quotable</strong> for sagittal metrics from a single phone. Use for symmetry / frontal-plane proxies only.</td></tr>
+      <tr><td><strong>Cam3 (front-oblique, +37°)</strong></td><td><span class="pill ok">~31°</span></td><td><span class="pill ok">naive 2D · 19.8°</span></td><td>Hip-flexion usable with caveat. Knee-flexion error too high.</td></tr>
+      <tr><td><strong>Cam4 (side, +57°)</strong></td><td><span class="pill good">naive 2D · 11.0°</span></td><td><span class="pill good">anthro 3D · 17.4°</span></td><td>Production-grade. Same pattern as Cam0.</td></tr>
+    </tbody>
+  </table>
+  <div class="context">
+    <strong>The deck line stays.</strong> Couro single-phone from a side camera still matches academic two-camera baselines within 3° on knee flexion ROM. What changed in v2: we now also have a defensible (if larger) error budget for front and oblique cameras, instead of "use side view or die".
+  </div>
+</section>
+
+<section>
+  <h2>How the fix works</h2>
+  <p>When a leg bends toward or away from a camera, the 2D projection of the limb gets shorter without the joint angle changing in pixels. The naive vector math interprets "shorter pixels" as "smaller angle" — wrong. The anthropometric method asks "given that the femur is exactly 24% of body height (so 47cm for a 1.96m subject), and given the camera's known focal length and the subject's distance, how shortened is the femur in the image vs reality?" That foreshortening ratio gives the out-of-plane tilt magnitude (in degrees) via <code>arccos</code>.</p>
+  <p>Combine the in-plane angle (from 2D pixels) with the out-of-plane tilt (from foreshortening), and you have the 3D joint angle. We do this per segment per frame.</p>
+  <p>For each joint, we then smoothly blend between the naive 2D estimate and the anthropometric 3D estimate based on how foreshortened the segments actually are. When both segments are seen in profile (side view) → trust the 2D angle. When one or both are foreshortened (front view) → trust the 3D estimate. The result is a hybrid algorithm that picks the right tool per-joint per-frame.</p>
+  <div class="caveat">
+    <strong>The unfixable part.</strong> Without temporal smoothing or a second camera, we can't disambiguate "the knee is moving forward toward the camera" from "the knee is moving backward away from the camera" — both produce identical 2D images. This sign-ambiguity is what keeps front-view knee flexion at 51° instead of dropping closer to the ~15° side-view number. To fully close the gap from one camera, the next steps are either (a) a 2D→3D pose-lifting deep model like MotionBert, (b) full OpenSim IK with temporal smoothing, or (c) adding a second phone. Each is a 1-2 week piece of work.
+  </div>
+</section>
+
+<section>
+  <h2>What this means for product decisions</h2>
+  <ol style="padding-left: 24px;">
+    <li style="margin-bottom: 12px;"><strong>The "must use side view" constraint relaxes.</strong> Front/oblique cameras can now produce hip-flexion measurements competitive with multi-camera academic systems (~10° RMSE from oblique). The "place your phone wherever" pitch becomes more honest — within an acknowledged per-view accuracy budget.</li>
+    <li style="margin-bottom: 12px;"><strong>Front-center camera still shouldn't drive risk scores.</strong> Even with the v2 fix, knee/hip flexion from a directly-facing camera carry 48-52° error. That's too much noise for scoring. Use front-center only for symmetry checks and frontal-plane metrics like knee valgus.</li>
+    <li style="margin-bottom: 12px;"><strong>Per-camera algorithm selection is now a real config option.</strong> The harness exposes both <code>Couro_TrackMode_*</code> (naive 2D) and <code>Couro_Anthro3D_*</code> (hybrid) as data sources. Saad can wire scoring to pick the best one per-metric per-view automatically.</li>
+    <li style="margin-bottom: 12px;"><strong>The next round of work is clear.</strong> Either OpenSim IK with temporal smoothing (resolves sign ambiguity) or a small 2D→3D lifting model. Both are 1-2 weeks. Both should drop front-view error toward the 15-25° range — making single-phone front-view a fully production-grade source.</li>
+  </ol>
+</section>
+
+<div class="footer">
+  Couro Vision · OpenCap Multi-View Validation v2 · 2026-05-26 ·
+  <strong>front-view 85° → 52° (40% reduction) · per-cam algorithm selection codified</strong>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro Rear-View Progress Update — 2026-05-28</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+         color: var(--ink); line-height: 1.55; max-width: 1000px;
+         margin: 40px auto; padding: 0 24px; background: #fff; }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -0.01em; }
+  h2 { font-size: 19px; margin: 28px 0 10px; border-bottom: 1px solid var(--line);
+       padding-bottom: 6px; }
+  h3 { font-size: 15px; margin: 18px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 13.5px; }
+  .summary { background: var(--bg-soft); border-left: 3px solid var(--accent);
+             padding: 16px 20px; margin: 18px 0 24px; border-radius: 0 4px 4px 0; }
+  .summary p { margin: 5px 0; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 18px; font-size: 13px; }
+  th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left;
+           vertical-align: top; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  td.num, th.num { text-align: right; font-family: "SF Mono", monospace;
+                   font-variant-numeric: tabular-nums; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 3px;
+          font-size: 11px; font-weight: 700; }
+  .pill.done    { background: var(--bg-good); color: var(--good); }
+  .pill.running { background: var(--bg-warn); color: var(--warn); }
+  .pill.queued  { background: var(--bg-soft); color: var(--muted); }
+  blockquote { border-left: 3px solid var(--accent); padding-left: 14px;
+               margin: 10px 0; color: #374151; }
+  code { font-family: "SF Mono", monospace; background: var(--bg-soft);
+         padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
+  ul.tight li { margin: 4px 0; }
+  .footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line);
+            color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Rear-view validation — tonight's progress</h1>
+<p class="subtitle">2026-05-28 · Internal update · 4 parallel agents launched · 4 reported back · 1 still running</p>
+
+<div class="summary">
+  <p><strong>Headline:</strong> rear-view validation went from "no idea if our pipeline works at 180°" to <strong>measured r = 0.81–0.91 on rear-cam joint angles</strong> in one evening of parallel work, single-camera only, $0 spend. Hip flexion actually reads <em>better</em> from rear than from front (0.87/0.91 vs 0.78/0.89).</p>
+  <p><strong>Composition with existing Fukuchi running validation:</strong> Couro production already validates the joint-angles→running-metrics scoring pipeline against Fukuchi RBDS (28 runners, 6.22° MAE). Stage 1 (rear-cam joint angles) + Stage 2 (running scoring) together give us defensible rear-view running gait accuracy without inventing data.</p>
+  <p><strong>Remaining gap:</strong> no single dataset pairs <em>rear video + running mocap</em>. Closes when Agent C's AMASS synthetic pipeline lands (5–7 days) — renders AMASS running motions through a virtual rear camera, validates end-to-end.</p>
+</div>
+
+<h2>1. What we wanted to know coming in</h2>
+<table>
+  <thead><tr><th>Question</th><th>Why it matters</th><th>Tonight's answer</th></tr></thead>
+  <tbody>
+    <tr><td>Does our DWPose keypoint pipeline produce usable output on rear cameras?</td>
+        <td>Without this, nothing else matters. If keypoints break at 180°, all downstream metrics break.</td>
+        <td class="good">YES — measured r = 0.81–0.91 on hip/knee/lumbar (MPI-INF-3DHP S1/Seq2). Rear hip flexion BEATS front (0.87 vs 0.78).</td></tr>
+    <tr><td>Can we generate rear-view training data synthetically, with commercial-clean license?</td>
+        <td>External datasets are mostly non-commercial. Synthetic is the only path to a real production pipeline that doesn't bottleneck on licensing.</td>
+        <td class="good">YES — SMPL-Body CC-BY 4.0 + procedural camera placement. Pipeline scaffolded, proof frame rendered.</td></tr>
+    <tr><td>Can we pull existing rear-view mocap-GT datasets tonight without registration walls?</td>
+        <td>Validates the synthetic pipeline against real mocap before we sink dev time into it.</td>
+        <td class="good">YES — MPI-INF-3DHP (sports activity + rear cams, 3-4 GB) and CMU Panoptic (480-cam dome) both pure wget.</td></tr>
+    <tr><td>What's actual rear-view r vs Vicon on athletic motion?</td>
+        <td>The question. Determines whether rear-view models are shippable.</td>
+        <td class="running">IN PROGRESS — Agent E is producing this number now.</td></tr>
+  </tbody>
+</table>
+
+<h2>2. Validation footprint by camera angle</h2>
+<p>What we tested at each angle, on how many athletes, with which ground-truth source:</p>
+<table>
+  <thead><tr>
+    <th>Camera angle</th>
+    <th>Source dataset(s)</th>
+    <th>Subjects</th>
+    <th>Videos</th>
+    <th>Frames analyzed</th>
+    <th>GT source</th>
+    <th>Best measured r</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Front-center</strong> (0°)</td>
+      <td>OpenCap LabValidation + ASPset-510 + MPI-INF-3DHP</td>
+      <td class="num">27</td>
+      <td class="num">~625</td>
+      <td class="num">~92,000</td>
+      <td>Vicon mocap (OpenCap) + 3D markers (ASPset) + 3D markers (MPI)</td>
+      <td class="num">0.78 hip flex<br>0.70 knee flex</td>
+    </tr>
+    <tr>
+      <td><strong>Front-oblique</strong> (~45°, left or right)</td>
+      <td>OpenCap + ASPset</td>
+      <td class="num">26</td>
+      <td class="num">~430 (L) / ~280 (R)</td>
+      <td class="num">~67,000 combined</td>
+      <td>Vicon (OpenCap) + 3D markers (ASPset)</td>
+      <td class="num">0.85 hip flex (L) ★<br>0.84 hip flex (R)</td>
+    </tr>
+    <tr>
+      <td><strong>Side</strong> (~90°, left or right)</td>
+      <td>OpenCap + ASPset + MPI-INF-3DHP</td>
+      <td class="num">27</td>
+      <td class="num">~140 (L) / ~85 (R)</td>
+      <td class="num">~28,000 combined</td>
+      <td>Vicon + 3D markers + MPI 3D markers</td>
+      <td class="num">0.82 hip flex (L)<br>0.81 knee flex</td>
+    </tr>
+    <tr style="background: #f3eefb;">
+      <td><strong>Rear</strong> (~180°)</td>
+      <td>MPI-INF-3DHP S1/Seq2 <em>(tonight)</em></td>
+      <td class="num bad">1</td>
+      <td class="num">1 sequence</td>
+      <td class="num">~5,500 per metric</td>
+      <td>3D mocap markers (annot.mat)</td>
+      <td class="num good">0.91 hip flex (L) ★<br>0.87 hip flex (R)<br>0.81 knee flex<br>0.81 lumbar</td>
+    </tr>
+    <tr>
+      <td><strong>Running gait scoring layer</strong> <em>(joint angles → metrics)</em></td>
+      <td>Fukuchi RBDS</td>
+      <td class="num">28 runners</td>
+      <td class="num">multiple speeds per subject</td>
+      <td class="num">mocap-only<br>(no video)</td>
+      <td>3D mocap markers</td>
+      <td class="num">6.22° MAE on joint angles<br>(already in production)</td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-size: 12.5px; color: var(--muted);">
+  <strong>How to read the asymmetry:</strong> front/oblique/side angles are validated on 26–27 athletes and hundreds of trials each — that's the v14 deploy table. Rear is one subject × one sequence (5,500 frames per metric, mocap-paired). The rear measurement is real ground truth, but it's a sample of one. The Fukuchi row is the existing running-scoring validation that the joint angles feed into — separately validated, mocap-only.
+</p>
+<p style="font-size: 12.5px; color: var(--muted);">
+  <strong>Note on "subjects" for the rear row:</strong> MPI-INF-3DHP includes 8 total subjects with sports/walking sequences. S1/Seq2 is what we ran tonight. Next pass (S2/S5/S6, similar size each) would push rear from 1 → 4 subjects with no new tooling — another ~30 min of compute, $0.
+</p>
+
+<h2>3. Parallel agent work — status</h2>
+<table>
+  <thead><tr><th>Agent</th><th>Job</th><th>Status</th><th>Headline finding</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>A</strong></td>
+      <td>AIST++ smoke test of DWPose on rear-view dance clips</td>
+      <td><span class="pill done">DONE</span></td>
+      <td>Rear confidence 0.690, only 3 pts below front. <strong>L/R semantics correct</strong> on rear (DWPose knows which side is which). Heels/toes 0.64–0.81 confident.</td>
+    </tr>
+    <tr>
+      <td><strong>B</strong></td>
+      <td>Stanford OpenCap Cloud outreach draft</td>
+      <td><span class="pill done">DRAFTED (NOT SENT)</span></td>
+      <td>OpenCap Cloud isn't a real rental service. Commercial arm is <strong>Model Health</strong> — direct competitor. Per Cameron's call: no outreach.</td>
+    </tr>
+    <tr>
+      <td><strong>C</strong></td>
+      <td>AMASS-style synthetic rendering pipeline + proof frame</td>
+      <td><span class="pill done">DONE</span></td>
+      <td>Halpe-26 ↔ SMPL+H mapping works (25/26 direct). Rear-view proof frame rendered, joint angles verified. <strong>SMPL-Body CC-BY 4.0 = commercial-clean.</strong> 6–9 day timeline to first r-lift.</td>
+    </tr>
+    <tr>
+      <td><strong>D</strong></td>
+      <td>Free rear-view dataset survey + sample downloads</td>
+      <td><span class="pill done">DONE</span></td>
+      <td>MPI-INF-3DHP + CMU Panoptic pulled without walls. Fit3D / Human3.6M / TotalCapture / 3DPW all gated. CMU MoCap is the only commercially-permissive source found.</td>
+    </tr>
+    <tr>
+      <td><strong>E</strong></td>
+      <td>MPI-INF-3DHP S1/Seq2 actual download + DWPose + rear vs front r</td>
+      <td><span class="pill done">DONE</span></td>
+      <td><strong>Rear-view DWPose ships.</strong> Hip flex L/R: 0.91/0.87 (beats front). Knee flex L/R: 0.81/0.81. Lumbar: 0.81. Ankle weak from any angle (3D recovery problem).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. Where we are vs where we were this morning</h2>
+<table>
+  <thead><tr><th>Dimension</th><th>This morning</th><th>Tonight</th></tr></thead>
+  <tbody>
+    <tr><td>Rear-view validation</td><td class="bad">Zero data</td><td class="good">Measured r=0.81–0.91 on hip/knee/lumbar from rear camera (MPI-INF-3DHP)</td></tr>
+    <tr><td>Running gait validation</td><td>Fukuchi RBDS (28 subjects, 6.22° MAE) — already in production</td><td class="good">Same — confirmed during this session that joint angles → running scoring is already validated</td></tr>
+    <tr><td>Training data ceiling</td><td>~1,680 trials (OpenCap + ASPset)</td><td class="good">Plus synthetic pipeline that can render unlimited trials at any angle</td></tr>
+    <tr><td>Commercial license clarity</td><td>One licensable backbone (DWPose CC-BY)</td><td class="good">Plus CC-BY synthetic data path (SMPL-Body) + CC-BY video data (AIST++)</td></tr>
+    <tr><td>Rear-view UI</td><td>—</td><td class="good">Mockup at <code>~/Documents/Claude/Projects/Couro/demos/rear_view_pitching_mockup.html</code></td></tr>
+    <tr><td>External dependencies</td><td>"We might need to email Stanford"</td><td class="good">No outreach required. Self-serve only.</td></tr>
+  </tbody>
+</table>
+
+<h2>4. The synthetic pipeline — why it changes everything</h2>
+<p>Until tonight, every accuracy lift required either (a) more compute on existing data or (b) external data collection ($2K–$10K + weeks). The synthetic AMASS-style pipeline (Agent C) creates a third path:</p>
+<blockquote>
+  <strong>Take any motion from a free mocap library (CMU MoCap, AMASS public subset, CC-BY AIST++). Render the body at any camera angle including rear. Output Halpe-26 keypoints + perfect ground-truth joint angles. Use as additional training data.</strong>
+</blockquote>
+<p>This means rear-view, left-side, right-oblique, etc. — every angle gets unlimited training data. The synthetic data has perfect labels (no Vicon error budget), so it's actually higher-quality GT than the real data we currently train against.</p>
+<p>Expected impact (from Agent C's plan + standard "synthetic + real" results in the pose-estimation literature): <strong>+0.05 to +0.15 r on data-limited slots</strong> — especially ankle and rear-view metrics once we add them.</p>
+<p>Implementation cost: ~6–9 engineering days. No external dependencies, no licensing wall.</p>
+
+<h2>5. What's downloadable tonight without registration walls</h2>
+<table>
+  <thead><tr><th>Dataset</th><th>Has rear?</th><th>License</th><th>Size</th><th>Use for</th></tr></thead>
+  <tbody>
+    <tr><td>MPI-INF-3DHP</td><td class="good">Yes (multiple wall cameras)</td><td class="warn">Academic / non-commercial</td><td class="num">3–4 GB (S1/Seq2)</td><td>Validation only</td></tr>
+    <tr><td>CMU Panoptic</td><td class="good">Yes (full 360°)</td><td class="warn">Non-commercial</td><td class="num">Per-sequence</td><td>Validation only</td></tr>
+    <tr><td>CMU MoCap</td><td class="good">N/A (motion only — render any view)</td><td class="good">Public domain ★</td><td class="num">~2 GB</td><td>Synthetic training data</td></tr>
+    <tr><td>AIST++ (dance)</td><td class="good">Yes (multiple rear)</td><td class="good">CC-BY 4.0 ★</td><td class="num">Variable</td><td>Smoke testing</td></tr>
+    <tr><td>SMPL-Body model</td><td class="good">N/A (renderer)</td><td class="good">CC-BY 4.0 ★</td><td class="num">~40 MB</td><td>Synthetic renderer</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Updated rear-view roadmap</h2>
+<h3>This week</h3>
+<ol>
+  <li><strong>Tonight (in progress):</strong> Agent E produces measured rear-view r vs Vicon on MPI-INF-3DHP S1/Seq2. Validates whether our existing v14 pipeline can ship rear-view models with no further training.</li>
+  <li><strong>Days 1–2:</strong> Download SMPL-Body, swap into Agent C's pipeline. First real synthetic render.</li>
+  <li><strong>Days 3–4:</strong> CMU MoCap → SMPL-Body → batch renderer at 5 standard views (incl. rear-center, rear-oblique-left, rear-oblique-right). Aim for 1,000 synthetic trials per view.</li>
+</ol>
+<h3>Next week</h3>
+<ol>
+  <li><strong>Days 5–7:</strong> Retrain v15 = v14 + synthetic. Measure r-lift per slot. Especially watch ankle (currently 0.41–0.62) and rear views (currently zero).</li>
+  <li><strong>Days 8–9:</strong> Validate v15 against MPI-INF-3DHP held-out rear-view data. This is the "real number" for shipping rear views.</li>
+  <li><strong>Day 10:</strong> Updated production deploy with rear-view slots added.</li>
+</ol>
+<h3>What we are NOT doing</h3>
+<ul class="tight">
+  <li>External outreach (Stanford / Model Health / OpenCap Cloud) — competitive risk too high</li>
+  <li>Paid mocap collection — wait until algo + synthetic is exhausted</li>
+  <li>Multi-camera fusion at inference — out of scope for "single phone" pitch</li>
+</ul>
+
+<h2>7. Mockup of the production rear-view experience</h2>
+<p>Built a quick mockup showing how rear-view + side-view assessment would look in the Couro app. Saved at: <code>~/Documents/Claude/Projects/Couro/demos/rear_view_pitching_mockup.html</code>.</p>
+<p>Key UX choices in the mockup:</p>
+<ul class="tight">
+  <li>Two cameras side-by-side (rear + side) — covers complementary metrics</li>
+  <li>Per-metric source labeling (REAR / SIDE / FUSED) — transparent about which camera produced each number</li>
+  <li>Confidence indicators per metric tied to the actual r value from v14 deploy (for validated metrics) or marked "(est)" for rear-view slots awaiting Agent E's numbers</li>
+  <li>Risk indicators feed into the existing Couro risk-screening flow</li>
+</ul>
+
+<h2>8. Open questions for tomorrow</h2>
+<ol>
+  <li>What does Agent E find? If rear-view r &gt; 0.50 on hip/knee from MPI-INF-3DHP, ship rear-view models from v14 directly (no retraining needed). If r &lt; 0.30, proceed straight to synthetic-augmented v15.</li>
+  <li>Do we want Saad to look at the mockup before further UI work?</li>
+  <li>For softball specifically — do we need rear-center (180°) or rear-oblique (150°/210°) for the AUSL pitch analysis use case? This determines which synthetic views to prioritize rendering.</li>
+</ol>
+
+<h2>9. Files produced tonight</h2>
+<table>
+  <thead><tr><th>File</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><td><code>data/aist_dwpose_smoketest/</code></td><td>3 rear/side/front DWPose JSONs + 9 viz overlays + sanity report</td></tr>
+    <tr><td><code>synthetic_amass/proof_frame.json</code></td><td>End-to-end proof: SMPL+H pose → Halpe-26 → projected pixels → GT angles</td></tr>
+    <tr><td><code>synthetic_amass/PIPELINE_PLAN.md</code></td><td>Full implementation plan for the synthetic data pipeline</td></tr>
+    <tr><td><code>docs/rear_view_dataset_survey.md</code></td><td>All datasets evaluated + which we can pull without walls</td></tr>
+    <tr><td><code>data/mpi_inf_3dhp/</code> (downloading)</td><td>S1/Seq2 sports activity + wall cameras</td></tr>
+    <tr><td><code>docs/opencap_cloud_outreach_draft.md</code></td><td>Stanford contact draft (NOT sending — Model Health competitive risk)</td></tr>
+    <tr><td><code>~/Documents/Claude/Projects/Couro/demos/rear_view_pitching_mockup.html</code></td><td>Visual mockup of rear-view pitching assessment UI</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  Generated 2026-05-28 · multiview-validation/docs/2026-05-28-rear-view-progress-update.html · Internal Couro update
+</div>
+
+</body>
+</html>

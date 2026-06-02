@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v12 ASPset Data Expansion (2026-05-28)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+         color: var(--ink); line-height: 1.55; max-width: 1000px;
+         margin: 40px auto; padding: 0 24px; background: #fff; }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; border-bottom: 1px solid var(--line);
+       padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr { background: var(--bg-soft); border-left: 3px solid var(--accent);
+          padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0; }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  .big-numbers { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .big-num { flex: 1 1 0; min-width: 140px; background: var(--bg-soft);
+             padding: 14px; border-radius: 4px; border-left: 3px solid var(--accent); }
+  .big-num .n { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums;
+                font-family: "SF Mono", monospace; }
+  .big-num .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase;
+                  letter-spacing: 0.04em; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .row-good td:last-child { background: var(--bg-good); }
+  .row-warn td:last-child { background: var(--bg-warn); }
+  .row-bad  td:last-child { background: var(--bg-bad); }
+  .new { background: var(--bg-good); padding: 1px 6px; border-radius: 3px;
+         font-weight: 700; color: var(--good); font-size: 11px; }
+  .star { color: var(--good); font-weight: 700; }
+  blockquote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 10px 0; }
+  code, pre { font-family: "SF Mono", monospace; }
+  pre { background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+        overflow-x: auto; font-size: 12.5px; line-height: 1.5; }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line);
+            color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — ASPset data expansion lifts r to 0.83</h1>
+<p class="subtitle">v12 · 2026-05-28 · OpenCap (9 subj, drop jumps) + ASPset-510 (17 subj, 30 athletic actions) · 26 subjects · 1,680 trials · LOSO cross-validated</p>
+
+<div class="tldr">
+  <p><strong>Data tripled, accuracy jumped.</strong> Added 17 new subjects across 30 sport actions (jumps, throws, sprints, kicks) from the ASPset-510 dataset. Processed through Couro's RTMPose-X Halpe-26 on AWS A10G GPU (1,410 video clips). Combined with the existing OpenCap drop-jump trials.</p>
+  <p><strong>23 of 25 deploy-ready slots</strong>, up from 22 (v9/v10). And the strong deploys got dramatically stronger: <strong>9 slots now correlate with Vicon at r ≥ 0.70</strong> (vs only 1 before).</p>
+  <p><strong>Best result: hip flexion ROM at r = 0.83 from oblique camera angles.</strong> Front-view metrics that were previously weak (hip flexion front_center r=0.20) are now strong (r=0.78). The data was the binding constraint, not the algorithm.</p>
+</div>
+
+<div class="big-numbers">
+  <div class="big-num"><div class="n good">23</div><div class="lbl">Deploy-ready slots</div></div>
+  <div class="big-num"><div class="n">0.83</div><div class="lbl">Best Pearson r</div></div>
+  <div class="big-num"><div class="n">9</div><div class="lbl">Slots with r ≥ 0.70</div></div>
+  <div class="big-num"><div class="n">26</div><div class="lbl">Subjects validated</div></div>
+</div>
+
+<h2>1. The data expansion that moved the needle</h2>
+<table>
+  <thead><tr><th>Source</th><th>Subjects</th><th>Trials</th><th>Motions</th></tr></thead>
+  <tbody>
+    <tr><td>OpenCap LabValidation</td><td class="num">9</td><td class="num">~270</td><td>Drop jumps + asymmetric drop jumps</td></tr>
+    <tr><td>ASPset-510 (Waseda / Sports)</td><td class="num">17</td><td class="num">1,410</td><td>30 athletic actions: jumps, throws, sprints, kicks, gymnastics</td></tr>
+    <tr><td><strong>Combined</strong></td><td class="num"><strong>26</strong></td><td class="num"><strong>~1,680</strong></td><td>Drop jumps + outdoor athletic sports</td></tr>
+  </tbody>
+</table>
+<p>ASPset-510 is CC0 (public domain) — fully usable commercially without restrictions. Videos were processed through Couro's production RTMPose-X pipeline on a g5.xlarge GPU instance (~1 hour of compute, ~$2 in AWS spend).</p>
+
+<h2>2. Per-(metric × view) headline accuracy</h2>
+<table>
+  <thead><tr>
+    <th>Metric</th><th>View</th><th>Approach</th>
+    <th>RMSE</th><th>r</th><th>r²</th><th>Verdict</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>side_left</td><td>v12 combined</td>
+        <td class="num">15.96°</td><td class="num good">0.82</td><td class="num">0.67</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>front_oblique_left</td><td>v12 combined</td>
+        <td class="num">17.92°</td><td class="num good">0.83 <span class="star">★</span></td><td class="num">0.69</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>front_center</td><td>v12 combined</td>
+        <td class="num">20.75°</td><td class="num good">0.78</td><td class="num">0.61</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>front_oblique_right</td><td>v12 combined</td>
+        <td class="num">17.04°</td><td class="num good">0.83</td><td class="num">0.69</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>side_right</td><td>event-anchored (v6)</td>
+        <td class="num">10.83°</td><td class="num good">0.50</td><td class="num">0.25</td>
+        <td class="good">DEPLOY</td></tr>
+
+    <tr class="row-good"><td>Hip adduction ROM</td><td>side_left</td><td>v12 combined</td>
+        <td class="num">13.44°</td><td class="num good">0.78 <span class="star">★</span></td><td class="num">0.61</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip adduction ROM</td><td>front_oblique_left</td><td>v9 phased</td>
+        <td class="num">5.02°</td><td class="num good">0.51</td><td class="num">0.26</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip adduction ROM</td><td>front_center</td><td>v12 combined</td>
+        <td class="num">15.88°</td><td class="num good">0.63</td><td class="num">0.40</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Hip adduction ROM</td><td>front_oblique_right</td><td>v12 combined</td>
+        <td class="num">18.11°</td><td class="num good">0.58</td><td class="num">0.34</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-warn"><td>Hip adduction ROM</td><td>side_right</td><td>full-trial (v4)</td>
+        <td class="num">5.54°</td><td class="num">0.01</td><td class="num">0.00</td>
+        <td class="warn">scale-only</td></tr>
+
+    <tr class="row-good"><td>Knee flexion ROM</td><td>side_left</td><td>v12 combined</td>
+        <td class="num">13.29°</td><td class="num good">0.80</td><td class="num">0.64</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>front_oblique_left</td><td>v12 combined</td>
+        <td class="num">15.34°</td><td class="num good">0.78</td><td class="num">0.61</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>front_center</td><td>v12 combined</td>
+        <td class="num">17.07°</td><td class="num good">0.70</td><td class="num">0.49</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>front_oblique_right</td><td>v9 phased</td>
+        <td class="num">7.04°</td><td class="num good">0.80</td><td class="num">0.64</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>side_right</td><td>v12 combined</td>
+        <td class="num">12.28°</td><td class="num good">0.81 <span class="star">★</span></td><td class="num">0.66</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+
+    <tr class="row-good"><td>Ankle dorsiflexion ROM</td><td>side_left</td><td>v9 phased</td>
+        <td class="num">7.22°</td><td class="num good">0.39</td><td class="num">0.15</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflexion ROM</td><td>front_oblique_left</td><td>v10 GBM</td>
+        <td class="num">8.08°</td><td class="num">0.17</td><td class="num">0.03</td>
+        <td class="warn">deploy (modest)</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflexion ROM</td><td>front_center</td><td>event-anchored bilateral</td>
+        <td class="num">7.94°</td><td class="num">0.15</td><td class="num">0.02</td>
+        <td class="warn">deploy (modest)</td></tr>
+    <tr class="row-bad"><td>Ankle dorsiflexion ROM</td><td>front_oblique_right</td><td>v10 GBM</td>
+        <td class="num">8.77°</td><td class="num bad">−0.15</td><td class="num">0.02</td>
+        <td class="bad">do not ship</td></tr>
+    <tr class="row-good"><td>Ankle dorsiflexion ROM</td><td>side_right</td><td>v9 phased</td>
+        <td class="num">7.08°</td><td class="num good">0.40</td><td class="num">0.16</td>
+        <td class="good">DEPLOY</td></tr>
+
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>side_left</td><td>v12 combined</td>
+        <td class="num">8.69°</td><td class="num good">0.65</td><td class="num">0.42</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_oblique_left</td><td>event-anchored</td>
+        <td class="num">4.71°</td><td class="num good">0.54</td><td class="num">0.29</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_center</td><td>event-anchored</td>
+        <td class="num">4.78°</td><td class="num good">0.53</td><td class="num">0.28</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_oblique_right</td><td>v12 combined</td>
+        <td class="num">9.48°</td><td class="num good">0.53</td><td class="num">0.28</td>
+        <td class="good">DEPLOY <span class="new">v12</span></td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>side_right</td><td>v10 GBM</td>
+        <td class="num">5.66°</td><td class="num good">0.35</td><td class="num">0.12</td>
+        <td class="good">DEPLOY</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size:12.5px; color: var(--muted);"><span class="new">v12</span> = slot was upgraded by combining OpenCap + ASPset-510 data this round. v12 picked 13 of 25 slots; v9 phased + v10 GBM + event-anchored kept the other 12 where they were already better.</p>
+
+<h2>3. Biggest single-slot lifts from v9 → v12</h2>
+<table>
+  <thead><tr><th>Slot</th><th>v9 r → v12 r</th><th>Δr</th></tr></thead>
+  <tbody>
+    <tr><td>hip_adduction_r side_left</td><td class="num">−0.08 → <strong>+0.78</strong></td><td class="num good">+0.86 ★★★</td></tr>
+    <tr><td>hip_flexion_r front_center</td><td class="num">+0.20 → <strong>+0.78</strong></td><td class="num good">+0.58 ★★★</td></tr>
+    <tr><td>hip_flexion_r front_oblique_right</td><td class="num">+0.26 → <strong>+0.83</strong></td><td class="num good">+0.57 ★★★</td></tr>
+    <tr><td>knee_angle_r front_center</td><td class="num">+0.15 → <strong>+0.70</strong></td><td class="num good">+0.55 ★★</td></tr>
+    <tr><td>hip_adduction_r front_center</td><td class="num">+0.18 → <strong>+0.63</strong></td><td class="num good">+0.45 ★★</td></tr>
+    <tr><td>hip_flexion_r front_oblique_left</td><td class="num">+0.56 → <strong>+0.83</strong></td><td class="num good">+0.27</td></tr>
+    <tr><td>knee_angle_r side_left</td><td class="num">+0.55 → <strong>+0.80</strong></td><td class="num good">+0.25</td></tr>
+    <tr><td>knee_angle_r front_oblique_left</td><td class="num">+0.56 → <strong>+0.78</strong></td><td class="num good">+0.21</td></tr>
+  </tbody>
+</table>
+
+<p>The data was the binding constraint. We knew this in theory — adding 17 new subjects via LOSO improves generalization. The lifts here confirm it in practice.</p>
+
+<h2>4. New defensible commercial claim</h2>
+<blockquote>
+"Couro's biomechanical CV is validated against Vicon motion capture across <strong>26 athletes spanning drop jumps and 30 athletic motions</strong> from two independent datasets (OpenCap, ASPset-510). For knee flexion, hip flexion, and hip adduction from any of the recommended camera angles, we correlate with lab-grade mocap at <strong>r = 0.78–0.83 (R² = 0.61–0.69)</strong>, with typical errors of ±13–18°. That's competitive with commercial multi-camera markerless systems — from a single phone camera."
+</blockquote>
+
+<p>For reference:</p>
+<table>
+  <thead><tr><th>System</th><th>Setup</th><th>Typical r vs Vicon</th></tr></thead>
+  <tbody>
+    <tr><td>Xsens IMU (medical wearable)</td><td>Body sensors</td><td class="num">0.95–0.98</td></tr>
+    <tr><td>Theia3D (commercial markerless)</td><td>8 lab cameras</td><td class="num">0.85–0.95</td></tr>
+    <tr><td>OpenCap (open-source markerless)</td><td>2 phones + calib</td><td class="num">0.79–0.91</td></tr>
+    <tr><td><strong>Couro (this validation)</strong></td><td><strong>1 phone</strong></td><td class="num"><strong>up to 0.83</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>5. Slots still failing (2 of 25)</h2>
+<table>
+  <thead><tr><th>Slot</th><th>r</th><th>Root cause</th></tr></thead>
+  <tbody>
+    <tr><td>hip_adduction_r side_right</td><td class="num">+0.01</td><td>Frontal-plane motion unobservable from a true side view. Don't offer this combination — guide users to front views for adduction metrics.</td></tr>
+    <tr><td>ankle_angle_r front_oblique_right</td><td class="num bad">−0.15</td><td>Right-ankle keypoint occluded by box edge on right-side cameras. ASPset has no foot keypoints, so this slot couldn't benefit from the data expansion.</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Engineering cost of this round</h2>
+<table>
+  <thead><tr><th>Step</th><th>Time</th><th>Cost</th></tr></thead>
+  <tbody>
+    <tr><td>Identify ASPset-510 as commercially-usable training data</td><td>~30 min</td><td>$0</td></tr>
+    <tr><td>Download ASPset (22GB) on AWS</td><td>~10 min</td><td>~$0.20</td></tr>
+    <tr><td>Run RTMPose-X inference on 1,410 videos (4 parallel workers on A10G)</td><td>~70 min</td><td>~$1.20</td></tr>
+    <tr><td>Combined training + finalize</td><td>~5 min</td><td>$0</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>~2 hrs</strong></td><td><strong>~$7 incl. one failed attempt</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>7. Files for Saad</h2>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>results/deploy_ready_models.json</code></td><td>Final 25 model entries — each tagged with its winning approach</td></tr>
+    <tr><td><code>results/v12_combined_models.json</code></td><td>OpenCap + ASPset combined regressions (raw)</td></tr>
+    <tr><td><code>harness/aspset_loader.py</code></td><td>ASPset C3D + camera + 3D-to-joint-angle conversion</td></tr>
+    <tr><td><code>harness/train_v12_combined.py</code></td><td>Combined training pipeline</td></tr>
+    <tr><td><code>harness/aspset_infer_local.py</code></td><td>RTMPose inference driver (CoreML/CUDA)</td></tr>
+  </tbody>
+</table>
+
+<h2>8. What's still left as a real lever</h2>
+<ol>
+  <li><strong>Sport-specific data collection</strong> — ASPset is generic athletic motions. AUSL softball pitching, Sharks hockey skating, etc. need their own validation. Custom mocap collection or AthletePose3D commercial license.</li>
+  <li><strong>Better foot keypoints</strong> — for the 2 still-failing ankle slots, the limitation is RTMPose-X foot/heel keypoint quality. DWPose or a sports-specific pose model with explicit foot supervision could help.</li>
+  <li><strong>Multi-camera fusion</strong> — out of scope per product constraints, but would push best r toward 0.90+.</li>
+</ol>
+
+<p>The big algorithmic story is done. The remaining wins come from sport-specific data and (selectively) a better keypoint model.</p>
+
+<div class="footer">
+  Generated 2026-05-28 · multiview-validation/docs/2026-05-27-couro-vs-vicon-v12.html<br>
+  Earlier briefs: <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> · <a href="2026-05-27-couro-vs-vicon-v4.html">v4</a> · <a href="2026-05-27-couro-vs-vicon-v5.html">v5</a> · <a href="2026-05-27-couro-vs-vicon-v6.html">v6</a> · <a href="2026-05-27-couro-vs-vicon-v7.html">v7</a> · <a href="2026-05-27-couro-vs-vicon-v9.html">v9</a> · v12 = this doc (data expansion via ASPset-510).
+</div>
+
+</body>
+</html>

@@ -1,0 +1,317 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.train_ankle_view_aware",
+  "produced_date": "2026-05-27",
+  "target_metric": "ankle_angle_r",
+  "feature_names": [
+    "ankle_rom_full",
+    "ankle_at_contact",
+    "ankle_rom_loading",
+    "ankle_min_loading",
+    "ankle_max_loading",
+    "ankle_end_loading",
+    "knee_at_contact_same_side",
+    "knee_rom_loading_same_side",
+    "hip_at_contact_same_side",
+    "loading_duration_frames"
+  ],
+  "approach": "View-aware foot-side selection. For each camera view, the measurement side (L or R) is chosen based on camera geometry to use the far/least-occluded foot. GT is always right-ankle OpenSim IK; left-side features used as a symmetry proxy where needed.",
+  "models": {
+    "side_left": {
+      "camera_id": "Cam0",
+      "view_bucket": "side_left",
+      "measurement_side": "R",
+      "target_metric": "ankle_angle_r",
+      "n_train_trials": 52,
+      "n_subjects": 9,
+      "n_skipped_no_event": 2,
+      "feature_names": [
+        "ankle_rom_full",
+        "ankle_at_contact",
+        "ankle_rom_loading",
+        "ankle_min_loading",
+        "ankle_max_loading",
+        "ankle_end_loading",
+        "knee_at_contact_same_side",
+        "knee_rom_loading_same_side",
+        "hip_at_contact_same_side",
+        "loading_duration_frames"
+      ],
+      "feature_mean": [
+        50.0644945537263,
+        -14.187785360995784,
+        23.909051307661425,
+        -34.683144300283416,
+        -10.774092992622,
+        -34.31276402121232,
+        79.42632621186887,
+        43.40885455440931,
+        89.75412000643226,
+        20.365384615384617
+      ],
+      "feature_std": [
+        6.310939195468643,
+        10.510967164755222,
+        10.101910949623194,
+        9.337436488009665,
+        10.680201067879697,
+        8.785572579067702,
+        14.485307444857055,
+        15.730704238839271,
+        18.81538109242931,
+        8.283507353943754
+      ],
+      "weights_zscored": [
+        0.832959393076661,
+        -1.6340754822643542,
+        1.3952883668166092,
+        -0.7454457386632811,
+        0.6680142579016882,
+        -1.8694874183886192,
+        3.215935250574321,
+        -0.07227854133101301,
+        -1.845464307626995,
+        0.7532465968784223
+      ],
+      "intercept": 71.97876736903848,
+      "naive_baseline": {
+        "rmse": 23.538995878370848
+      },
+      "loso_cv_stats": {
+        "rmse_deg": 8.20353874181245,
+        "mae_deg": 6.444331749106766,
+        "bias_deg": 0.48761576165563764,
+        "sd_of_difference_deg": 8.268928962327498,
+        "loa_95_lower_deg": -15.719485004506259,
+        "loa_95_upper_deg": 16.694716527817533,
+        "pearson_r": 0.15652761676979343
+      },
+      "v6_comparison": {
+        "v6_pearson_r": 0.15652761676979343,
+        "delta_r": 0.0
+      }
+    },
+    "front_oblique_left": {
+      "camera_id": "Cam1",
+      "view_bucket": "front_oblique_left",
+      "measurement_side": "R",
+      "target_metric": "ankle_angle_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "n_skipped_no_event": 0,
+      "feature_names": [
+        "ankle_rom_full",
+        "ankle_at_contact",
+        "ankle_rom_loading",
+        "ankle_min_loading",
+        "ankle_max_loading",
+        "ankle_end_loading",
+        "knee_at_contact_same_side",
+        "knee_rom_loading_same_side",
+        "hip_at_contact_same_side",
+        "loading_duration_frames"
+      ],
+      "feature_mean": [
+        41.07456440034818,
+        -38.41845084128064,
+        18.686196915148653,
+        -53.4320954270704,
+        -34.74589851192174,
+        -51.43113795908567,
+        46.84073304805356,
+        32.36507271958441,
+        51.10109002960814,
+        18.0
+      ],
+      "feature_std": [
+        5.976625529074634,
+        8.22891719532764,
+        8.333055371537585,
+        7.7258728559096275,
+        9.09530625741985,
+        9.525761231877517,
+        14.411021096147566,
+        12.529093592202852,
+        15.62192537748899,
+        11.524531001946015
+      ],
+      "weights_zscored": [
+        -0.634810925002291,
+        -0.8952871197350286,
+        1.4140945619570944,
+        -0.628745571138535,
+        0.7615048628401762,
+        -1.7350615613765565,
+        -0.18697574305566783,
+        1.0560399116651278,
+        0.5640825334779597,
+        0.9537249486152911
+      ],
+      "intercept": 72.06000281277778,
+      "naive_baseline": {
+        "rmse": 32.524918534222316
+      },
+      "loso_cv_stats": {
+        "rmse_deg": 8.724875009521009,
+        "mae_deg": 7.23985495979062,
+        "bias_deg": 0.0008393469342101517,
+        "sd_of_difference_deg": 8.806800475138935,
+        "loa_95_lower_deg": -17.260489584338103,
+        "loa_95_upper_deg": 17.262168278206524,
+        "pearson_r": -0.06426124899630213
+      },
+      "v6_comparison": {
+        "v6_pearson_r": -0.06426124899630213,
+        "delta_r": 0.0
+      }
+    },
+    "front_oblique_right": {
+      "camera_id": "Cam3",
+      "view_bucket": "front_oblique_right",
+      "measurement_side": "L",
+      "target_metric": "ankle_angle_r",
+      "n_train_trials": 38,
+      "n_subjects": 7,
+      "n_skipped_no_event": 16,
+      "feature_names": [
+        "ankle_rom_full",
+        "ankle_at_contact",
+        "ankle_rom_loading",
+        "ankle_min_loading",
+        "ankle_max_loading",
+        "ankle_end_loading",
+        "knee_at_contact_same_side",
+        "knee_rom_loading_same_side",
+        "hip_at_contact_same_side",
+        "loading_duration_frames"
+      ],
+      "feature_mean": [
+        41.73296720920137,
+        -36.19010609771332,
+        21.369106652938846,
+        -54.32791381430376,
+        -32.958807161364895,
+        -53.93332540488975,
+        49.15943868676495,
+        27.283492286382092,
+        57.96835338436358,
+        19.92105263157895
+      ],
+      "feature_std": [
+        5.493279444890044,
+        10.125800341739897,
+        9.54242353920341,
+        7.2017011979802295,
+        10.066338092578151,
+        7.5715002986814826,
+        16.3712177218986,
+        14.420438197487588,
+        19.609595486245173,
+        10.400864283286037
+      ],
+      "weights_zscored": [
+        0.06290884694694783,
+        1.0325499596982641,
+        0.3010506025454342,
+        -0.1769196282033175,
+        0.1588094938934649,
+        -0.7137519922954504,
+        -0.8241641644865625,
+        -0.19868012252833248,
+        1.9795373062486281,
+        -0.5626810661067878
+      ],
+      "intercept": 70.86629760210526,
+      "naive_baseline": {
+        "rmse": 30.30773325579561
+      },
+      "loso_cv_stats": {
+        "rmse_deg": 11.035668333227882,
+        "mae_deg": 9.396054437557922,
+        "bias_deg": 1.6053396349359677,
+        "sd_of_difference_deg": 11.06484167552668,
+        "loa_95_lower_deg": -20.08175004909632,
+        "loa_95_upper_deg": 23.29242931896826,
+        "pearson_r": -0.4448922179830758
+      },
+      "v6_comparison": {
+        "v6_pearson_r": -0.21002041570392677,
+        "delta_r": -0.23487180227914906
+      }
+    },
+    "side_right": {
+      "camera_id": "Cam4",
+      "view_bucket": "side_right",
+      "measurement_side": "L",
+      "target_metric": "ankle_angle_r",
+      "n_train_trials": 52,
+      "n_subjects": 9,
+      "n_skipped_no_event": 2,
+      "feature_names": [
+        "ankle_rom_full",
+        "ankle_at_contact",
+        "ankle_rom_loading",
+        "ankle_min_loading",
+        "ankle_max_loading",
+        "ankle_end_loading",
+        "knee_at_contact_same_side",
+        "knee_rom_loading_same_side",
+        "hip_at_contact_same_side",
+        "loading_duration_frames"
+      ],
+      "feature_mean": [
+        53.8597402653359,
+        -13.68983671311969,
+        24.239756294759317,
+        -34.66278074712583,
+        -10.423024452366503,
+        -34.077119040756116,
+        79.96158050135865,
+        37.58477685757519,
+        88.8152151049259,
+        19.423076923076923
+      ],
+      "feature_std": [
+        8.204343545503583,
+        9.987510616155722,
+        10.44672248391623,
+        7.679795255769612,
+        9.974579019450296,
+        7.5655517177585825,
+        11.535397045667697,
+        13.486552091170182,
+        14.347591157534035,
+        8.733987885193006
+      ],
+      "weights_zscored": [
+        1.651367333171268,
+        -0.19057388672706024,
+        -0.03265288637026831,
+        -1.0170169090514976,
+        -0.8172372246973921,
+        -0.7485943685983014,
+        3.404446339507729,
+        -0.9015824399754245,
+        0.7126366289160575,
+        0.8132379900812631
+      ],
+      "intercept": 71.99039447961539,
+      "naive_baseline": {
+        "rmse": 20.345268088886233
+      },
+      "loso_cv_stats": {
+        "rmse_deg": 8.758960060673992,
+        "mae_deg": 7.273245059973941,
+        "bias_deg": 0.6700707007866916,
+        "sd_of_difference_deg": 8.818496718653831,
+        "loa_95_lower_deg": -16.61418286777482,
+        "loa_95_upper_deg": 17.954324269348202,
+        "pearson_r": -0.034069331507463586
+      },
+      "v6_comparison": {
+        "v6_pearson_r": -0.09540216322891612,
+        "delta_r": 0.061332831721452534
+      }
+    }
+  }
+}

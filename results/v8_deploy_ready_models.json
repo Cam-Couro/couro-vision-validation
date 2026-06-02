@@ -1,0 +1,1798 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.train_v8_enhanced",
+  "produced_date": "2026-05-27",
+  "description": "v8 = v7 + three single-camera precision unlocks: (A) confidence-aware feature extraction (B) per-subject anthropometric calibration (D) Savgol-smoothed 2D keypoints",
+  "v8_parameters": {
+    "savgol_window": 7,
+    "conf_threshold": 0.5
+  },
+  "training_dataset": {
+    "name": "OpenCap LabValidation_withVideos (drop jumps)",
+    "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462"
+  },
+  "calibrations": {
+    "subject10": {
+      "thigh_m": 0.497415697173597,
+      "shank_m": 0.5265954787853994,
+      "foot_m": 0.2510756901822326,
+      "torso_m": 0.4608,
+      "height_m": 1.6,
+      "thigh_source": "observed",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    },
+    "subject11": {
+      "thigh_m": 0.45080000000000003,
+      "shank_m": 0.45264,
+      "foot_m": 0.27968,
+      "torso_m": 0.52992,
+      "height_m": 1.84,
+      "thigh_source": "winter",
+      "shank_source": "winter",
+      "foot_source": "winter"
+    },
+    "subject2": {
+      "thigh_m": 0.48019999999999996,
+      "shank_m": 0.48216,
+      "foot_m": 0.3914643982233517,
+      "torso_m": 0.56448,
+      "height_m": 1.96,
+      "thigh_source": "winter",
+      "shank_source": "winter",
+      "foot_source": "observed"
+    },
+    "subject3": {
+      "thigh_m": 0.42462942762788913,
+      "shank_m": 0.4256121720213347,
+      "foot_m": 0.20772422538738378,
+      "torso_m": 0.48671999999999993,
+      "height_m": 1.69,
+      "thigh_source": "observed",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    },
+    "subject4": {
+      "thigh_m": 0.4496271330043743,
+      "shank_m": 0.48866041384215547,
+      "foot_m": 0.22094018546219563,
+      "torso_m": 0.48383999999999994,
+      "height_m": 1.68,
+      "thigh_source": "observed",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    },
+    "subject5": {
+      "thigh_m": 0.48109010039472916,
+      "shank_m": 0.4647693242096378,
+      "foot_m": 0.24924139054495348,
+      "torso_m": 0.5327999999999999,
+      "height_m": 1.85,
+      "thigh_source": "observed",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    },
+    "subject7": {
+      "thigh_m": 0.41159999999999997,
+      "shank_m": 0.5536926156034909,
+      "foot_m": 0.2648518203833618,
+      "torso_m": 0.48383999999999994,
+      "height_m": 1.68,
+      "thigh_source": "winter",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    },
+    "subject8": {
+      "thigh_m": 0.4018,
+      "shank_m": 0.40343999999999997,
+      "foot_m": 0.3009054276016302,
+      "torso_m": 0.47231999999999996,
+      "height_m": 1.64,
+      "thigh_source": "winter",
+      "shank_source": "winter",
+      "foot_source": "observed"
+    },
+    "subject9": {
+      "thigh_m": 0.507419676322786,
+      "shank_m": 0.48100711484867914,
+      "foot_m": 0.24209537052384777,
+      "torso_m": 0.5327999999999999,
+      "height_m": 1.85,
+      "thigh_source": "observed",
+      "shank_source": "observed",
+      "foot_source": "observed"
+    }
+  },
+  "models": {
+    "hip_flexion_r": {
+      "side_left": {
+        "camera_id": "Cam0",
+        "view_bucket": "side_left",
+        "approach": "event_anchored",
+        "target_metric": "hip_flexion_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          90.5587876611574,
+          88.85714158454468,
+          51.554121178298274,
+          46.82393730360159,
+          98.3780584818999,
+          47.31554261041825,
+          74.28382572766571,
+          40.42838903075508,
+          -18.0217333650742,
+          20.944444444444443
+        ],
+        "feature_std": [
+          17.66812619982313,
+          18.325891588866817,
+          18.307090005183003,
+          9.769019540386353,
+          19.13406800099328,
+          10.57847099303767,
+          11.930458521277766,
+          13.354152210076803,
+          11.67056625754504,
+          8.64830676355454
+        ],
+        "weights_zscored": [
+          4.189727409487387,
+          2.4409496101785404,
+          2.1217655503505273,
+          -0.7294510804253311,
+          1.6576365799518635,
+          1.4956119872714086,
+          -2.001336760670604,
+          -0.12600190286975452,
+          0.7901350386503809,
+          1.0792665682632023
+        ],
+        "intercept": 77.02687707814813,
+        "loso_cv_stats": {
+          "rmse_deg": 13.855162892804037,
+          "mae_deg": 11.846528817842888,
+          "bias_deg": -0.6555835323531647,
+          "sd_of_difference_deg": 13.969596668307542,
+          "loa_95_lower_deg": -28.035993002235948,
+          "loa_95_upper_deg": 26.724825937529616,
+          "pearson_r": 0.21216160668013778
+        },
+        "naive_baseline_rmse": 19.23491073782456,
+        "v7_comparison": {
+          "v7_rmse_deg": 9.14750485120925,
+          "v7_pearson_r": 0.6872923136967113,
+          "delta_r": -0.4751307070165735
+        }
+      },
+      "front_oblique_left": {
+        "camera_id": "Cam1",
+        "view_bucket": "front_oblique_left",
+        "approach": "full_trial",
+        "target_metric": "hip_flexion_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          68.39961195311304,
+          61.138571961003166,
+          39.1260809898016,
+          60.24906773657485,
+          155.05555555555554,
+          10.30978872109289,
+          252.50122748480902
+        ],
+        "feature_std": [
+          15.386158198965369,
+          7.909346139153127,
+          6.368321375672572,
+          14.68821032264138,
+          18.024075120533016,
+          8.232023689796504,
+          113.97348554671946
+        ],
+        "weights_zscored": [
+          5.620097008794723,
+          -1.8421863691345217,
+          0.5651957578101832,
+          3.5119483713731716,
+          -1.81681594517437,
+          -1.611601901477523,
+          -1.8265262961792155
+        ],
+        "intercept": 77.02687707814813,
+        "loso_cv_stats": {
+          "rmse_deg": 11.478536233515236,
+          "mae_deg": 9.892971342467888,
+          "bias_deg": 0.2618922300738028,
+          "sd_of_difference_deg": 11.583302191772018,
+          "loa_95_lower_deg": -22.441380065799354,
+          "loa_95_upper_deg": 22.965164525946957,
+          "pearson_r": 0.44886480441313914
+        },
+        "naive_baseline_rmse": 13.886043383038386,
+        "v7_comparison": {
+          "v7_rmse_deg": 10.364044776795446,
+          "v7_pearson_r": 0.5636963633718051,
+          "delta_r": -0.11483155895866592
+        }
+      },
+      "front_center": {
+        "camera_id": "Cam2",
+        "view_bucket": "front_center",
+        "approach": "full_trial",
+        "target_metric": "hip_flexion_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          33.39722862965155,
+          44.45648604332191,
+          41.425347074303716,
+          26.745076666209663,
+          154.12962962962962,
+          5.200562165908041,
+          223.59445303457755
+        ],
+        "feature_std": [
+          7.688147436794547,
+          12.54196858220648,
+          13.042943654074138,
+          8.333609563410567,
+          17.9144533995198,
+          5.824829994566326,
+          95.46305445823258
+        ],
+        "weights_zscored": [
+          2.8052164797734913,
+          2.8737093138731997,
+          3.231032247822307,
+          -0.5029080048148808,
+          -1.3617668394560416,
+          -3.1349274340486,
+          2.6812174028647457
+        ],
+        "intercept": 77.02687707814813,
+        "loso_cv_stats": {
+          "rmse_deg": 16.514173285335517,
+          "mae_deg": 13.377277788858642,
+          "bias_deg": 1.1862170615007301,
+          "sd_of_difference_deg": 16.626180566724905,
+          "loa_95_lower_deg": -31.401096849280083,
+          "loa_95_upper_deg": 33.77353097228154,
+          "pearson_r": 0.0915917801660178
+        },
+        "naive_baseline_rmse": 45.88271818711277,
+        "v7_comparison": {
+          "v7_rmse_deg": 11.812335751119468,
+          "v7_pearson_r": 0.19897952412996012,
+          "delta_r": -0.10738774396394232
+        }
+      },
+      "front_oblique_right": {
+        "camera_id": "Cam3",
+        "view_bucket": "front_oblique_right",
+        "approach": "event_anchored",
+        "target_metric": "hip_flexion_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          56.09551776360569,
+          47.38789098587523,
+          29.109594526299997,
+          26.269110984049362,
+          55.37870551034933,
+          28.031412102096336,
+          51.792426453528776,
+          23.77403815562005,
+          -33.91180980059836,
+          18.01851851851852
+        ],
+        "feature_std": [
+          19.69229769768406,
+          16.085151758093758,
+          16.758536347386325,
+          7.882240578737953,
+          19.10041771216431,
+          9.087055312705658,
+          14.809315104290727,
+          11.16833938833821,
+          11.337995180866262,
+          9.736321346420741
+        ],
+        "weights_zscored": [
+          1.448533247535289,
+          2.530081409252529,
+          3.3211913216887057,
+          -2.9424663597322787,
+          1.6997051178736418,
+          2.2833899432271614,
+          -0.2154599538939777,
+          1.4351302938455839,
+          -3.192888624166977,
+          -0.7790763018904266
+        ],
+        "intercept": 77.02687707814813,
+        "loso_cv_stats": {
+          "rmse_deg": 16.68902139132424,
+          "mae_deg": 14.015126547179758,
+          "bias_deg": 1.312449282427463,
+          "sd_of_difference_deg": 16.79355741336159,
+          "loa_95_lower_deg": -31.602923247761257,
+          "loa_95_upper_deg": 34.227821812616185,
+          "pearson_r": -0.06394998638716265
+        },
+        "naive_baseline_rmse": 27.903345213652226,
+        "v7_comparison": {
+          "v7_rmse_deg": 13.693479528142904,
+          "v7_pearson_r": 0.26338777024066545,
+          "delta_r": -0.3273377566278281
+        }
+      },
+      "side_right": {
+        "camera_id": "Cam4",
+        "view_bucket": "side_right",
+        "approach": "event_anchored",
+        "target_metric": "hip_flexion_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          74.05524695874763,
+          72.05321843833688,
+          36.66202889349473,
+          41.27116795219211,
+          77.93319684568684,
+          42.23855102166807,
+          66.44836544354601,
+          28.362298630284926,
+          -24.62789765698424,
+          17.09259259259259
+        ],
+        "feature_std": [
+          25.518687040893166,
+          19.026053852493774,
+          18.17636716145712,
+          11.583405391952475,
+          21.891058485514012,
+          13.264525695355935,
+          14.384237374977719,
+          13.206445724267109,
+          10.783751190631046,
+          8.546752726465915
+        ],
+        "weights_zscored": [
+          -1.4082677995289101,
+          2.3436949812861085,
+          3.9581572301222905,
+          -0.8451639991157023,
+          2.8392890144698706,
+          1.996856400133612,
+          -0.2580124917253795,
+          1.8419845166120283,
+          -2.5007895319713374,
+          -2.72103659559934
+        ],
+        "intercept": 77.02687707814813,
+        "loso_cv_stats": {
+          "rmse_deg": 15.34409813493331,
+          "mae_deg": 12.783973308322217,
+          "bias_deg": -0.03887534042797522,
+          "sd_of_difference_deg": 15.488127625516972,
+          "loa_95_lower_deg": -30.39560548644124,
+          "loa_95_upper_deg": 30.31785480558529,
+          "pearson_r": -0.0460928483494989
+        },
+        "naive_baseline_rmse": 23.935616912666397,
+        "v7_comparison": {
+          "v7_rmse_deg": 10.831417310241477,
+          "v7_pearson_r": 0.4981714906897232,
+          "delta_r": -0.5442643390392221
+        }
+      }
+    },
+    "hip_adduction_r": {
+      "side_left": {
+        "camera_id": "Cam0",
+        "view_bucket": "side_left",
+        "approach": "event_anchored",
+        "target_metric": "hip_adduction_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          62.77695493743457,
+          97.39577662987674,
+          44.47383918099714,
+          79.54805164493499,
+          124.02189082593213,
+          115.22737793227041,
+          -96.95492734782059,
+          48.344938894308385,
+          74.28382572766571,
+          20.944444444444443
+        ],
+        "feature_std": [
+          8.773719408126045,
+          84.20938567664703,
+          62.509172838534454,
+          100.78553022660313,
+          92.84536328337485,
+          105.86223772093008,
+          82.49871299742354,
+          61.842314019923215,
+          11.930458521277766,
+          8.64830676355454
+        ],
+        "weights_zscored": [
+          0.2975491440659595,
+          -0.5341104178240303,
+          -0.26856318010878194,
+          0.04231636084889326,
+          -0.1348778758057015,
+          -0.012859032307266916,
+          0.4643167046727091,
+          -0.20006850245245267,
+          -1.2197820006528568,
+          0.11176493924619492
+        ],
+        "intercept": 11.21305272296296,
+        "loso_cv_stats": {
+          "rmse_deg": 4.433518065899644,
+          "mae_deg": 3.2034592553985735,
+          "bias_deg": -0.7648567441539631,
+          "sd_of_difference_deg": 4.408050389409452,
+          "loa_95_lower_deg": -9.404635507396488,
+          "loa_95_upper_deg": 7.874922019088562,
+          "pearson_r": -0.008948584981392727
+        },
+        "naive_baseline_rmse": 52.49203915726418,
+        "v7_comparison": {
+          "v7_rmse_deg": 4.645929954764854,
+          "v7_pearson_r": -0.08171732796758231,
+          "delta_r": 0.07276874298618959
+        }
+      },
+      "front_oblique_left": {
+        "camera_id": "Cam1",
+        "view_bucket": "front_oblique_left",
+        "approach": "event_anchored",
+        "target_metric": "hip_adduction_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          42.75716960844035,
+          120.78690335256952,
+          59.21620885900812,
+          76.18941548252752,
+          135.40562434153557,
+          94.4992333064096,
+          -116.15083713126245,
+          28.488605206604923,
+          45.162550619434946,
+          18.0
+        ],
+        "feature_std": [
+          6.731409463551377,
+          97.90816150207773,
+          105.40951911365964,
+          133.13124095830497,
+          102.65510451214243,
+          141.67185657828207,
+          94.66670430544004,
+          45.942729784610755,
+          10.995545092804493,
+          11.524531001946015
+        ],
+        "weights_zscored": [
+          0.109184728611272,
+          -0.6202748319702915,
+          -0.21434154749985398,
+          -0.1305852131347358,
+          -0.38944591322041894,
+          -0.06820456474073194,
+          0.5568280184992966,
+          -0.5251839704794359,
+          -1.0687962139590168,
+          -0.5581021133241255
+        ],
+        "intercept": 11.213052722962962,
+        "loso_cv_stats": {
+          "rmse_deg": 7.076845559836002,
+          "mae_deg": 4.524815234523801,
+          "bias_deg": 1.9323181866989598,
+          "sd_of_difference_deg": 6.871854042710307,
+          "loa_95_lower_deg": -11.536515737013243,
+          "loa_95_upper_deg": 15.40115211041116,
+          "pearson_r": 0.39682811589542544
+        },
+        "naive_baseline_rmse": 32.58964659845605,
+        "v7_comparison": {
+          "v7_rmse_deg": 4.434915129568267,
+          "v7_pearson_r": 0.1334310463880838,
+          "delta_r": 0.26339706950734165
+        }
+      },
+      "front_center": {
+        "camera_id": "Cam2",
+        "view_bucket": "front_center",
+        "approach": "full_trial",
+        "target_metric": "hip_adduction_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          13.509466355577358,
+          16.16522668846897,
+          44.45648604332191,
+          308.41084540878103,
+          155.37037037037038,
+          5.200562165908041,
+          223.59445303457755
+        ],
+        "feature_std": [
+          6.189004758185625,
+          7.495520360957049,
+          12.54196858220648,
+          118.08715856910027,
+          17.98795512259399,
+          5.824829994566326,
+          95.46305445823258
+        ],
+        "weights_zscored": [
+          -0.23536411467017715,
+          0.23090435293321346,
+          0.7075259245959571,
+          0.5795918591971609,
+          -0.5611085076450035,
+          -0.2143186054609837,
+          -0.9284920873028351
+        ],
+        "intercept": 11.213052722962962,
+        "loso_cv_stats": {
+          "rmse_deg": 4.995850792959186,
+          "mae_deg": 3.6593457949766566,
+          "bias_deg": -0.44218022074163926,
+          "sd_of_difference_deg": 5.022970062314994,
+          "loa_95_lower_deg": -10.287201542879027,
+          "loa_95_upper_deg": 9.40284110139575,
+          "pearson_r": 0.08569186333892884
+        },
+        "naive_baseline_rmse": 8.053245919933744,
+        "v7_comparison": {
+          "v7_rmse_deg": 5.213526898326918,
+          "v7_pearson_r": 0.17910245925519594,
+          "delta_r": -0.0934105959162671
+        }
+      },
+      "front_oblique_right": {
+        "camera_id": "Cam3",
+        "view_bucket": "front_oblique_right",
+        "approach": "event_anchored",
+        "target_metric": "hip_adduction_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          47.6336727338728,
+          -112.2228375856419,
+          22.06679396730574,
+          -128.2134658135153,
+          -106.14667184620957,
+          -126.06552099731526,
+          116.351111262528,
+          33.5972701289137,
+          51.792426453528776,
+          18.01851851851852
+        ],
+        "feature_std": [
+          9.774762382599004,
+          93.73704887169744,
+          8.584263086290996,
+          98.83624641725987,
+          97.44676010874845,
+          104.06057871192596,
+          95.47465089658637,
+          63.69643905168051,
+          14.809315104290727,
+          9.736321346420741
+        ],
+        "weights_zscored": [
+          0.06833957783262404,
+          0.44722961471731976,
+          0.4623659708219234,
+          0.3108124310059722,
+          0.35597494588251205,
+          0.22514922663978335,
+          -0.385903072263711,
+          0.07885576505804488,
+          -1.0105652520254134,
+          0.1242261914330893
+        ],
+        "intercept": 11.213052722962962,
+        "loso_cv_stats": {
+          "rmse_deg": 23.145447135056862,
+          "mae_deg": 10.17399656387455,
+          "bias_deg": 7.71080361595017,
+          "sd_of_difference_deg": 22.02819053909337,
+          "loa_95_lower_deg": -35.464449840672835,
+          "loa_95_upper_deg": 50.88605707257317,
+          "pearson_r": 0.36132344421887697
+        },
+        "naive_baseline_rmse": 38.08104570644226,
+        "v7_comparison": {
+          "v7_rmse_deg": 21.350689415057026,
+          "v7_pearson_r": 0.35409834525615846,
+          "delta_r": 0.007225098962718501
+        }
+      },
+      "side_right": {
+        "camera_id": "Cam4",
+        "view_bucket": "side_right",
+        "approach": "event_anchored",
+        "target_metric": "hip_adduction_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          64.81326428157634,
+          -99.06815388078287,
+          28.64492876207691,
+          -123.11005875862732,
+          -94.46512999655043,
+          -120.67684479935869,
+          99.37116632719919,
+          26.13660570461412,
+          66.44836544354601,
+          17.09259259259259
+        ],
+        "feature_std": [
+          10.061867536370885,
+          83.42273980452232,
+          10.916706726676836,
+          90.63967140101879,
+          88.08044269907951,
+          96.68839219311356,
+          83.30315800977961,
+          9.304317743050296,
+          14.384237374977719,
+          8.546752726465915
+        ],
+        "weights_zscored": [
+          0.0677339749789865,
+          0.450617113480267,
+          -0.24728341113077387,
+          0.32933285042474597,
+          0.30825345598151105,
+          0.16375592577140566,
+          -0.35598790551573023,
+          0.5215053438410251,
+          -0.7177737731108164,
+          0.34088217211107663
+        ],
+        "intercept": 11.213052722962962,
+        "loso_cv_stats": {
+          "rmse_deg": 5.489538439489316,
+          "mae_deg": 3.8132764321624335,
+          "bias_deg": 0.8597029652101713,
+          "sd_of_difference_deg": 5.472712629574526,
+          "loa_95_lower_deg": -9.8668137887559,
+          "loa_95_upper_deg": 11.586219719176244,
+          "pearson_r": 0.30110549587174534
+        },
+        "naive_baseline_rmse": 54.76785566772672,
+        "v7_comparison": {
+          "v7_rmse_deg": 5.542975257188684,
+          "v7_pearson_r": 0.008863262778694087,
+          "delta_r": 0.29224223309305125
+        }
+      }
+    },
+    "knee_angle_r": {
+      "side_left": {
+        "camera_id": "Cam0",
+        "view_bucket": "side_left",
+        "approach": "full_trial",
+        "target_metric": "knee_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          79.271278141818,
+          90.5587876611574,
+          46.14757922654077,
+          72.36215373334373,
+          154.55555555555554,
+          13.207677194751147,
+          236.90480324074073
+        ],
+        "feature_std": [
+          10.896181297811397,
+          17.66812619982313,
+          8.422465610980304,
+          9.495246309841953,
+          15.888111869112459,
+          5.2289676685772335,
+          121.3704026518055
+        ],
+        "weights_zscored": [
+          0.5585039327051725,
+          0.5627013529970062,
+          -1.7291040914925746,
+          2.302088099330255,
+          -2.272640026174378,
+          1.0660625523619474,
+          0.5150135876401873
+        ],
+        "intercept": 101.69553695407407,
+        "loso_cv_stats": {
+          "rmse_deg": 13.14605069551735,
+          "mae_deg": 10.654381836309994,
+          "bias_deg": -0.24953069322647853,
+          "sd_of_difference_deg": 13.267099823418707,
+          "loa_95_lower_deg": -26.253046347127146,
+          "loa_95_upper_deg": 25.753984960674188,
+          "pearson_r": -0.2674627810797137
+        },
+        "naive_baseline_rmse": 25.85466359316334,
+        "v7_comparison": {
+          "v7_rmse_deg": 9.110560682506353,
+          "v7_pearson_r": 0.5462084314904362,
+          "delta_r": -0.81367121257015
+        }
+      },
+      "front_oblique_left": {
+        "camera_id": "Cam1",
+        "view_bucket": "front_oblique_left",
+        "approach": "event_anchored",
+        "target_metric": "knee_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          61.138571961003166,
+          45.162550619434946,
+          30.228687190639434,
+          24.43942930423503,
+          54.668116494874475,
+          26.248578368704027,
+          51.544934269954496,
+          36.176576308221435,
+          -43.21002906798822,
+          18.0
+        ],
+        "feature_std": [
+          7.909346139153127,
+          10.995545092804493,
+          11.526078991452955,
+          11.416306526687208,
+          12.299234743178683,
+          13.420472084168441,
+          15.61847094358048,
+          15.416914779640951,
+          9.839790168391573,
+          11.524531001946015
+        ],
+        "weights_zscored": [
+          4.530754327825197,
+          -0.329078616360702,
+          0.6617030564494567,
+          -1.8978657156589502,
+          -1.1415161473130242,
+          0.8251491501653413,
+          3.3629106730277964,
+          2.1230456427747324,
+          -2.3913928597761034,
+          0.4883693956501702
+        ],
+        "intercept": 101.69553695407407,
+        "loso_cv_stats": {
+          "rmse_deg": 11.834145732214072,
+          "mae_deg": 9.092235696498788,
+          "bias_deg": -0.14567310651638496,
+          "sd_of_difference_deg": 11.944361870454284,
+          "loa_95_lower_deg": -23.55662237260678,
+          "loa_95_upper_deg": 23.26527615957401,
+          "pearson_r": 0.09090153602067733
+        },
+        "naive_baseline_rmse": 41.76930746062526,
+        "v7_comparison": {
+          "v7_rmse_deg": 8.765156512784442,
+          "v7_pearson_r": 0.5640227968401856,
+          "delta_r": -0.47312126081950834
+        }
+      },
+      "front_center": {
+        "camera_id": "Cam2",
+        "view_bucket": "front_center",
+        "approach": "full_trial",
+        "target_metric": "knee_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 8,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          44.45648604332191,
+          33.39722862965155,
+          41.425347074303716,
+          37.900369260671425,
+          136.87037037037038,
+          5.200562165908041,
+          223.59445303457755
+        ],
+        "feature_std": [
+          12.54196858220648,
+          7.688147436794547,
+          13.042943654074138,
+          12.003421077396203,
+          23.426043038793775,
+          5.824829994566326,
+          95.46305445823258
+        ],
+        "weights_zscored": [
+          1.5160362062856259,
+          3.4048601616936893,
+          0.8590863092539657,
+          2.631376885763559,
+          1.25965869942668,
+          2.489377112074579,
+          1.155035083096881
+        ],
+        "intercept": 101.69553695407407,
+        "loso_cv_stats": {
+          "rmse_deg": 16.54587197395344,
+          "mae_deg": 10.448874439044046,
+          "bias_deg": 1.9856969127298696,
+          "sd_of_difference_deg": 16.580527284135847,
+          "loa_95_lower_deg": -30.512136564176387,
+          "loa_95_upper_deg": 34.48353038963613,
+          "pearson_r": 0.18166039461282604
+        },
+        "naive_baseline_rmse": 58.60813633414714,
+        "v7_comparison": {
+          "v7_rmse_deg": 20.85150286442593,
+          "v7_pearson_r": 0.15218264227233158,
+          "delta_r": 0.029477752340494462
+        }
+      },
+      "front_oblique_right": {
+        "camera_id": "Cam3",
+        "view_bucket": "front_oblique_right",
+        "approach": "event_anchored",
+        "target_metric": "knee_angle_r",
+        "n_train_trials": 50,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          59.605994437163126,
+          52.57150383695132,
+          24.59892996075405,
+          34.76061763274443,
+          59.35954759349846,
+          36.06265423583459,
+          47.720590189531684,
+          29.77478262844268,
+          -33.46361129209867,
+          18.08
+        ],
+        "feature_std": [
+          14.58724066537167,
+          15.016570782636459,
+          11.113662051761747,
+          11.990333676543633,
+          16.706164197923943,
+          13.207487422738504,
+          16.47091709098789,
+          16.9779014200193,
+          11.62523865466924,
+          9.842438722186692
+        ],
+        "weights_zscored": [
+          1.0288669526097878,
+          4.030732297983123,
+          2.1144023279725213,
+          0.0051824661242540655,
+          1.4103113158417622,
+          2.070208430235578,
+          1.2593404613921704,
+          -1.4414027372770304,
+          -2.1397756041348437,
+          0.4016456834397173
+        ],
+        "intercept": 101.5125461464,
+        "loso_cv_stats": {
+          "rmse_deg": 11.086877665646513,
+          "mae_deg": 9.297348303707427,
+          "bias_deg": 1.6635741971102112,
+          "sd_of_difference_deg": 11.072644046815107,
+          "loa_95_lower_deg": -20.038808134647397,
+          "loa_95_upper_deg": 23.36595652886782,
+          "pearson_r": 0.3109303847414001
+        },
+        "naive_baseline_rmse": 43.89417140202757,
+        "v7_comparison": {
+          "v7_rmse_deg": 8.974500325121296,
+          "v7_pearson_r": 0.5844015689161249,
+          "delta_r": -0.2734711841747248
+        }
+      },
+      "side_right": {
+        "camera_id": "Cam4",
+        "view_bucket": "side_right",
+        "approach": "event_anchored",
+        "target_metric": "knee_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          67.57146936716802,
+          66.44836544354601,
+          28.362298630284926,
+          41.97220079035388,
+          70.3344994206388,
+          42.81325862656971,
+          72.05321843833688,
+          36.66202889349473,
+          -24.62789765698424,
+          17.09259259259259
+        ],
+        "feature_std": [
+          16.056570100222643,
+          14.384237374977719,
+          13.206445724267109,
+          9.88324618302231,
+          15.940404248198453,
+          11.33652940526128,
+          19.026053852493774,
+          18.17636716145712,
+          10.783751190631046,
+          8.546752726465915
+        ],
+        "weights_zscored": [
+          1.3244697898478006,
+          1.7076087369295556,
+          2.911659389783894,
+          -0.6890988205559468,
+          1.9850273505030775,
+          1.3253007757832,
+          1.6006616419002027,
+          -0.9100217403405865,
+          -5.995123108148962,
+          -1.3054349596941417
+        ],
+        "intercept": 101.69553695407407,
+        "loso_cv_stats": {
+          "rmse_deg": 10.728473824092484,
+          "mae_deg": 8.167666021124774,
+          "bias_deg": 0.49995972432912916,
+          "sd_of_difference_deg": 10.817447739723555,
+          "loa_95_lower_deg": -20.702237845529037,
+          "loa_95_upper_deg": 21.702157294187298,
+          "pearson_r": 0.21530386284086178
+        },
+        "naive_baseline_rmse": 38.25086136856396,
+        "v7_comparison": {
+          "v7_rmse_deg": 8.099929555209972,
+          "v7_pearson_r": 0.6387676516365454,
+          "delta_r": -0.4234637887956836
+        }
+      }
+    },
+    "ankle_angle_r": {
+      "side_left": {
+        "camera_id": "Cam0",
+        "view_bucket": "side_left",
+        "approach": "event_anchored",
+        "target_metric": "ankle_angle_r",
+        "n_train_trials": 52,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          46.480022811269855,
+          -18.40419707978634,
+          22.790925396637856,
+          -37.89234751636491,
+          -15.101422119727058,
+          -37.7164272718773,
+          74.51119268029373,
+          39.509782885120885,
+          89.35478209517035,
+          20.365384615384617
+        ],
+        "feature_std": [
+          8.347454982533804,
+          11.716141793425729,
+          9.435613888036524,
+          10.942049522721161,
+          11.103313603484791,
+          10.571675771062804,
+          11.834520980054725,
+          12.397217473942014,
+          18.35510277627613,
+          8.283507353943754
+        ],
+        "weights_zscored": [
+          1.720471937084788,
+          -1.0055835539916926,
+          1.420901205568531,
+          -0.9431031612822858,
+          0.2780785775550188,
+          -1.1542146309031014,
+          0.7864304873294029,
+          -0.6749248875667073,
+          0.15169976149329845,
+          0.6858444280314224
+        ],
+        "intercept": 71.97876736903848,
+        "loso_cv_stats": {
+          "rmse_deg": 8.878115865225107,
+          "mae_deg": 6.852538441252992,
+          "bias_deg": 1.0875858329049426,
+          "sd_of_difference_deg": 8.89721383506025,
+          "loa_95_lower_deg": -16.350953283813148,
+          "loa_95_upper_deg": 18.526124949623032,
+          "pearson_r": 0.016379365917688054
+        },
+        "naive_baseline_rmse": 26.852106635725576,
+        "v7_comparison": {
+          "v7_rmse_deg": 7.307884158872129,
+          "v7_pearson_r": 0.36503751485710617,
+          "delta_r": -0.3486581489394181
+        }
+      },
+      "front_oblique_left": {
+        "camera_id": "Cam1",
+        "view_bucket": "front_oblique_left",
+        "approach": "event_anchored",
+        "target_metric": "ankle_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          39.1260809898016,
+          -43.21002906798822,
+          18.12349827110566,
+          -57.21018017990408,
+          -39.086681908798404,
+          -56.120401221786516,
+          45.162550619434946,
+          30.228687190639434,
+          51.544934269954496,
+          18.0
+        ],
+        "feature_std": [
+          6.368321375672572,
+          9.839790168391573,
+          8.333538930398458,
+          10.3045768915728,
+          11.033653471224373,
+          11.409704281178982,
+          10.995545092804493,
+          11.526078991452955,
+          15.61847094358048,
+          11.524531001946015
+        ],
+        "weights_zscored": [
+          0.6894729384896511,
+          -1.9621152910332746,
+          1.9048823229341323,
+          -0.7699872848340993,
+          0.7196181966925553,
+          -0.5383445102882025,
+          -1.2570939871207256,
+          0.8123542699249139,
+          1.6938785053406584,
+          0.4751619158299246
+        ],
+        "intercept": 72.06000281277778,
+        "loso_cv_stats": {
+          "rmse_deg": 7.461397362628509,
+          "mae_deg": 6.202000178539639,
+          "bias_deg": 0.8778782832912447,
+          "sd_of_difference_deg": 7.479148545814867,
+          "loa_95_lower_deg": -13.781252866505895,
+          "loa_95_upper_deg": 15.537009433088386,
+          "pearson_r": 0.3003722176062083
+        },
+        "naive_baseline_rmse": 33.985461631752564,
+        "v7_comparison": {
+          "v7_rmse_deg": 8.57121166749921,
+          "v7_pearson_r": -0.003241016503248723,
+          "delta_r": 0.303613234109457
+        }
+      },
+      "front_center": {
+        "camera_id": "Cam2",
+        "view_bucket": "front_center",
+        "approach": "full_trial",
+        "target_metric": "ankle_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 3,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          41.425347074303716,
+          44.45648604332191,
+          33.39722862965155,
+          31.536231464961265,
+          116.87037037037037,
+          5.200562165908041,
+          223.59445303457755
+        ],
+        "feature_std": [
+          13.042943654074138,
+          12.54196858220648,
+          7.688147436794547,
+          12.701410423822843,
+          27.57350197152942,
+          5.824829994566326,
+          95.46305445823258
+        ],
+        "weights_zscored": [
+          1.42392036026491,
+          -0.4967148606775901,
+          1.4973730034045818,
+          -2.5066960873256163,
+          0.4516835542937484,
+          1.8711576230858542,
+          -0.07805376874249534
+        ],
+        "intercept": 72.06000281277778,
+        "loso_cv_stats": {
+          "rmse_deg": 12.399286350728358,
+          "mae_deg": 8.376829679890372,
+          "bias_deg": 1.1295537192615166,
+          "sd_of_difference_deg": 12.463672617942096,
+          "loa_95_lower_deg": -23.299244611904992,
+          "loa_95_upper_deg": 25.558352050428024,
+          "pearson_r": -0.2043693593857581
+        },
+        "naive_baseline_rmse": 34.50465717844673,
+        "v7_comparison": {
+          "v7_rmse_deg": 7.939919968356935,
+          "v7_pearson_r": 0.1512377827686064,
+          "delta_r": -0.3556071421543645
+        }
+      },
+      "front_oblique_right": {
+        "camera_id": "Cam3",
+        "view_bucket": "front_oblique_right",
+        "approach": "full_trial",
+        "target_metric": "ankle_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 8,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          45.99692480914485,
+          58.53743062995524,
+          56.09551776360569,
+          40.17699194749807,
+          145.40740740740742,
+          8.90366164360691,
+          228.9848237214265
+        ],
+        "feature_std": [
+          8.582702515061337,
+          14.578825481855619,
+          19.69229769768406,
+          7.7720413205420655,
+          25.91047158434034,
+          6.916355142748471,
+          86.31518642797802
+        ],
+        "weights_zscored": [
+          0.857387544364968,
+          1.4559260527941793,
+          -1.7103509459183062,
+          -0.17792776304531147,
+          -2.2795985522862985,
+          0.9172668118737481,
+          0.5067549444534725
+        ],
+        "intercept": 72.06000281277778,
+        "loso_cv_stats": {
+          "rmse_deg": 12.227738398051027,
+          "mae_deg": 8.458768390133637,
+          "bias_deg": 0.9079454989702316,
+          "sd_of_difference_deg": 12.308483000738505,
+          "loa_95_lower_deg": -23.216681182477238,
+          "loa_95_upper_deg": 25.032572180417702,
+          "pearson_r": -0.11816779664484622
+        },
+        "naive_baseline_rmse": 28.34474767102891,
+        "v7_comparison": {
+          "v7_rmse_deg": 12.830369912967308,
+          "v7_pearson_r": -0.21002041570392677,
+          "delta_r": 0.09185261905908054
+        }
+      },
+      "side_right": {
+        "camera_id": "Cam4",
+        "view_bucket": "side_right",
+        "approach": "full_trial",
+        "target_metric": "ankle_angle_r",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          48.30242199706449,
+          67.57146936716802,
+          74.05524695874763,
+          41.63106131729308,
+          153.42592592592592,
+          12.272494940828066,
+          218.303219265408
+        ],
+        "feature_std": [
+          8.999705934354873,
+          16.056570100222643,
+          25.518687040893166,
+          8.276642969380251,
+          20.26637595903697,
+          7.088805371012621,
+          84.81574221886119
+        ],
+        "weights_zscored": [
+          0.38686020149227185,
+          0.7163259533086686,
+          -1.3024850907199745,
+          -0.2945280052594118,
+          -0.5679065604856189,
+          1.2927520503620236,
+          1.6209589585387156
+        ],
+        "intercept": 72.06000281277778,
+        "loso_cv_stats": {
+          "rmse_deg": 10.982982860304332,
+          "mae_deg": 8.478233865871927,
+          "bias_deg": 0.9997960513389205,
+          "sd_of_difference_deg": 11.040082461182974,
+          "loa_95_lower_deg": -20.63876557257971,
+          "loa_95_upper_deg": 22.63835767525755,
+          "pearson_r": -0.06612025950848058
+        },
+        "naive_baseline_rmse": 26.606623897921793,
+        "v7_comparison": {
+          "v7_rmse_deg": 9.185886808983012,
+          "v7_pearson_r": -0.09540216322891612,
+          "delta_r": 0.029281903720435543
+        }
+      }
+    },
+    "lumbar_extension": {
+      "side_left": {
+        "camera_id": "Cam0",
+        "view_bucket": "side_left",
+        "approach": "full_trial",
+        "target_metric": "lumbar_extension",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          43.826551233416886,
+          90.5587876611574,
+          359.48510485277,
+          39.48450609071246,
+          155.33333333333334,
+          13.207677194751147,
+          236.90480324074073
+        ],
+        "feature_std": [
+          10.947675958496786,
+          17.66812619982313,
+          0.3479791615993677,
+          10.104515403924752,
+          17.95880058685765,
+          5.2289676685772335,
+          121.3704026518055
+        ],
+        "weights_zscored": [
+          2.181102494138132,
+          -0.6107298680548479,
+          0.6630326713815085,
+          1.8290532280565646,
+          -1.3429971373992504,
+          -0.11966510516884056,
+          0.6675278094866437
+        ],
+        "intercept": 36.258474215185146,
+        "loso_cv_stats": {
+          "rmse_deg": 4.431974337947714,
+          "mae_deg": 3.716547202024828,
+          "bias_deg": 0.03495701951536626,
+          "sd_of_difference_deg": 4.473450875762802,
+          "loa_95_lower_deg": -8.733006696979727,
+          "loa_95_upper_deg": 8.802920736010458,
+          "pearson_r": 0.6055320124980847
+        },
+        "naive_baseline_rmse": 11.006402242344356,
+        "v7_comparison": {
+          "v7_rmse_deg": 4.973615537300478,
+          "v7_pearson_r": 0.4911370494957477,
+          "delta_r": 0.11439496300233704
+        }
+      },
+      "front_oblique_left": {
+        "camera_id": "Cam1",
+        "view_bucket": "front_oblique_left",
+        "approach": "event_anchored",
+        "target_metric": "lumbar_extension",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          34.112550630118776,
+          11.000190093132197,
+          17.496353242616948,
+          1.5054262026138385,
+          19.0017794452308,
+          4.430395195495605,
+          51.544934269954496,
+          36.176576308221435,
+          38.796418608060485,
+          18.0
+        ],
+        "feature_std": [
+          12.375102491879428,
+          18.719157628626725,
+          11.095069198540559,
+          15.959422041561488,
+          19.41204791565197,
+          10.593231262629082,
+          15.61847094358048,
+          15.416914779640951,
+          173.0265765607727,
+          11.524531001946015
+        ],
+        "weights_zscored": [
+          2.362192124802066,
+          0.47453108553345397,
+          1.4879839992925068,
+          -0.03806862444881998,
+          0.8191681920138509,
+          -0.05004079356196291,
+          0.8236174106148695,
+          -0.8712432123478011,
+          -0.5922303105849116,
+          -0.3624940848208159
+        ],
+        "intercept": 36.25847421518518,
+        "loso_cv_stats": {
+          "rmse_deg": 4.724261202848032,
+          "mae_deg": 3.6998389884753857,
+          "bias_deg": -0.2638557888141865,
+          "sd_of_difference_deg": 4.761178104395331,
+          "loa_95_lower_deg": -9.595764873429035,
+          "loa_95_upper_deg": 9.068053295800661,
+          "pearson_r": 0.5349439769617254
+        },
+        "naive_baseline_rmse": 9.814582664461366,
+        "v7_comparison": {
+          "v7_rmse_deg": 4.707826010678261,
+          "v7_pearson_r": 0.5401291884578074,
+          "delta_r": -0.005185211496082087
+        }
+      },
+      "front_center": {
+        "camera_id": "Cam2",
+        "view_bucket": "front_center",
+        "approach": "event_anchored",
+        "target_metric": "lumbar_extension",
+        "n_train_trials": 53,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          8.930798594073098,
+          0.4056981557960062,
+          1.868195705004076,
+          -0.9338217016113871,
+          0.9343740033926886,
+          -0.3705130257130776,
+          17.479304545338536,
+          9.170567228553416,
+          -64.12088208116482,
+          10.264150943396226
+        ],
+        "feature_std": [
+          4.9463165292782945,
+          3.989056255777937,
+          1.501479534904587,
+          3.279084978917725,
+          3.5366225903064046,
+          2.8652035439717416,
+          10.045366138797345,
+          6.735709982046478,
+          166.53968382180253,
+          7.566437668816417
+        ],
+        "weights_zscored": [
+          1.58244769792728,
+          -0.6234048045403143,
+          1.3694672931778882,
+          -0.45595045413012425,
+          0.1586617782448749,
+          0.6662852802851328,
+          1.1825909273288573,
+          -0.1679819481259382,
+          -1.6464779847118927,
+          -0.9407609062600438
+        ],
+        "intercept": 36.24696512754717,
+        "loso_cv_stats": {
+          "rmse_deg": 5.289887131447543,
+          "mae_deg": 4.29686480634483,
+          "bias_deg": 0.00433023782063611,
+          "sd_of_difference_deg": 5.340507425045469,
+          "loa_95_lower_deg": -10.463064315268483,
+          "loa_95_upper_deg": 10.471724790909754,
+          "pearson_r": 0.37349172928236113
+        },
+        "naive_baseline_rmse": 27.944701254344768,
+        "v7_comparison": {
+          "v7_rmse_deg": 4.780551394440431,
+          "v7_pearson_r": 0.5325809900381125,
+          "delta_r": -0.15908926075575142
+        }
+      },
+      "front_oblique_right": {
+        "camera_id": "Cam3",
+        "view_bucket": "front_oblique_right",
+        "approach": "event_anchored",
+        "target_metric": "lumbar_extension",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "target_at_contact",
+          "target_rom_loading",
+          "target_min_loading",
+          "target_max_loading",
+          "target_end_loading",
+          "coup1_at_contact",
+          "coup1_rom_loading",
+          "coup2_at_contact",
+          "loading_duration_frames"
+        ],
+        "feature_mean": [
+          35.88680114219748,
+          -16.04393718375225,
+          19.54356285126011,
+          -24.303568357537827,
+          -4.760005506277713,
+          -8.181663392181392,
+          47.38789098587523,
+          29.109594526299997,
+          -98.07286931107959,
+          18.01851851851852
+        ],
+        "feature_std": [
+          12.332876646191847,
+          20.909658741706412,
+          12.14186055563576,
+          19.956840697392472,
+          17.307475400974713,
+          11.368113233164845,
+          16.085151758093758,
+          16.758536347386325,
+          147.74286401911164,
+          9.736321346420741
+        ],
+        "weights_zscored": [
+          1.8130790381113535,
+          0.17231304338133466,
+          1.720607321600735,
+          -0.9489804558583722,
+          0.11282537413095006,
+          0.6875978764283037,
+          -1.2135787438376902,
+          0.49377680562533177,
+          -0.5320754860426647,
+          -0.5859300528319443
+        ],
+        "intercept": 36.25847421518518,
+        "loso_cv_stats": {
+          "rmse_deg": 5.524606009832286,
+          "mae_deg": 4.555559674220585,
+          "bias_deg": -0.4626739713066122,
+          "sd_of_difference_deg": 5.556891073674335,
+          "loa_95_lower_deg": -11.35418047570831,
+          "loa_95_upper_deg": 10.428832533095084,
+          "pearson_r": 0.2939622691048436
+        },
+        "naive_baseline_rmse": 9.922302548530867,
+        "v7_comparison": {
+          "v7_rmse_deg": 5.399814737050686,
+          "v7_pearson_r": 0.3301250074586856,
+          "delta_r": -0.03616273835384204
+        }
+      },
+      "side_right": {
+        "camera_id": "Cam4",
+        "view_bucket": "side_right",
+        "approach": "full_trial",
+        "target_metric": "lumbar_extension",
+        "n_train_trials": 54,
+        "n_subjects": 9,
+        "feature_names": [
+          "target_rom_full",
+          "coup1_rom_full",
+          "coup2_rom_full",
+          "target_p95_minus_p05",
+          "loading_duration_proxy",
+          "knee_flex_diff_lr_full",
+          "hip_y_range_px"
+        ],
+        "feature_mean": [
+          43.75611973991745,
+          74.05524695874763,
+          359.50483672263954,
+          39.42752726860773,
+          155.2962962962963,
+          12.272494940828066,
+          218.303219265408
+        ],
+        "feature_std": [
+          11.177786072549592,
+          25.518687040893166,
+          0.5473937450672477,
+          10.198273532201643,
+          18.03764543806219,
+          7.088805371012621,
+          84.81574221886119
+        ],
+        "weights_zscored": [
+          2.343649225337188,
+          -0.932645662228698,
+          -0.2662210267348043,
+          1.6583405663852016,
+          -1.2286171560734769,
+          -0.04789969156875037,
+          0.34877094391306807
+        ],
+        "intercept": 36.2584742151852,
+        "loso_cv_stats": {
+          "rmse_deg": 6.4368071541136995,
+          "mae_deg": 4.363886767690661,
+          "bias_deg": 0.49038756071587136,
+          "sd_of_difference_deg": 6.478365075162329,
+          "loa_95_lower_deg": -12.207207986602292,
+          "loa_95_upper_deg": 13.187983108034036,
+          "pearson_r": 0.2554977321197801
+        },
+        "naive_baseline_rmse": 11.284089234760767,
+        "v7_comparison": {
+          "v7_rmse_deg": 5.6260640155503205,
+          "v7_pearson_r": 0.31534346266822066,
+          "delta_r": -0.05984573054844056
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Logs
+logs/
+*.log
+
+# Raw datasets — too big for git, recreate from source
+data/aspset510/
+data/aspset510_dwpose_keypoints/
+data/opencap_dwpose_keypoints/
+data/couro_keypoints/
+data/mpi_inf_3dhp/
+data/mpi_inf_3dhp_dwpose/
+data/LabValidation_withVideos/
+
+# Pretrained models (download separately)
+models/dw-ll_ucoco_384.onnx
+models/rtmpose-halpe26.onnx
+models/videopose3d_h36m.bin
+models/smpl/
+models/vposer_v1/
+
+# Empty/placeholder model checkpoints (need retraining to populate)
+# Keep the directory but ignore zero-byte stubs — git will skip them anyway
+
+# Large intermediate caches that can be regenerated
+data/**/blended_layer2_cache.pkl
+data/**/*_cache.pkl
+data/**/*.npz
+
+# IDE
+.vscode/
+.idea/
+*.swp

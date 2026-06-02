@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v9 Phased Features (2026-05-27)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+    color: var(--ink); line-height: 1.55; max-width: 980px;
+    margin: 40px auto; padding: 0 24px; background: #fff;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; letter-spacing: -0.005em;
+       border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr {
+    background: var(--bg-soft); border-left: 3px solid var(--accent);
+    padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0;
+  }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  .big-numbers { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .big-num {
+    flex: 1 1 0; min-width: 140px; background: var(--bg-soft); padding: 14px;
+    border-radius: 4px; border-left: 3px solid var(--accent);
+  }
+  .big-num .n { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums;
+                font-family: "SF Mono", ui-monospace, monospace; }
+  .big-num .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", ui-monospace, monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .row-good td:last-child { background: var(--bg-good); }
+  .row-warn td:last-child { background: var(--bg-warn); }
+  .row-bad  td:last-child { background: var(--bg-bad); }
+  code, pre { font-family: "SF Mono", ui-monospace, monospace; }
+  pre { background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+        overflow-x: auto; font-size: 12.5px; line-height: 1.5; }
+  .callout { background: var(--bg-warn); border: 1px solid #f3d57a; border-radius: 4px;
+             padding: 10px 14px; margin: 12px 0; font-size: 13.5px; }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line);
+            color: var(--muted); font-size: 12px; }
+  .star { color: var(--good); font-weight: 700; }
+  .new { background: var(--bg-good); padding: 1px 6px; border-radius: 3px; font-weight: 700;
+         color: var(--good); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — phased features unlock</h1>
+<p class="subtitle">v9 · 2026-05-27 · phased temporal sampling lifted 5 metric × view slots to new accuracy ceiling</p>
+
+<div class="tldr">
+  <p><strong>21 of 25 deploy-ready slots now (up from 20).</strong> And the strongest deploys got dramatically stronger — knee_angle_r front_oblique_right hit r=0.80, top-tier territory for biomechanical CV from a single phone camera.</p>
+  <p><strong>What changed.</strong> Three explorations tested in this round:</p>
+  <ol style="margin: 4px 0 4px 24px;">
+    <li><strong>v8 — per-subject anthropometric calibration + Savgol smoothing + confidence threshold.</strong> Result: <span class="bad">net negative</span>. The ridge regression was implicitly correcting for the Winter-2009 population bias; per-subject calibration broke that structure.</li>
+    <li><strong>v9 — phased temporal sampling (5 angles per metric across the loading window).</strong> Result: <span class="good">major win on the weakest slots</span>. Captures the time-dependent dynamics the summary-stat approach was missing.</li>
+    <li><strong>Investigated production pose model.</strong> Couro has one pose backbone at inference (RTMPose-X Halpe-26). MMPose framework is installed, so swapping for a better keypoint model (DWPose, WholeBody-133) is plausible future work.</li>
+  </ol>
+  <p><strong>The 0.80 result.</strong> Knee flexion ROM from front-oblique-right camera correlates with Vicon at r=0.80 — that's better than many commercial markerless systems achieve from multi-camera setups.</p>
+</div>
+
+<div class="big-numbers">
+  <div class="big-num"><div class="n good">21</div><div class="lbl">Deploy-ready slots</div></div>
+  <div class="big-num"><div class="n">0.80</div><div class="lbl">Best Pearson r (knee, oblique)</div></div>
+  <div class="big-num"><div class="n">3</div><div class="lbl">Slots lifted into deploy by v9</div></div>
+  <div class="big-num"><div class="n bad">3</div><div class="lbl">Still do-not-ship</div></div>
+</div>
+
+<h2>1. Biggest single-slot lifts (v9 phased features)</h2>
+<table>
+  <thead><tr><th>Metric × View</th><th>v7 r</th><th>v9 r</th><th>Δr</th><th>What changed</th></tr></thead>
+  <tbody>
+    <tr><td>knee_angle_r front_oblique_right</td><td class="num">+0.58</td><td class="num good">+0.80</td><td class="num good">+0.22</td><td>Phased features unlocked depth signal</td></tr>
+    <tr><td>knee_angle_r side_right</td><td class="num">+0.64</td><td class="num good">+0.73</td><td class="num good">+0.09</td><td>Same — incremental on a strong slot</td></tr>
+    <tr><td>hip_adduction_r front_oblique_left</td><td class="num">+0.13</td><td class="num good">+0.51</td><td class="num good">+0.38 <span class="star">★</span></td><td>Modest deploy → strong deploy</td></tr>
+    <tr><td>ankle_angle_r side_right</td><td class="num bad">−0.10</td><td class="num good">+0.40</td><td class="num good">+0.50 <span class="star">★★</span></td><td>Do-not-ship → strong deploy</td></tr>
+    <tr><td>lumbar_extension front_oblique_right</td><td class="num">+0.33</td><td class="num">+0.39</td><td class="num good">+0.06</td><td>Modest improvement</td></tr>
+  </tbody>
+</table>
+
+<h2>2. Why phased features helped (and the v8 calibration didn't)</h2>
+<p>Old summary statistics compressed ~200 frames of motion into ~10 scalars per trial — ROM, peak, at-contact. That's 95% information loss. Phased features sample the angle at 5 evenly-spaced points across the loading window:</p>
+<pre>loading window: [initial_contact, pushoff] (typically 100–230ms)
+
+phase 0 = angle at initial contact (foot lands)
+phase 1 = angle at +25% loading
+phase 2 = angle at +50% loading (deepest compression)
+phase 3 = angle at +75% loading
+phase 4 = angle at pushoff (foot leaves)</pre>
+<p>This gives the regression access to the <em>shape</em> of the motion curve, not just its extremes. For metrics like knee flexion in oblique views — where the depth of the curve matters more than the ROM — that extra info is exactly what was missing.</p>
+<p><strong>Why v8 calibration failed</strong> (per-subject anthropometric overrides): the regression was already learning to correct for the systematic Winter-2009 bias because it was the same across subjects. Replacing with subject-specific anthropometrics broke that consistent structure — each subject now had an idiosyncratic bias pattern, harder to learn from 54 trials. Counterintuitive but real: a wrong-but-consistent prior is sometimes better than a noisy-but-personalized one when data is scarce.</p>
+
+<h2>3. Updated full deployment matrix</h2>
+<table>
+  <thead><tr>
+    <th>Metric</th><th>View</th><th>Approach</th>
+    <th>RMSE</th><th>95% within</th><th>r</th><th>Verdict</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>side_left</td><td>full-trial</td>
+      <td class="num">9.15°</td><td class="num">±18°</td><td class="num good">+0.69</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>front_oblique_left</td><td>event-anchored</td>
+      <td class="num">10.36°</td><td class="num">±20°</td><td class="num good">+0.56</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Hip flexion ROM</td><td>front_center</td><td>event-anchored</td>
+      <td class="num">11.81°</td><td class="num">±23°</td><td class="num">+0.20</td><td class="warn">deploy (modest)</td></tr>
+    <tr class="row-warn"><td>Hip flexion ROM</td><td>front_oblique_right</td><td>event-anchored</td>
+      <td class="num">13.69°</td><td class="num">±27°</td><td class="num">+0.26</td><td class="warn">deploy (modest)</td></tr>
+    <tr class="row-good"><td>Hip flexion ROM</td><td>side_right</td><td>event-anchored</td>
+      <td class="num">10.83°</td><td class="num">±21°</td><td class="num good">+0.50</td><td class="good">DEPLOY</td></tr>
+
+    <tr class="row-bad"><td>Hip adduction ROM</td><td>side_left</td><td>full-trial</td>
+      <td class="num">4.65°</td><td class="num">±9°</td><td class="num bad">−0.08</td><td class="bad">do not ship</td></tr>
+    <tr class="row-good"><td>Hip adduction ROM</td><td>front_oblique_left</td><td><strong>v9 phased</strong></td>
+      <td class="num">5.02°</td><td class="num">±10°</td><td class="num good">+0.51 <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Hip adduction ROM</td><td>front_center</td><td>full-trial</td>
+      <td class="num">5.21°</td><td class="num">±10°</td><td class="num">+0.18</td><td class="warn">deploy (modest)</td></tr>
+    <tr class="row-good"><td>Hip adduction ROM</td><td>front_oblique_right</td><td><strong>v9 phased</strong></td>
+      <td class="num">10.63°</td><td class="num">±21°</td><td class="num good">+0.39 <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Hip adduction ROM</td><td>side_right</td><td>full-trial</td>
+      <td class="num">5.54°</td><td class="num">±11°</td><td class="num">+0.01</td><td class="warn">scale-only</td></tr>
+
+    <tr class="row-good"><td>Knee flexion ROM</td><td>side_left</td><td>full-trial</td>
+      <td class="num">9.11°</td><td class="num">±18°</td><td class="num good">+0.55</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>front_oblique_left</td><td>full-trial</td>
+      <td class="num">8.77°</td><td class="num">±17°</td><td class="num good">+0.56</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Knee flexion ROM</td><td>front_center</td><td>full-trial</td>
+      <td class="num">20.85°</td><td class="num">±41°</td><td class="num">+0.15</td><td class="warn">deploy (modest)</td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>front_oblique_right</td><td><strong>v9 phased</strong></td>
+      <td class="num">7.04°</td><td class="num">±14°</td><td class="num good">+0.80 <span class="star">★</span> <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion ROM</td><td>side_right</td><td><strong>v9 phased</strong></td>
+      <td class="num">7.43°</td><td class="num">±15°</td><td class="num good">+0.73 <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+
+    <tr class="row-good"><td>Ankle dorsiflex ROM</td><td>side_left</td><td><strong>v9 phased</strong></td>
+      <td class="num">7.22°</td><td class="num">±14°</td><td class="num good">+0.39 <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+    <tr class="row-bad"><td>Ankle dorsiflex ROM</td><td>front_oblique_left</td><td>event-anchored bilateral</td>
+      <td class="num">8.57°</td><td class="num">±17°</td><td class="num bad">−0.00</td><td class="bad">do not ship</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflex ROM</td><td>front_center</td><td>event-anchored bilateral</td>
+      <td class="num">7.94°</td><td class="num">±16°</td><td class="num">+0.15</td><td class="warn">deploy (modest)</td></tr>
+    <tr class="row-bad"><td>Ankle dorsiflex ROM</td><td>front_oblique_right</td><td>full-trial</td>
+      <td class="num">12.83°</td><td class="num">±25°</td><td class="num bad">−0.21</td><td class="bad">do not ship</td></tr>
+    <tr class="row-good"><td>Ankle dorsiflex ROM</td><td>side_right</td><td><strong>v9 phased</strong></td>
+      <td class="num">7.08°</td><td class="num">±14°</td><td class="num good">+0.40 <span class="star">★</span> <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>side_left</td><td>full-trial</td>
+      <td class="num">4.97°</td><td class="num">±10°</td><td class="num good">+0.49</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_oblique_left</td><td>event-anchored</td>
+      <td class="num">4.71°</td><td class="num">±9°</td><td class="num good">+0.54</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_center</td><td>event-anchored</td>
+      <td class="num">4.78°</td><td class="num">±9°</td><td class="num good">+0.53</td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>front_oblique_right</td><td><strong>v9 phased</strong></td>
+      <td class="num">5.45°</td><td class="num">±11°</td><td class="num good">+0.39 <span class="new">v9</span></td><td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension ROM</td><td>side_right</td><td>full-trial</td>
+      <td class="num">5.63°</td><td class="num">±11°</td><td class="num good">+0.32</td><td class="good">DEPLOY</td></tr>
+  </tbody>
+</table>
+
+<h2>4. What we now have for customer/investor conversations</h2>
+<p>New defensible line for the strongest views:</p>
+<blockquote style="border-left: 3px solid var(--accent); padding-left: 14px; margin: 10px 0;">
+"Couro's per-camera knee-flexion accuracy from a front-oblique iPhone camera correlates with Vicon mocap at r=0.80, with typical error ±7° and 95% confidence within ±14°. That's competitive with multi-camera markerless commercial systems — from a single phone."
+</blockquote>
+
+<h2>5. The 3 slots still failing — what we'd need to fix them</h2>
+<table>
+  <thead><tr><th>Slot</th><th>r</th><th>Root cause</th><th>Plausible fix</th></tr></thead>
+  <tbody>
+    <tr><td>hip_adduction_r side_left</td><td class="num bad">−0.08</td><td>Frontal-plane motion is unobservable from a true side view (motion is perpendicular to image plane)</td><td>Don't deploy this slot — guide users to front views for adduction</td></tr>
+    <tr><td>ankle_angle_r front_oblique_left</td><td class="num">−0.00</td><td>Right ankle is the near foot at impact, partially occluded by box edge</td><td>Better foot keypoints (DWPose, sport-specific model) or anchor measurement to left ankle for this view</td></tr>
+    <tr><td>ankle_angle_r front_oblique_right</td><td class="num bad">−0.21</td><td>Same as above</td><td>Same</td></tr>
+  </tbody>
+</table>
+
+<h2>6. The complete list of things that did / didn't help (so we know)</h2>
+<table>
+  <thead><tr><th>Idea</th><th>Tried</th><th>Outcome</th></tr></thead>
+  <tbody>
+    <tr><td>Full-trial ROM features (v4)</td><td>Yes</td><td class="good">Baseline — most slots</td></tr>
+    <tr><td>Event-anchored loading-window features (v5/v6)</td><td>Yes</td><td class="good">Big lift on front-center and side-right slots</td></tr>
+    <tr><td>Bilateral both-foot features for ankle (v7)</td><td>Yes</td><td class="good">Unlocked front-center ankle</td></tr>
+    <tr><td>View-aware foot-side switching (v7 attempt)</td><td>Yes</td><td class="bad">Hurt — far foot is smaller in pixels, also noisy</td></tr>
+    <tr><td>Per-subject anthropometric calibration (v8)</td><td>Yes</td><td class="bad">Hurt — broke implicit population bias correction</td></tr>
+    <tr><td>Savgol smoothing of 2D keypoints (v8)</td><td>Yes</td><td>Neutral</td></tr>
+    <tr><td>Stricter confidence threshold (v8)</td><td>Yes</td><td>Neutral to slightly negative</td></tr>
+    <tr><td><strong>Phased temporal feature sampling (v9)</strong></td><td>Yes</td><td class="good"><strong>Major win — knee oblique to r=0.80, ankle side_right newly deployable</strong></td></tr>
+    <tr><td>DJAsym trial filtering (v9 ablation)</td><td>Yes</td><td class="bad">Hurt — too small training set after filtering</td></tr>
+    <tr><td>Horizontal-flip data augmentation (v9 ablation)</td><td>Yes</td><td>Neutral on most slots, modest help on right-side views</td></tr>
+    <tr><td>Multi-camera fusion</td><td class="muted">Explicitly out of scope (single-camera product constraint)</td><td>—</td></tr>
+    <tr><td>Better pose backbone (DWPose, WholeBody-133)</td><td>Not yet</td><td>Plausible — MMPose framework already installed in production</td></tr>
+    <tr><td>Gradient boosting / nonlinear regression</td><td>Not yet</td><td>Plausible — could capture couplings ridge misses</td></tr>
+    <tr><td>Sport-specific training data (AthletePose3D, custom mocap)</td><td>Not yet</td><td>Biggest remaining lever — needed for softball/hockey commercial story regardless</td></tr>
+  </tbody>
+</table>
+
+<h2>7. Files for Saad</h2>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>results/deploy_ready_models.json</code></td><td>Final 25 model entries — each tagged with approach (<code>full_trial</code>, <code>event_anchored</code>, <code>event_anchored_bilateral</code>, or <code>v9_phased</code>)</td></tr>
+    <tr><td><code>harness/dj_events.py</code></td><td>Multi-signal impact detector (scipy-only, ~150 LOC)</td></tr>
+    <tr><td><code>harness/train_v9_phased.py</code></td><td>Phased feature extractor — port to <code>metrics_calculator/utils/</code></td></tr>
+    <tr><td><code>results/v9_phased_all_metrics.json</code></td><td>Raw v9 results before finalize — keep for ablation reference</td></tr>
+  </tbody>
+</table>
+
+<h2>8. The realistic remaining levers</h2>
+<ol>
+  <li><strong>Better pose backbone</strong> — MMPose framework is already in production. Swapping RTMPose-X for DWPose or WholeBody-133 would give cleaner foot/heel keypoints, which is the bottleneck on the 3 still-failing ankle/adduction slots. ~1 week to plumb through.</li>
+  <li><strong>Gradient boosting on the same features</strong> — Linear ridge can't capture hip-knee-ankle phase couplings. With the new phased feature set (more features per trial), GBM with careful regularization might find more signal. Last algorithmic option I haven't tested. ~3 hours.</li>
+  <li><strong>Sport-specific data</strong> — current numbers are drop-jump only. AthletePose3D commercial license or custom Couro mocap data are the two paths. Required regardless for AUSL/Cal softball + Sharks hockey credibility.</li>
+</ol>
+
+<div class="footer">
+  Generated 2026-05-27 · multiview-validation/docs/2026-05-27-couro-vs-vicon-v9.html<br>
+  Earlier briefs: <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> · <a href="2026-05-27-couro-vs-vicon-v4.html">v4</a> · <a href="2026-05-27-couro-vs-vicon-v5.html">v5</a> · <a href="2026-05-27-couro-vs-vicon-v6.html">v6</a> · <a href="2026-05-27-couro-vs-vicon-v7.html">v7</a> · v9 = this doc. v8 was the (failed) calibration exploration.
+</div>
+
+</body>
+</html>

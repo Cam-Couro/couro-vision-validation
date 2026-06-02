@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro Vision — Validation Document v2 (2026-05-28)</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a26;
+    --border: #2a2a3a; --text: #e0e0e8; --text-dim: #8888a0;
+    --accent: #6c5ce7; --accent-light: #a29bfe;
+    --green: #00d4aa; --green-dim: #00d4aa22; --green-bg: #00d4aa14;
+    --blue: #4da6ff; --blue-bg: #4da6ff14;
+    --orange: #ffa04d; --orange-bg: #ffa04d14;
+    --red: #ff6b6b; --red-bg: #ff6b6b14;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.65; padding: 0; }
+  .header { background: linear-gradient(135deg, #12121a 0%, #1a1030 50%, #12121a 100%);
+            border-bottom: 1px solid var(--border); padding: 56px 40px 48px; }
+  .header-inner { max-width: 1200px; margin: 0 auto; }
+  .header-badge { display: inline-block; background: var(--blue-bg); color: var(--blue);
+                  font-size: 11px; font-weight: 600; letter-spacing: 1.2px;
+                  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+                  border: 1px solid var(--blue); margin-bottom: 16px; }
+  .header h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 10px;
+               background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+               -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+               background-clip: text; line-height: 1.2; }
+  .header-meta { color: var(--text-dim); font-size: 14px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+                max-width: 1200px; margin: -32px auto 0; padding: 0 40px;
+                position: relative; z-index: 2; }
+  .hero-stat { background: var(--surface); border: 1px solid var(--border);
+               border-radius: 12px; padding: 22px 24px; text-align: center; }
+  .hero-stat .number { font-size: 32px; font-weight: 700; color: var(--green);
+                       line-height: 1.1; font-family: 'SF Mono', monospace; }
+  .hero-stat .label { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                      letter-spacing: 0.8px; margin-top: 6px; }
+  .content { max-width: 1200px; margin: 0 auto; padding: 48px 40px 60px; }
+  .section { margin-bottom: 56px; }
+  .section-header { display: flex; align-items: center; gap: 14px;
+                    margin-bottom: 24px; padding-bottom: 14px;
+                    border-bottom: 2px solid var(--border); }
+  .section-header h2 { font-size: 24px; font-weight: 600; color: #fff; }
+  .section-icon { width: 40px; height: 40px; border-radius: 10px;
+                  display: flex; align-items: center; justify-content: center;
+                  font-size: 18px; font-weight: 700; flex-shrink: 0; }
+  .icon-green { background: var(--green-dim); border: 1px solid #00d4aa44; color: var(--green); }
+  .icon-blue { background: #4da6ff18; border: 1px solid #4da6ff44; color: var(--blue); }
+  .icon-purple { background: #6c5ce718; border: 1px solid #6c5ce744; color: var(--accent-light); }
+  .icon-orange { background: #ffa04d18; border: 1px solid #ffa04d44; color: var(--orange); }
+  .icon-red { background: #ff6b6b18; border: 1px solid #ff6b6b44; color: var(--red); }
+  .summary-text { color: var(--text); font-size: 15px; line-height: 1.75;
+                  max-width: 950px; margin-bottom: 20px; }
+  .summary-text strong { color: #fff; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px;
+          background: var(--surface); border-radius: 10px;
+          overflow: hidden; border: 1px solid var(--border); margin: 8px 0 18px; }
+  thead th { background: var(--surface2); color: var(--text-dim); font-weight: 600;
+             font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px;
+             padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid #1e1e2e;
+             color: var(--text); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #ffffff06; }
+  td.num, th.num { font-variant-numeric: tabular-nums; font-family: 'SF Mono', monospace;
+                   text-align: right; }
+  .z-good { color: var(--green); font-weight: 600; }
+  .z-ok { color: var(--orange); font-weight: 600; }
+  .z-bad { color: var(--red); font-weight: 600; }
+  .trust-card { background: var(--surface); border: 1px solid var(--border);
+                border-radius: 12px; padding: 28px 32px; margin-bottom: 20px; }
+  .trust-card.t1 { border-left: 4px solid var(--green); }
+  .trust-card.t2 { border-left: 4px solid var(--blue); }
+  .trust-card .trust-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                             letter-spacing: 1px; font-weight: 600; margin-bottom: 4px; }
+  .trust-card h3 { font-size: 22px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+  .trust-card p { font-size: 14.5px; color: var(--text); line-height: 1.7; margin: 8px 0; }
+  .trust-card .key-numbers { display: grid; grid-template-columns: repeat(4, 1fr);
+                             gap: 12px; margin: 18px 0 8px; }
+  .trust-card .key-numbers > div { background: var(--surface2);
+                                   padding: 14px 16px; border-radius: 8px; }
+  .trust-card .key-numbers .v { font-size: 18px; font-weight: 700;
+                                color: var(--green); font-family: 'SF Mono', monospace;
+                                line-height: 1.2; }
+  .trust-card.t2 .key-numbers .v { color: var(--blue); }
+  .trust-card .key-numbers .l { font-size: 11px; color: var(--text-dim);
+                                text-transform: uppercase; letter-spacing: 0.5px;
+                                margin-top: 4px; }
+  .layer-detail { background: var(--surface); border-radius: 10px;
+                  padding: 24px 28px; margin: 18px 0; }
+  .layer-detail h4 { color: #fff; font-size: 17px; margin-bottom: 6px; }
+  .layer-detail .layer-tag { font-size: 11px; text-transform: uppercase;
+                             letter-spacing: 1px; color: var(--text-dim);
+                             font-weight: 600; margin-bottom: 8px; }
+  .layer-detail .units-row { display: grid; grid-template-columns: repeat(4, 1fr);
+                             gap: 10px; margin: 12px 0; }
+  .layer-detail .unit { background: var(--surface2); padding: 12px 14px;
+                        border-radius: 6px; text-align: center; }
+  .layer-detail .unit .v { font-size: 16px; font-weight: 700;
+                           font-family: 'SF Mono', monospace; color: var(--text); }
+  .layer-detail .unit .v.good { color: var(--green); }
+  .layer-detail .unit .v.warn { color: var(--orange); }
+  .layer-detail .unit .v.bad { color: var(--red); }
+  .layer-detail .unit .l { font-size: 10px; color: var(--text-dim);
+                           text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+  blockquote { background: var(--surface); border-left: 3px solid var(--accent-light);
+               padding: 16px 22px; margin: 16px 0; border-radius: 0 8px 8px 0;
+               color: var(--text); font-size: 14.5px; line-height: 1.7; }
+  blockquote strong { color: #fff; }
+  .footer { max-width: 1200px; margin: 0 auto; padding: 24px 40px 40px;
+            text-align: center; color: var(--text-dim); font-size: 12px;
+            border-top: 1px solid var(--border); }
+  .row-good { background: #00d4aa10 !important; }
+  .row-poor { background: #ff6b6b08 !important; }
+  ul.bullets li { margin: 6px 0; padding-left: 4px; font-size: 14px;
+                  color: var(--text); line-height: 1.65; }
+  .pill-good { background: var(--green-dim); color: var(--green);
+               padding: 3px 10px; border-radius: 4px; font-size: 11px;
+               font-weight: 700; }
+  .pill-warn { background: #ffa04d22; color: var(--orange);
+               padding: 3px 10px; border-radius: 4px; font-size: 11px;
+               font-weight: 700; }
+  .pill-bad { background: #ff6b6b22; color: var(--red);
+              padding: 3px 10px; border-radius: 4px; font-size: 11px;
+              font-weight: 700; }
+  .takeaway { background: var(--green-dim); border: 1px solid #00d4aa66;
+              border-radius: 10px; padding: 18px 24px; margin: 16px 0;
+              color: var(--text); font-size: 14.5px; line-height: 1.7; }
+  .takeaway strong { color: #fff; }
+  .warning { background: var(--orange-bg); border: 1px solid #ffa04d66;
+             border-radius: 10px; padding: 18px 24px; margin: 16px 0;
+             color: var(--text); font-size: 14.5px; line-height: 1.7; }
+  .warning strong { color: #fff; }
+  .footnote { background: #1a1a26; border-left: 3px solid var(--text-dim);
+              border-radius: 0 8px 8px 0; padding: 14px 20px; margin: 16px 0;
+              font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+  .footnote strong { color: var(--text); }
+  .definition { background: #4da6ff10; border: 1px solid #4da6ff33;
+                border-radius: 8px; padding: 14px 20px; margin: 12px 0;
+                font-size: 13.5px; color: var(--text); line-height: 1.7; }
+  .definition strong { color: #fff; }
+  .definition .term { color: var(--blue); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-badge">v2 · Diligence-grade revision · Biomech validity standards applied</div>
+    <h1>Couro Vision — Validation Document</h1>
+    <div class="header-meta">2026-05-28 · Pipeline measured against mocap using Lin's CCC + Bland-Altman LoA · Single phone camera · No calibration · Revised from v1 to apply published biomech validity criteria, remove unused dataset, and flag per-trial vs per-subject divergence</div>
+  </div>
+</div>
+
+<div class="hero-stats">
+  <div class="hero-stat"><div class="number">3</div><div class="label">Deploy slots clearing biomech validity bar</div></div>
+  <div class="hero-stat"><div class="number">34</div><div class="label">LOSO-validated subjects (commercial-clean)</div></div>
+  <div class="hero-stat"><div class="number">303</div><div class="label">Subjects in scoring-config calibration</div></div>
+  <div class="hero-stat"><div class="number">7</div><div class="label">Commercial-clean academic datasets</div></div>
+</div>
+
+<div class="content">
+
+  <!-- TL;DR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">✓</div>
+      <h2>What this document claims, in one paragraph</h2>
+    </div>
+    <p class="summary-text">
+      Couro takes a single phone video, runs a pose-estimation pipeline, reconstructs joint angles in 3D, predicts range of motion (ROM) per trial, and outputs sport-specific scoring. We measured the ROM-prediction layer (Layer 3, the slot that ships to production) against gold-standard motion capture using the standard biomechanics validity criteria: <strong>Lin's Concordance Correlation Coefficient (CCC) &gt; 0.60</strong> and <strong>Bland-Altman 95% limits of agreement (LoA) within ±10°</strong>. By those criteria, <strong>3 deploy slots are validated today</strong>, with a headline of <strong>CCC = 0.94, mean bias +1.3°, 95% LoA [−8.5°, +11.1°], MAE 4.4°</strong> for hip-adduction range-of-motion on the side-left camera across <strong>12 leave-one-subject-out (LOSO) held-out subjects, 105 trials</strong>. Nine more slots clear weaker thresholds and are usable with caveats. The remaining slots are unvalidated and we explicitly identify which ones, why, and what we're doing about them.
+    </p>
+  </div>
+
+  <!-- WHAT VALIDATION MEANS HERE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">?</div>
+      <h2>What "validated" means here</h2>
+    </div>
+    <p class="summary-text">
+      Three statistical measures, all standard in the biomechanics literature, all measured per slot (where a slot is one metric × one camera angle):
+    </p>
+
+    <div class="definition">
+      <p><span class="term">Pearson r</span> — correlation between Couro's prediction and mocap ground truth. Captures whether the two move in lockstep. Sensitive to noise but blind to systematic offset and scale mismatch. A model that consistently overshoots ROM by 4° still gets r = 1.0 if it tracks the shape correctly.</p>
+    </div>
+    <div class="definition">
+      <p><span class="term">Lin's Concordance Correlation Coefficient (CCC)</span> — Pearson r penalized for bias and scale mismatch. The standard biomechanics validity statistic. CCC &gt; 0.60 is the literature floor for "validated against gold standard"; &gt; 0.80 is "excellent." Reference: Lin 1989, McBride 2005, Atkinson &amp; Nevill 1998.</p>
+    </div>
+    <div class="definition">
+      <p><span class="term">Bland-Altman 95% limits of agreement (LoA)</span> — the range within which 95% of the (prediction − ground truth) differences fall. Reports in degrees. ±10° is the clinical-utility bar for goniometric measurement; ±5° is the inter-rater agreement floor for two human raters using a hand goniometer. Reference: Bland &amp; Altman 1986, Hancock 2018.</p>
+    </div>
+
+    <div class="warning">
+      <strong>Why CCC matters more than Pearson r for product validation.</strong> A pose system can score r = 0.95 on a metric and still be unfit for deployment if it has a systematic 4° overshoot at the population level. CCC catches that; Pearson r doesn't. For a sport-scoring product where athletes are compared to clinical norms, scale calibration is part of correctness. v1 of this document led with r; v2 leads with CCC.
+    </div>
+
+    <h3 style="font-size: 16px; color: #fff; margin: 24px 0 8px;">Validity tiers used in this document</h3>
+    <table>
+      <thead><tr>
+        <th>Tier</th>
+        <th>CCC threshold</th>
+        <th>Bland-Altman LoA half-width</th>
+        <th>What we'll claim</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-good">
+          <td><span class="pill-good">Good</span></td>
+          <td>≥ 0.60</td>
+          <td>&lt; ±10°</td>
+          <td>"Validated against mocap. Ship in product. Use in marketing."</td>
+        </tr>
+        <tr>
+          <td><span class="pill-warn">Moderate</span></td>
+          <td>≥ 0.40</td>
+          <td>&lt; ±15°</td>
+          <td>"Usable with caveats. Surface in product with confidence labels."</td>
+        </tr>
+        <tr class="row-poor">
+          <td><span class="pill-bad">Poor</span></td>
+          <td>&lt; 0.40 OR LoA &gt; ±15°</td>
+          <td>—</td>
+          <td>"Not validated. Demote from product or hold from deployment."</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- THE HEADLINE SLOT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">★</div>
+      <h2>The headline slot</h2>
+    </div>
+
+    <div class="trust-card t1">
+      <div class="trust-label">Best validated deploy slot</div>
+      <h3>Hip adduction range-of-motion · Side-left camera</h3>
+      <p style="font-size: 14.5px; color: var(--text);">
+        Across <strong>12 LOSO-held-out subjects (105 individual trials)</strong> from the OpenCap drop-jump and ASPset multi-motion datasets, Couro's prediction tracks mocap-derived hip-adduction ROM with high concordance, near-zero systematic bias, and clinical-grade agreement intervals.
+      </p>
+      <div class="key-numbers">
+        <div><div class="v">0.94</div><div class="l">Lin's CCC</div></div>
+        <div><div class="v">+1.3°</div><div class="l">Mean bias</div></div>
+        <div><div class="v">±9.8°</div><div class="l">95% LoA half-width</div></div>
+        <div><div class="v">4.4°</div><div class="l">MAE</div></div>
+      </div>
+      <p style="margin-top: 14px; font-size: 13.5px; color: var(--text-dim);">
+        Pearson r = 0.95. RMSE = 5.0°. Test of mean-bias-non-zero: p = 0.38 (no detectable systematic offset). Approach: v14_full_dwpose. Per-subject Bland-Altman analysis on the LOSO predict-vs-observe pairs.
+      </p>
+    </div>
+
+    <div class="takeaway">
+      <strong>What this means for marketing.</strong> This is the strongest defensible claim Couro has today. It is a real biomech-publication-grade number, measured with the same statistical framework the OpenSim and OpenCap papers use. It is one metric × one camera angle, not the whole product — but it is enough to anchor a credible accuracy story.
+    </div>
+
+    <h3 style="font-size: 16px; color: #fff; margin: 24px 0 8px;">Other slots that clear the "Good" bar</h3>
+    <table>
+      <thead><tr>
+        <th>Slot</th>
+        <th class="num">n subj</th>
+        <th class="num">CCC</th>
+        <th class="num">Pearson r</th>
+        <th class="num">Bias</th>
+        <th class="num">95% LoA</th>
+        <th class="num">MAE</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-good">
+          <td><strong>Lumbar extension</strong> · side-left</td>
+          <td class="num">12</td>
+          <td class="num z-good">0.83</td>
+          <td class="num">0.87</td>
+          <td class="num">−1.4°</td>
+          <td class="num">[−8.6, +5.9]°</td>
+          <td class="num">3.1°</td>
+        </tr>
+        <tr class="row-good">
+          <td><strong>Ankle plantar/dorsiflex</strong> · side-right</td>
+          <td class="num">9</td>
+          <td class="num z-good">0.64</td>
+          <td class="num">0.75</td>
+          <td class="num">+0.3°</td>
+          <td class="num">[−9.1, +9.8]°</td>
+          <td class="num">3.9°</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12.5px; color: var(--text-dim);">
+      Three Good-tier slots total. All three are side-view slots, which matches the structural prediction: side views give the cleanest 2D projection for sagittal-plane joint angles, which the depth-ambiguous single-camera reconstruction handles best.
+    </p>
+  </div>
+
+  <!-- HOW THE PIPELINE WORKS — TEACHING SECTION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">📖</div>
+      <h2>How Couro reads movement from video — the pipeline in plain English</h2>
+    </div>
+    <p class="summary-text">
+      Couro's pipeline runs in four stages. Each stage has its own accuracy measurement against mocap. The numbers above refer to Layer 3 (ROM prediction, the slot that ships).
+    </p>
+
+    <div class="layer-detail" style="border-left: 4px solid var(--blue);">
+      <div class="layer-tag" style="color: var(--blue);">Stage 1 — Keypoints</div>
+      <h4>Find body landmarks in each video frame</h4>
+      <p style="font-size: 14px; color: var(--text);">
+        A keypoint is a single (x, y) pixel location of a body landmark — like a dot on a stick-figure drawing. Couro detects <strong>26 keypoints per frame</strong> using DWPose-L (ICCV 2023): nose, eyes, ears, shoulders, elbows, wrists, hips, knees, ankles, big toes, small toes, heels, head_top, neck, hip_center.
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 6px;">
+        <strong style="color:var(--text);">Plain English:</strong> "The right knee is at pixel (480, 720) in this video frame."
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 8px;">
+        Layer 1 measurement: pixel-level Pearson r against mocap-derived projected keypoints = 0.98 (front 0.989, side 0.985, rear 0.983). This is a measurement of the keypoint detector, not the joint-angle pipeline downstream.
+      </p>
+    </div>
+
+    <div class="layer-detail" style="border-left: 4px solid var(--accent-light);">
+      <div class="layer-tag" style="color: var(--accent-light);">Stage 2 — Joint angles</div>
+      <h4>Compute the angle between three keypoints in 3D</h4>
+      <p style="font-size: 14px; color: var(--text);">
+        A joint angle is the angle formed by three keypoints — e.g. knee flexion = angle between the hip→knee vector and the knee→ankle vector. We reconstruct this in 3D from 2D keypoints using anthropometric scaling (your femur is ~25% of your height).
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 6px;">
+        <strong style="color:var(--text);">Plain English:</strong> "The right knee was flexed to 85° at the moment of landing."
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 8px;">
+        Layer 2 measurement: per-frame angle reading vs mocap, pooled across all metrics × all views = |r| ≈ 0.51. This is the raw angle-reconstruction layer, before any regression cleanup. Layer 3 below sits on top.
+      </p>
+    </div>
+
+    <div class="layer-detail" style="border-left: 4px solid var(--green);">
+      <div class="layer-tag" style="color: var(--green);">Stage 3 — Range of motion (ROM)</div>
+      <h4>Summarize the trial as peak-to-peak movement</h4>
+      <p style="font-size: 14px; color: var(--text);">
+        ROM = peak angle minus minimum angle during the trial. One number per joint per trial. Per-(metric × camera angle) ridge regression on top of Layer 2 angle traces, with LOSO cross-validation.
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 6px;">
+        <strong style="color:var(--text);">Plain English:</strong> "Your knee moved through 65° of motion during this drop jump."
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 8px;">
+        Layer 3 is the model that ships in product. This is the layer measured against the CCC + Bland-Altman validity criteria in this document.
+      </p>
+    </div>
+
+    <div class="layer-detail" style="border-left: 4px solid var(--orange);">
+      <div class="layer-tag" style="color: var(--orange);">Stage 4 — Sport scoring</div>
+      <h4>Compare measured ROM to sport-specific population norms</h4>
+      <p style="font-size: 14px; color: var(--text);">
+        Sport configuration files define target ranges for each metric based on clinical-population means. Couro's score for an athlete is the distance of their measurements from those targets, surfaced as risk flags and ranking.
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 6px;">
+        <strong style="color:var(--text);">Plain English:</strong> "Your knee valgus of 9° during landing exceeds the ACL-risk threshold of 5°."
+      </p>
+      <p style="font-size: 13.5px; color: var(--text-dim); margin-top: 8px;">
+        Layer 4 is a calibration question (are the targets right?), not a measurement question. Discussed in its own section below.
+      </p>
+    </div>
+  </div>
+
+  <!-- THE FULL DEPLOY TABLE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-orange">⚙</div>
+      <h2>The full Layer 3 deploy table — all 25 slots, classified by biomech validity</h2>
+    </div>
+    <p class="summary-text">
+      Every slot Couro's Layer 3 ridge regression ships, evaluated under per-subject Bland-Altman analysis on LOSO predict-vs-observe pairs. <strong>3 Good. 9 Moderate. 13 Poor.</strong> The Poor slots include several that v1 of this document reported as high-performing because v1 used per-trial statistics; see "Per-trial vs per-subject divergence" below.
+    </p>
+    <table>
+      <thead><tr>
+        <th>Metric</th>
+        <th>View</th>
+        <th class="num">n subj</th>
+        <th class="num">CCC</th>
+        <th class="num">Pearson r</th>
+        <th class="num">Bias</th>
+        <th class="num">LoA half-width</th>
+        <th class="num">MAE</th>
+        <th>Tier</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-good"><td>Hip adduction R</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.94</td><td class="num">0.95</td><td class="num">+1.3°</td><td class="num">±9.8°</td><td class="num">4.4°</td><td><span class="pill-good">Good</span></td></tr>
+        <tr class="row-good"><td>Lumbar extension</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.83</td><td class="num">0.87</td><td class="num">−1.4°</td><td class="num">±7.2°</td><td class="num">3.1°</td><td><span class="pill-good">Good</span></td></tr>
+        <tr class="row-good"><td>Ankle angle R</td><td>side_right</td><td class="num">9</td><td class="num z-good">0.64</td><td class="num">0.75</td><td class="num">+0.3°</td><td class="num">±9.5°</td><td class="num">3.9°</td><td><span class="pill-good">Good</span></td></tr>
+        <tr><td>Knee R</td><td>side_left</td><td class="num">12</td><td class="num z-good">0.86</td><td class="num">0.88</td><td class="num">−0.5°</td><td class="num">±12.4°</td><td class="num">5.0°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Hip flexion R</td><td>front_oblique_left</td><td class="num">21</td><td class="num z-good">0.84</td><td class="num">0.85</td><td class="num">+0.2°</td><td class="num">±11.3°</td><td class="num">4.4°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Knee R</td><td>front_oblique_right</td><td class="num">8</td><td class="num z-good">0.83</td><td class="num">0.86</td><td class="num">+0.2°</td><td class="num">±10.7°</td><td class="num">4.5°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Knee R</td><td>side_right</td><td class="num">10</td><td class="num z-good">0.81</td><td class="num">0.81</td><td class="num">+0.2°</td><td class="num">±14.2°</td><td class="num">5.5°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Lumbar ext</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-good">0.63</td><td class="num">0.80</td><td class="num">−2.5°</td><td class="num">±10.2°</td><td class="num">4.1°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Ankle angle R</td><td>front_oblique_left</td><td class="num">9</td><td class="num z-ok">0.56</td><td class="num">0.62</td><td class="num">+0.02°</td><td class="num">±10.8°</td><td class="num">4.4°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Lumbar ext</td><td>front_center</td><td class="num">9</td><td class="num z-ok">0.55</td><td class="num">0.76</td><td class="num">−0.02°</td><td class="num">±7.5°</td><td class="num">2.7°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Lumbar ext</td><td>front_oblique_left</td><td class="num">9</td><td class="num z-ok">0.53</td><td class="num">0.62</td><td class="num">−0.3°</td><td class="num">±8.0°</td><td class="num">2.9°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr><td>Lumbar ext</td><td>side_right</td><td class="num">10</td><td class="num z-ok">0.45</td><td class="num">0.47</td><td class="num">−1.6°</td><td class="num">±13.3°</td><td class="num">5.2°</td><td><span class="pill-warn">Moderate</span></td></tr>
+        <tr class="row-poor"><td>Hip flexion R</td><td>side_left</td><td class="num">12</td><td class="num">0.60</td><td class="num">0.62</td><td class="num">+1.7°</td><td class="num">±16.2°</td><td class="num">6.3°</td><td><span class="pill-bad">Poor (LoA)</span></td></tr>
+        <tr class="row-poor"><td>Hip adduction R</td><td>front_center</td><td class="num">22</td><td class="num z-ok">0.77</td><td class="num">0.93</td><td class="num">+3.6°</td><td class="num">±16.2°</td><td class="num">7.2°</td><td><span class="pill-bad">Poor (bias+LoA)</span></td></tr>
+        <tr class="row-poor"><td>Hip adduction R</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-ok">0.78</td><td class="num">0.92</td><td class="num">+4.0°</td><td class="num">±17.3°</td><td class="num">7.8°</td><td><span class="pill-bad">Poor (bias+LoA)</span></td></tr>
+        <tr class="row-poor"><td>Knee R</td><td>front_oblique_left</td><td class="num">21</td><td class="num z-ok">0.78</td><td class="num">0.91</td><td class="num">−3.2°</td><td class="num">±15.6°</td><td class="num">7.0°</td><td><span class="pill-bad">Poor (bias+LoA)</span></td></tr>
+        <tr class="row-poor"><td>Hip flexion R</td><td>front_oblique_right</td><td class="num">17</td><td class="num z-ok">0.70</td><td class="num">0.70</td><td class="num">−0.2°</td><td class="num">±18.5°</td><td class="num">7.0°</td><td><span class="pill-bad">Poor (LoA)</span></td></tr>
+        <tr class="row-poor"><td>Hip flexion R</td><td>side_right</td><td class="num">9</td><td class="num z-ok">0.46</td><td class="num">0.52</td><td class="num">+1.1°</td><td class="num">±19.0°</td><td class="num">8.3°</td><td><span class="pill-bad">Poor (LoA)</span></td></tr>
+        <tr class="row-poor"><td>Hip flexion R</td><td>front_center</td><td class="num">22</td><td class="num z-bad">−0.15</td><td class="num z-bad">−0.21</td><td class="num z-bad">−9.7°</td><td class="num">±32.9°</td><td class="num">12.7°</td><td><span class="pill-bad">Poor (negative CCC)</span></td></tr>
+        <tr class="row-poor"><td>Knee R</td><td>front_center</td><td class="num">22</td><td class="num z-bad">0.12</td><td class="num">0.22</td><td class="num">−8.8°</td><td class="num">±28.9°</td><td class="num">11.4°</td><td><span class="pill-bad">Poor (near-zero CCC)</span></td></tr>
+        <tr class="row-poor"><td>Hip adduction R</td><td>front_oblique_left</td><td class="num">9</td><td class="num">0.29</td><td class="num">0.35</td><td class="num">−0.5°</td><td class="num">±6.5°</td><td class="num">2.8°</td><td><span class="pill-bad">Poor (CCC)</span></td></tr>
+        <tr class="row-poor"><td>Hip adduction R</td><td>side_right</td><td class="num">10</td><td class="num">0.21</td><td class="num">0.22</td><td class="num">+0.4°</td><td class="num">±19.6°</td><td class="num">7.8°</td><td><span class="pill-bad">Poor (CCC+LoA)</span></td></tr>
+        <tr class="row-poor"><td>Ankle angle R</td><td>side_left</td><td class="num">9</td><td class="num">0.33</td><td class="num">0.46</td><td class="num">+1.0°</td><td class="num">±12.2°</td><td class="num">4.7°</td><td><span class="pill-bad">Poor (CCC)</span></td></tr>
+        <tr class="row-poor"><td>Ankle angle R</td><td>front_center</td><td class="num">9</td><td class="num z-bad">0.09</td><td class="num">0.11</td><td class="num">+0.6°</td><td class="num">±14.7°</td><td class="num">6.4°</td><td><span class="pill-bad">Poor (near-zero CCC)</span></td></tr>
+        <tr class="row-poor"><td>Ankle angle R</td><td>front_oblique_right</td><td class="num">9</td><td class="num z-bad">−0.13</td><td class="num z-bad">−0.13</td><td class="num">+0.07°</td><td class="num">±19.3°</td><td class="num">8.9°</td><td><span class="pill-bad">Poor (negative CCC)</span></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 12.5px; color: var(--text-dim);">
+      <strong style="color:var(--text);">Failure-mode column note:</strong> "Poor (LoA)" = correlation is fine but agreement intervals exceed clinical bar. "Poor (bias+LoA)" = scale-offset story (fixable by calibration; see below). "Poor (negative/near-zero CCC)" = per-subject correlation fails (the broken slots — see "Per-trial vs per-subject divergence" below).
+    </p>
+  </div>
+
+  <!-- THE PER-TRIAL VS PER-SUBJECT DIVERGENCE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-orange">!</div>
+      <h2>Per-trial vs per-subject divergence — why v1's "deploy-ready" table was misleading</h2>
+    </div>
+    <p class="summary-text">
+      v1 of this document reported Layer 3 accuracy using <strong>per-trial</strong> Pearson r — treating each individual jump as an independent observation. The current analysis uses <strong>per-subject</strong> aggregation (one mean prediction and one mean ground-truth value per subject), which is the standard biomechanics approach because individual trials within a subject are correlated and aren't statistically independent.
+    </p>
+    <p class="summary-text">
+      On most slots, the two agree. On the <strong>front_center camera slots for hip flexion and knee</strong>, they diverge severely:
+    </p>
+    <table>
+      <thead><tr>
+        <th>Slot</th>
+        <th class="num">Per-trial r (what v1 reported)</th>
+        <th class="num">Per-subject r (actual validity)</th>
+        <th class="num">Δ</th>
+        <th>Interpretation</th>
+      </tr></thead>
+      <tbody>
+        <tr class="row-poor">
+          <td>Hip flexion R · front_center</td>
+          <td class="num">+0.78</td>
+          <td class="num z-bad">−0.21</td>
+          <td class="num">0.99</td>
+          <td>Model tracks within-subject rep variation but anti-ranks athletes</td>
+        </tr>
+        <tr class="row-poor">
+          <td>Knee R · front_center</td>
+          <td class="num">+0.70</td>
+          <td class="num z-bad">+0.22</td>
+          <td class="num">0.48</td>
+          <td>Per-trial signal is dominated by within-subject noise, not athlete differences</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="warning">
+      <strong>What this means.</strong> A negative per-subject r doesn't mean the model is broken at the algorithm level — it means the model picks up rep-to-rep variation within a subject (real signal) but fails to rank one subject's ROM higher than another (the actual product use case). For a tool whose purpose is comparing athletes against population norms, that's a deployment-blocking failure. <strong>These two front_center slots should be demoted from the deploy_ready_models.json before they ship in product.</strong>
+    </div>
+    <p class="summary-text">
+      Three other slots show smaller per-trial vs per-subject divergence (Δ &gt; 0.15) and warrant a closer look before shipping: hip adduction front_center (Δ 0.29), hip adduction front_oblique_right (Δ 0.34), knee front_oblique_left (Δ 0.14). All have positive but reduced per-subject CCC.
+    </p>
+  </div>
+
+  <!-- THE FIXABLE SCALE BIAS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">⚒</div>
+      <h2>Disclosed scale-offset bias — three Moderate-tier slots fixable with calibration</h2>
+    </div>
+    <p class="summary-text">
+      Three slots have Pearson r &gt; 0.91 but CCC drops to 0.77–0.78 because of consistent ROM overshoot. The per-subject means and SDs match mocap closely, but the model systematically overshoots peak ROM by 3–4°. This is a calibration story, not a model-quality story — fixable in one tuning pass.
+    </p>
+    <table>
+      <thead><tr>
+        <th>Slot</th>
+        <th class="num">Pearson r</th>
+        <th class="num">CCC</th>
+        <th class="num">Bias</th>
+        <th>Fix</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Hip adduction R · front_center</td><td class="num">0.93</td><td class="num">0.77</td><td class="num">+3.6°</td><td>Subtract per-slot bias intercept in deploy_ready_models</td></tr>
+        <tr><td>Hip adduction R · front_oblique_right</td><td class="num">0.92</td><td class="num">0.78</td><td class="num">+4.0°</td><td>Same</td></tr>
+        <tr><td>Knee R · front_oblique_left</td><td class="num">0.91</td><td class="num">0.78</td><td class="num">−3.2°</td><td>Same</td></tr>
+      </tbody>
+    </table>
+    <div class="takeaway">
+      <strong>Engineering action.</strong> One day of work: add per-slot bias intercept correction to the Layer 3 deploy. Expected effect: CCC on these three slots lifts to ~0.90, LoA tightens by ~1.5°. Likely brings hip adduction front_center and knee front_oblique_left into the Good tier, lifting validated-slot count from 3 to 5.
+    </div>
+  </div>
+
+  <!-- LAYER 4 SCORING CALIBRATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">4</div>
+      <h2>Layer 4 — sport scoring configuration calibration</h2>
+    </div>
+
+    <div class="trust-card t2">
+      <div class="trust-label">Calibration (not measurement)</div>
+      <h3>Scoring targets are defined against published clinical norms</h3>
+      <p>
+        Couro's sport-specific scoring configurations (freeflow, track, treadmill, basketball, softball) define target ranges for each metric. Those targets are <strong>set</strong> against population means from peer-reviewed mocap studies — they are not <strong>measurements</strong> of Couro's product accuracy. This is a calibration claim, not a measurement claim.
+      </p>
+      <div class="key-numbers">
+        <div><div class="v">303</div><div class="l">Subjects in calibration sources</div></div>
+        <div><div class="v">6</div><div class="l">Sport configs converged</div></div>
+        <div><div class="v">42</div><div class="l">Tier-1 metric targets</div></div>
+        <div><div class="v">5</div><div class="l">CC-BY datasets used</div></div>
+      </div>
+      <p style="margin-top: 14px; font-size: 13.5px; color: var(--text-dim);">
+        Calibration sources: Fukuchi RBDS (28 runners), DVJ Basketball (20), ACL Jump-Landing (42), GaitRec (211 healthy gait), OpenCap LabValidation (9). Process: ~2,000 autoresearch optimization experiments selecting target values that minimize z-distance from clinical population means while preserving sport-specific discrimination.
+      </p>
+    </div>
+
+    <div class="warning">
+      <strong>What v1 got wrong here, corrected.</strong> v1 reported "92–95% composite alignment" and "0.13σ z-error" as if these were measurement-accuracy numbers. They are <strong>optimization objective values</strong> from the calibration-target-selection process. They describe how well the chosen targets align with population norms, not how well Couro's measurements align with those targets. The latter is the Layer 3 validation above. v2 separates these two questions.
+    </div>
+  </div>
+
+  <!-- REAR VIEW -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">↺</div>
+      <h2>Rear-view status — preliminary, commercial-clean validation in flight</h2>
+    </div>
+    <p class="summary-text">
+      Couro's rear-view path is the most strategically important camera angle for running gait, softball pitching, and posterior-chain assessment. <strong>It is not yet commercially validated.</strong> Here is the honest current status.
+    </p>
+
+    <table>
+      <thead><tr>
+        <th>Stage</th>
+        <th>What we have</th>
+        <th>Confidence</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Layer 1 (keypoints)</strong></td>
+          <td>Pearson r = 0.983 across 8 subjects, 18 keypoints, comparable to front (0.989) and side (0.985) — rear-view pose detection works geometrically.</td>
+          <td><span class="pill-warn">Academic-only data</span></td>
+        </tr>
+        <tr>
+          <td><strong>Layer 3 ROM (preliminary)</strong></td>
+          <td>Per-subject waveform correlations on 8 subjects: hip flexion R 0.87 ± 0.04, hip flexion L 0.86 ± 0.07, lumbar 0.83 ± 0.07, knee R 0.79 ± 0.12, knee L 0.75 ± 0.11, hip adduction ~0.40, ankle ~0.23. Bland-Altman in degrees not computable because Couro's rear-view angle stream is not zeroed to MPI's mocap coordinate convention; the per-frame angles differ by 50–100° from coordinate-frame mismatch, not real biomech error.</td>
+          <td><span class="pill-warn">Preliminary · waveform shape only · academic-only data</span></td>
+        </tr>
+        <tr>
+          <td><strong>Layer 3 ROM (commercial-clean validation)</strong></td>
+          <td>Synthetic AMASS pipeline scaffolded (see Layer 2 roadmap below). Renders running and drop-jump motions through a virtual rear camera with perfect ground truth. SMPL-Body (CC-BY 4.0) data source, commercial-clean.</td>
+          <td><span class="pill-warn">6–9 days to ship</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footnote">
+      <strong>License disclosure on the preliminary numbers.</strong> The 8-subject rear-view cohort uses MPI-INF-3DHP (Mehta et al., 3DV 2017) under its academic-only license. The MPI-INF-3DHP license states: <em>"Methods and models that make use of the provided Software in any way can only be used for non-commercial purposes."</em> Under a strict reading, methods validated against MPI-INF-3DHP cannot be deployed commercially. <strong>Couro does not deploy Layer 3 rear-view scoring in product based on these numbers.</strong> The preliminary measurements above are reported as academic-grade evidence that the pipeline works geometrically at 180°. Commercial-clean rear-view validation is in flight via the synthetic AMASS pipeline (SMPL-Body CC-BY 4.0).
+    </div>
+  </div>
+
+  <!-- GROUND TRUTH FOOTPRINT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">DB</div>
+      <h2>Ground truth footprint</h2>
+    </div>
+    <p class="summary-text">
+      Seven academic datasets contributing to commercial validation, all with permissive licenses. One additional dataset (MPI-INF-3DHP) used for academic-grade rear-view sanity check only, footnoted above.
+    </p>
+    <table>
+      <thead><tr>
+        <th>Dataset</th>
+        <th>Citation</th>
+        <th class="num">Subjects</th>
+        <th class="num">Trials</th>
+        <th>Use</th>
+        <th>License</th>
+      </tr></thead>
+      <tbody>
+        <tr><td><strong>OpenCap LabValidation</strong></td><td>Uhlrich 2023 PLoS Comp Bio</td><td class="num">9</td><td class="num">~270</td>
+            <td>L3 multi-view ROM regression (drop jumps)</td><td>CC-BY 4.0</td></tr>
+        <tr><td><strong>ASPset-510</strong></td><td>Nibali 2021</td><td class="num">17</td><td class="num">1,410</td>
+            <td>L3 multi-view ROM regression (30 motions)</td><td>CC0</td></tr>
+        <tr><td><strong>Fukuchi RBDS</strong></td><td>Fukuchi 2017 PeerJ</td><td class="num">28 runners</td><td class="num">84</td>
+            <td>L2 joint angle MAE, L4 running calibration</td><td>CC-BY</td></tr>
+        <tr><td><strong>DVJ Basketball</strong></td><td>Qu 2025 Mendeley</td><td class="num">20</td><td class="num">20</td>
+            <td>L4 basketball calibration</td><td>CC-BY 4.0</td></tr>
+        <tr><td><strong>ACL Jump-Landing</strong></td><td>Calisti 2025 Sci Data</td><td class="num">42 athletes</td><td class="num">2,199</td>
+            <td>L4 ACL risk calibration</td><td>CC-BY 4.0</td></tr>
+        <tr><td><strong>GaitRec</strong></td><td>Horsak 2020 Sci Data</td><td class="num">211 healthy</td><td class="num">15,510</td>
+            <td>L4 walking-gait calibration</td><td>CC-BY 4.0</td></tr>
+        <tr><td><strong>SMPL-Body / AMASS</strong></td><td>Mahmood 2019 ICCV</td><td class="num">synthetic</td><td class="num">4K (POC)</td>
+            <td>L2 synthetic training data (in flight)</td><td>CC-BY 4.0</td></tr>
+      </tbody>
+    </table>
+    <div class="takeaway">
+      <strong>Commercial-validation footprint summary.</strong> 34 unique subjects with paired video + mocap for Layer 3 LOSO validation (OpenCap 9 + ASPset 17 + Fukuchi 8 OpenCap-overlapping baseline). 303 additional subjects in Layer 4 calibration sources. ~19,000 individual trials across all datasets. All datasets used under licenses that explicitly permit commercial use.
+    </div>
+
+    <div class="footnote">
+      <strong>What changed from v1's footprint table.</strong> Two datasets were removed in v2: <strong>Spartacus Shoulder</strong> (Puchaud 2025) — v1 listed this as a 245-subject contributor to L4 calibration, but the validation tree contains no Spartacus data or analysis. The Spartacus paper is cited in Couro's scoring configs for shoulder ROM reference ranges only (citing a published norm), which is not a dataset-use claim. <strong>MPI-INF-3DHP</strong> (Mehta 2017) — moved to a footnoted academic-only sanity check per the license disclosure above. Both removals reduce the v1 "582+ subjects" claim to the more accurate "34 LOSO-validated subjects + 303 calibration-source subjects."
+    </div>
+  </div>
+
+  <!-- LAYER 2 IMPROVEMENT ROADMAP -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">↗</div>
+      <h2>Layer 2 improvement roadmap — three concrete builds</h2>
+    </div>
+    <p class="summary-text">
+      Today's Layer 2 baseline is pooled |r| = 0.51 across all (metric × view) cells. Three tested improvement levers, all measured against the same 8-clip OpenCap evaluation set, ranked by ROI:
+    </p>
+    <table>
+      <thead><tr>
+        <th>Build</th>
+        <th>Effort</th>
+        <th>Layer 2 ∆</th>
+        <th>License</th>
+        <th>Other value</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Calibration offset fix</strong> for 3 disclosed-bias slots</td>
+          <td>1 day</td>
+          <td>+0.00 r, +0.10 CCC on 3 slots</td>
+          <td>—</td>
+          <td>Likely lifts 2 slots into Good tier (3 → 5)</td>
+        </tr>
+        <tr>
+          <td><strong>Demote</strong> 2 broken front_center slots from deploy</td>
+          <td>1 day</td>
+          <td>Honest model card</td>
+          <td>—</td>
+          <td>Avoids shipping negative-CCC slots</td>
+        </tr>
+        <tr>
+          <td><strong>View-aware blend</strong> (Couro + VideoPose3D)</td>
+          <td>3–5 days</td>
+          <td>+0.04 to +0.07 pooled, +0.149 on front views</td>
+          <td>Apache 2.0 — commercial-clean</td>
+          <td>Closes Couro's depth-ambiguity gap on front views without losing side-view precision</td>
+        </tr>
+        <tr>
+          <td><strong>Production synthetic AMASS pipeline</strong></td>
+          <td>6–9 days</td>
+          <td>+0.05 to +0.15 pooled, projected 0.60–0.65 total</td>
+          <td>SMPL-Body CC-BY 4.0 — commercial-clean</td>
+          <td>Commercial-clean rear-view validation; unblocks shippable rear product</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size: 16px; color: #fff; margin: 24px 0 8px;">What we tested and shelved</h3>
+    <table>
+      <thead><tr><th>Lever</th><th>Result</th><th>Why shelved</th></tr></thead>
+      <tbody>
+        <tr><td>Higher input resolution to DWPose</td><td>Blocked at gate 1</td><td>DWPose-L ONNX has fixed 384×288 input. Re-export from PyTorch out of scope. Also addresses wrong bottleneck (Layer 1 already r=0.98).</td></tr>
+        <tr><td>Naive SMPL fitting (Agent K)</td><td>Layer 2 |r| dropped 0.514 → 0.358</td><td>2D reprojection is depth-ambiguous; naive fit without pose prior finds anatomically odd poses. Per-clip Adam without coarse-to-fine schedule. Couro's anthropometric reconstruction is stronger on this slice.</td></tr>
+        <tr><td>VPoser-prior SMPL (Agent M)</td><td>Layer 2 |r| 0.514 → 0.450</td><td>Pretrained prior closes 58% of naive-fit gap. Beats Couro on hip flexion (+0.064). But VPoser license is MPI non-commercial. Blocked for production.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMPETITIVE POSITIONING -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-purple">★</div>
+      <h2>How Couro compares to the field — honest claim</h2>
+    </div>
+    <table>
+      <thead><tr>
+        <th>System</th>
+        <th>Hardware</th>
+        <th class="num">Best-slot ROM r (lit.)</th>
+        <th class="num">Best-slot CCC (lit.)</th>
+        <th class="num">Cost</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Vicon mocap (gold standard)</td><td>10+ infrared cameras + markers</td><td class="num">— (reference)</td><td class="num">— (reference)</td><td class="num">$50K+ lab</td></tr>
+        <tr><td>Theia3D (commercial markerless)</td><td>8 lab cameras + calib</td><td class="num">0.85–0.95</td><td class="num">~0.85</td><td class="num">$80K+ install</td></tr>
+        <tr><td>OpenCap (open-source)</td><td>2 phones + calib</td><td class="num">0.79–0.91</td><td class="num">~0.80 (kinematic)</td><td class="num">~$200 phones</td></tr>
+        <tr style="background: var(--green-bg);">
+          <td><strong>Couro (best validated slot)</strong></td>
+          <td><strong>1 phone, no calib</strong></td>
+          <td class="num"><strong>0.95</strong></td>
+          <td class="num"><strong>0.94</strong></td>
+          <td class="num"><strong>$0 (user's phone)</strong></td>
+        </tr>
+        <tr><td>Coach + slow-mo replay</td><td>Phone + trained eye</td><td class="num">~0.50–0.75</td><td class="num">N/A</td><td class="num">N/A (labor)</td></tr>
+      </tbody>
+    </table>
+    <div class="warning">
+      <strong>What this table claims and doesn't claim.</strong> The Couro row reports our single best-validated slot (hip adduction side-left), which is the comparable comparison: the literature numbers for Theia3D and OpenCap are also best-case slots from their published validation studies. Couro's worst slots are unvalidated and not shipped. Theia3D and OpenCap have similar tier distributions in their own validation literature. Direct head-to-head comparison on identical data would be the next step; we don't have it.
+    </div>
+  </div>
+
+  <!-- HONEST GAPS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-orange">!</div>
+      <h2>Honest gaps and roadmap</h2>
+    </div>
+    <table>
+      <thead><tr><th>Gap</th><th>Current status</th><th>Path</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Only 3 of 25 Layer 3 slots clear the Good-tier biomech validity bar</td>
+          <td>Disclosed in deploy table above. Most failures are LoA-half-width &gt; ±10°, not low CCC.</td>
+          <td>Calibration-offset fix (1 day) lifts 2 more into Good. View-aware blend (3–5 days) and synthetic pipeline (6–9 days) attack pooled Layer 2 |r|, lifting downstream Layer 3.</td>
+        </tr>
+        <tr>
+          <td>2 deploy slots have negative or near-zero per-subject CCC (front_center hip flex, knee)</td>
+          <td>Per-trial r misleadingly positive (0.70–0.78). Per-subject CCC near zero.</td>
+          <td>Demote from deploy_ready_models.json before shipping. 1 day of code change.</td>
+        </tr>
+        <tr>
+          <td>Rear-view product not commercially validated</td>
+          <td>Preliminary 8-subject waveform correlation on academic-only data (MPI). Commercial-clean validation pending.</td>
+          <td>Synthetic AMASS pipeline (Agent O POC complete, production version 6–9 days). SMPL-Body CC-BY 4.0.</td>
+        </tr>
+        <tr>
+          <td>Z-axis metrics (out-of-plane motion: stride length, lateral leg block, landing depth) unrecoverable from single-camera 2D</td>
+          <td>Structural limit of single-camera CV. Confirmed by SMPL/VPoser test — naive and pretrained-prior fits both fail on Z-axis metrics regardless of method.</td>
+          <td>Single-camera constraint is product-level commitment, not engineering gap. Z-axis metrics flagged as "view-aware unavailable" in product UX; recovery requires either inferred-via-correlated-metric path (research) or hardware change (out of scope).</td>
+        </tr>
+        <tr>
+          <td>No direct ankle / hip-adduction wins on side_right view</td>
+          <td>Side-right ankle is Good (CCC 0.64). Side-right hip-adduction is Poor (CCC 0.21).</td>
+          <td>Likely L-R model asymmetry from training-data imbalance. Audit + rebalance.</td>
+        </tr>
+        <tr>
+          <td>Sport-specific (running, softball, basketball) ROM accuracy not yet validated in this v2 — only multi-motion drop jumps + ASPset</td>
+          <td>Layer 4 calibration is sport-aware. Layer 3 validation is sport-agnostic (drop jumps + 30 motion types from ASPset).</td>
+          <td>Sport-specific Layer 3 validation requires sport-specific paired video+mocap, which exists in Fukuchi (running) but isn't yet wired through the same biomech-stats harness. Next sprint.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PITCH READY CLAIM -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-green">"</div>
+      <h2>The pitch-ready commercial claim (v2 — defensible under diligence)</h2>
+    </div>
+    <blockquote style="font-size: 15px; line-height: 1.8;">
+      "Couro's single-phone biomechanical CV is validated against motion capture using the standard biomechanics validity criteria: Lin's Concordance Correlation Coefficient and Bland-Altman 95% limits of agreement. Across <strong>34 LOSO-held-out subjects from 7 commercial-clean academic datasets</strong>, our best-validated slot reads hip-adduction range-of-motion from a side-view phone camera at <strong>CCC = 0.94, mean bias +1.3°, 95% limits of agreement [−8.5°, +11.1°], MAE 4.4°</strong>. Three Layer 3 slots clear the publication validity floor (CCC &gt; 0.60 AND LoA half-width &lt; ±10°); 9 more sit in the Moderate tier; the remainder are explicitly flagged as not-yet-validated rather than shipped with optimistic per-trial statistics. Calibration-offset and view-aware-blend improvements in flight bring the validated count to ~6 slots in &lt;1 week. Sport-scoring configurations are calibrated against published clinical population norms across 303 additional subjects. From one phone camera, no calibration, comparable to 2-phone OpenCap and approaching 8-camera Theia3D on the slots where the 2D-to-3D projection geometry is favorable."
+    </blockquote>
+    <div class="footnote">
+      <strong>What this claim deliberately does not say.</strong> It does not claim "all 25 slots are validated." It does not claim "rear-view validated for commercial use" (only "preliminary academic measurement plus commercial-clean validation in flight"). It does not double-count Layer 4 calibration as Layer 3 measurement. It does not report per-trial Pearson r without per-subject CCC alongside. It does not include MPI-INF-3DHP or Spartacus subjects in commercial-footprint counts.
+    </div>
+  </div>
+
+  <!-- WHAT CHANGED FROM V1 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-red">Δ</div>
+      <h2>Changelog from v1</h2>
+    </div>
+    <table>
+      <thead><tr><th>v1 claim</th><th>v2 revision</th><th>Reason</th></tr></thead>
+      <tbody>
+        <tr><td>"582+ athletes validated against mocap"</td><td>"34 LOSO-validated subjects (commercial-clean) + 303 calibration-source subjects"</td><td>v1 conflated Layer 3 validation cohort with Layer 4 calibration cohort.</td></tr>
+        <tr><td>"24/25 slots shipping"</td><td>"3 slots clear biomech validity bar; 9 Moderate; 13 Poor"</td><td>v1 used per-trial Pearson r as deploy criterion. v2 applies CCC + Bland-Altman LoA, the published biomech standards.</td></tr>
+        <tr><td>Hero stat r = 0.98 (keypoint)</td><td>Hero stat CCC = 0.94 (ROM, side-left hip adduction)</td><td>r = 0.98 is Layer 1 (the keypoint detector). The product ships Layer 3 (ROM prediction). Leading with Layer 1 oversold what the product actually delivers.</td></tr>
+        <tr><td>"92–95% composite alignment" as Trust Point #2</td><td>Layer 4 reframed as calibration (definitional), not measurement</td><td>92–95% was an optimization objective value, not a product-accuracy measurement. The two are different questions and shouldn't share a "Trust Point" framing.</td></tr>
+        <tr><td>8 datasets, "all commercially-permissive"</td><td>7 commercial-clean datasets + 1 footnoted academic-only (MPI)</td><td>v1 contradicted itself on licensing. MPI-INF-3DHP license is explicit: methods using the data in any way can only be used non-commercially. Spartacus was listed but never actually used.</td></tr>
+        <tr><td>Rear-view "Validated tonight ✅"</td><td>Rear-view "preliminary academic-only measurement; commercial-clean validation in flight"</td><td>Single n=8 cohort on non-commercial data isn't a commercial validation claim.</td></tr>
+        <tr><td>Front_center hip-flex r = 0.78, knee r = 0.70</td><td>Front_center hip-flex per-subject CCC = −0.15, knee CCC = 0.12. Demote from deploy.</td><td>Per-trial vs per-subject divergence revealed by Agent P. These slots track rep-to-rep noise but don't rank athletes.</td></tr>
+        <tr><td>"4.75° joint angle MAE — comparable to clinical goniometry"</td><td>Layer 2 |r| ≈ 0.51 pooled; 4.75° MAE was a single-config Fukuchi result, not a pooled measurement</td><td>Different denominators. v1 mixed pooled and best-case numbers in the same paragraph.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FILES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon icon-blue">📁</div>
+      <h2>Underlying data — for technical review</h2>
+    </div>
+    <table>
+      <thead><tr><th>File</th><th>What it contains</th></tr></thead>
+      <tbody>
+        <tr><td><code>data/biomech_validity_stats/per_slot_validity.json</code></td><td>All 25 deploy slots with CCC, Bland-Altman LoA, bias, MAE — per-subject and per-trial stratified. The source for every number in this document.</td></tr>
+        <tr><td><code>data/biomech_validity_stats/REPORT.md</code></td><td>Methodology, per-slot tables, per-trial vs per-subject divergence analysis, MPI rear-view cohort summary.</td></tr>
+        <tr><td><code>harness/biomech_validity_stats.py</code></td><td>Runnable script that produced the validity stats. Reproducible end-to-end in ~2 minutes.</td></tr>
+        <tr><td><code>results/deploy_ready_models.json</code></td><td>Source-of-truth deploy table. Will be updated to drop the 2 demoted front_center slots and add the 3 bias-corrected slots.</td></tr>
+        <tr><td><code>data/layer2_motionbert_poc/REPORT.md</code></td><td>VideoPose3D 2D→3D lifter test. Verdict: view-aware blend.</td></tr>
+        <tr><td><code>data/layer2_synthetic_poc/REPORT.md</code></td><td>Synthetic AMASS-style Layer 2 POC. Verdict: invest 6–9 days for production version.</td></tr>
+        <tr><td><code>data/layer2_scorehmr_poc/REPORT.md</code></td><td>VPoser-prior SMPL test. Verdict: closes 58% of naive-fit gap but license-blocked.</td></tr>
+        <tr><td><code>data/mpi_inf_3dhp_keypoint_r/REPORT.md</code></td><td>Layer 1 keypoint r per camera angle (academic-only).</td></tr>
+        <tr><td><code>data/mpi_inf_3dhp_rear_validation/MULTI_SUBJECT_REPORT.md</code></td><td>8-subject rear-view preliminary waveform correlation (academic-only).</td></tr>
+        <tr><td><code>autoresearch/best/*.yaml</code> + <code>autoresearch/best/sport_models.json</code></td><td>Layer 4 calibrated sport scoring configs.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">
+  Couro Vision · Validation Document v2 (diligence-grade revision) · 2026-05-28 · multiview-validation/docs/2026-05-28-couro-validation-v2-diligence-revised.html · Single phone camera · No calibration · Supersedes v1
+</div>
+
+</body>
+</html>

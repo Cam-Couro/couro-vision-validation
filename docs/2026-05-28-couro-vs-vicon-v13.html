@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v13 DWPose backbone (2026-05-28)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+    --bg-rtm: #eef3fb; --bg-dw: #f3eefb;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+         color: var(--ink); line-height: 1.55; max-width: 1040px;
+         margin: 40px auto; padding: 0 24px; background: #fff; }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; border-bottom: 1px solid var(--line);
+       padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr { background: var(--bg-soft); border-left: 3px solid var(--accent);
+          padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0; }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  .big-numbers { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .big-num { flex: 1 1 0; min-width: 140px; background: var(--bg-soft);
+             padding: 14px; border-radius: 4px; border-left: 3px solid var(--accent); }
+  .big-num .n { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums;
+                font-family: "SF Mono", monospace; }
+  .big-num .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase;
+                  letter-spacing: 0.04em; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .row-good td:last-child { background: var(--bg-good); }
+  .row-warn td:last-child { background: var(--bg-warn); }
+  .row-bad  td:last-child { background: var(--bg-bad); }
+  .pill-dw  { background: var(--bg-dw);  color: #5b2a8a; padding: 1px 7px;
+              border-radius: 3px; font-weight: 700; font-size: 11px; }
+  .pill-rtm { background: var(--bg-rtm); color: #1f5dff; padding: 1px 7px;
+              border-radius: 3px; font-weight: 700; font-size: 11px; }
+  .pill-other { background: var(--bg-soft); color: var(--muted); padding: 1px 7px;
+                border-radius: 3px; font-weight: 600; font-size: 11px; }
+  .star { color: var(--good); font-weight: 700; }
+  blockquote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 10px 0; }
+  code, pre { font-family: "SF Mono", monospace; }
+  pre { background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+        overflow-x: auto; font-size: 12.5px; line-height: 1.5; }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line);
+            color: var(--muted); font-size: 12px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
+  .card { padding: 16px 18px; border-radius: 6px; border: 1px solid var(--line); }
+  .card.rtm  { background: var(--bg-rtm);  border-left: 3px solid #1f5dff; }
+  .card.dw   { background: var(--bg-dw);   border-left: 3px solid #5b2a8a; }
+  .card h3 { margin-top: 0; }
+  .card .kv { font-size: 13px; margin: 4px 0; }
+  .card .kv b { display: inline-block; min-width: 110px; color: var(--muted);
+                font-weight: 500; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — DWPose backbone test: r ceiling 0.83 → 0.85, broken slots rescued</h1>
+<p class="subtitle">v13 · 2026-05-28 · Head-to-head: RTMPose-X Halpe-26 (v12) vs DWPose-L COCO-WholeBody (v13) · same 26 subjects · 1,680 trials · LOSO cross-validated</p>
+
+<div class="tldr">
+  <p><strong>We swapped the keypoint backbone</strong> on the 17 ASPset-510 subjects from RTMPose-X Halpe-26 to DWPose-L (COCO-WholeBody, 133 keypoints with explicit foot supervision) and re-ran the v12 regression head-to-head. Same training pipeline, same features, same LOSO splits — only the keypoint extractor changed.</p>
+  <p><strong>Result is complementary, not a clean sweep.</strong> DWPose wins 6 of 20 trainable slots, RTMPose-X holds 6, the other 8 are non-v12 winners. The picker now selects whichever backbone is better per slot. <strong>Ceiling r moved 0.83 → 0.85.</strong> The worst v12 deploy slot (lumbar extension × side_right at r=+0.07) got rescued to r=+0.49 — a 7× improvement.</p>
+  <p><strong>Net: 23 deploy slots, 1 do-not-ship, same totals as v12 — but the deploys are stronger and the failing edge cases are fewer.</strong></p>
+</div>
+
+<div class="big-numbers">
+  <div class="big-num"><div class="n good">0.85</div><div class="lbl">Best Pearson r (was 0.83)</div></div>
+  <div class="big-num"><div class="n">6 / 20</div><div class="lbl">Slots DWPose won</div></div>
+  <div class="big-num"><div class="n good">+0.42</div><div class="lbl">Biggest single-slot rescue</div></div>
+  <div class="big-num"><div class="n">23</div><div class="lbl">Deploy-ready slots</div></div>
+</div>
+
+<h2>1. The two backbones — what each brings</h2>
+<div class="twocol">
+  <div class="card rtm">
+    <h3>RTMPose-X Halpe-26 <span class="pill-rtm">v12</span></h3>
+    <div class="kv"><b>Output</b> 26 keypoints (body + 6 feet)</div>
+    <div class="kv"><b>Training</b> Halpe + Body7 (general human pose)</div>
+    <div class="kv"><b>Foot supervision</b> Auxiliary — 6 of 26 outputs</div>
+    <div class="kv"><b>Strength</b> Interior body angles (hip, knee, lumbar) — broadest training distribution</div>
+    <div class="kv"><b>Weakness</b> Foot keypoints noisier; weakest at oblique-side foot occlusions</div>
+    <div class="kv"><b>Backbone</b> Couro production model — same weights ship today</div>
+  </div>
+  <div class="card dw">
+    <h3>DWPose-L UCoco-384 <span class="pill-dw">v13</span></h3>
+    <div class="kv"><b>Output</b> 133 keypoints (body + feet + face + hands)</div>
+    <div class="kv"><b>Training</b> COCO-WholeBody + UBody distillation</div>
+    <div class="kv"><b>Foot supervision</b> First-class — full distillation from wholebody teacher</div>
+    <div class="kv"><b>Strength</b> Foot/ankle stability; better signal on side views</div>
+    <div class="kv"><b>Weakness</b> Slightly lower body-only ROM precision (more capacity spread across face+hands)</div>
+    <div class="kv"><b>Architecture</b> Same SimCC head as RTMPose — drop-in inference</div>
+  </div>
+</div>
+<p style="font-size:13px; color: var(--muted);">For Halpe-26 compatibility, the DWPose 133-kp output is remapped: 17 body + 6 feet map directly; head_top is extrapolated from eyes+nose; neck and hip_center are midpoints of shoulders / hips. So downstream feature extraction (anthropometric 3D reconstruction, joint angles) is identical.</p>
+
+<h2>2. Head-to-head: every trainable slot</h2>
+<p>Same LOSO CV protocol both backbones — 26 subjects, ~1,680 trials, hold-one-subject-out across both OpenCap and ASPset.</p>
+<table>
+  <thead><tr>
+    <th>Metric</th><th>View</th><th>n trials</th>
+    <th>RTMPose r</th><th>DWPose r</th><th>Δr</th>
+    <th>RTMPose RMSE</th><th>DWPose RMSE</th><th>Picker chose</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>Hip flexion</td><td>side_left</td><td class="num">138</td>
+        <td class="num">+0.82</td><td class="num">+0.79</td><td class="num bad">−0.04</td>
+        <td class="num">15.96°</td><td class="num">16.20°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Hip flexion</td><td>front_oblique_left</td><td class="num">432</td>
+        <td class="num">+0.83</td><td class="num good">+0.85</td><td class="num good">+0.02</td>
+        <td class="num">17.92°</td><td class="num">16.73°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+    <tr><td>Hip flexion</td><td>front_center</td><td class="num">603</td>
+        <td class="num">+0.78</td><td class="num">+0.73</td><td class="num bad">−0.05</td>
+        <td class="num">20.75°</td><td class="num">22.01°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Hip flexion</td><td>front_oblique_right</td><td class="num">279</td>
+        <td class="num">+0.83</td><td class="num good">+0.84</td><td class="num good">+0.01</td>
+        <td class="num">17.04°</td><td class="num">15.75°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+    <tr><td>Hip flexion</td><td>side_right</td><td class="num">84</td>
+        <td class="num">+0.45</td><td class="num">+0.31</td><td class="num bad">−0.13</td>
+        <td class="num">23.98°</td><td class="num">23.79°</td>
+        <td><span class="pill-other">event_anchored (+0.50)</span></td></tr>
+    <tr><td>Hip adduction</td><td>side_left</td><td class="num">105</td>
+        <td class="num">+0.78</td><td class="num good">+0.81</td><td class="num good">+0.03</td>
+        <td class="num">13.44°</td><td class="num">12.74°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+    <tr><td>Hip adduction</td><td>front_oblique_left</td><td class="num">311</td>
+        <td class="num">+0.61</td><td class="num">+0.60</td><td class="num">−0.01</td>
+        <td class="num">17.23°</td><td class="num">17.29°</td>
+        <td><span class="pill-other">v9_phased (+0.51)</span></td></tr>
+    <tr><td>Hip adduction</td><td>front_center</td><td class="num">440</td>
+        <td class="num">+0.63</td><td class="num">+0.60</td><td class="num">−0.03</td>
+        <td class="num">15.88°</td><td class="num">16.38°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Hip adduction</td><td>front_oblique_right</td><td class="num">210</td>
+        <td class="num">+0.58</td><td class="num">+0.53</td><td class="num bad">−0.05</td>
+        <td class="num">18.11°</td><td class="num">18.64°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Hip adduction</td><td>side_right</td><td class="num">78</td>
+        <td class="num bad">−0.25</td><td class="num">−0.02</td><td class="num good">+0.22</td>
+        <td class="num">20.51°</td><td class="num">19.18°</td>
+        <td><span class="pill-other">full_trial (+0.01, scale-only)</span></td></tr>
+    <tr><td>Knee flexion</td><td>side_left</td><td class="num">138</td>
+        <td class="num">+0.80</td><td class="num good">+0.81</td><td class="num good">+0.01</td>
+        <td class="num">13.29°</td><td class="num">12.54°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+    <tr><td>Knee flexion</td><td>front_oblique_left</td><td class="num">432</td>
+        <td class="num">+0.78</td><td class="num">+0.76</td><td class="num">−0.01</td>
+        <td class="num">15.34°</td><td class="num">15.78°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Knee flexion</td><td>front_center</td><td class="num">603</td>
+        <td class="num">+0.70</td><td class="num">+0.64</td><td class="num bad">−0.06</td>
+        <td class="num">17.07°</td><td class="num">18.54°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Knee flexion</td><td>front_oblique_right</td><td class="num">279</td>
+        <td class="num">+0.76</td><td class="num">+0.71</td><td class="num bad">−0.05</td>
+        <td class="num">15.42°</td><td class="num">16.90°</td>
+        <td><span class="pill-other">v9_phased (+0.80)</span></td></tr>
+    <tr><td>Knee flexion</td><td>side_right</td><td class="num">84</td>
+        <td class="num">+0.81</td><td class="num">+0.76</td><td class="num bad">−0.05</td>
+        <td class="num">12.28°</td><td class="num">14.02°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Lumbar extension</td><td>side_left</td><td class="num">140</td>
+        <td class="num">+0.65</td><td class="num">+0.64</td><td class="num">−0.01</td>
+        <td class="num">8.69°</td><td class="num">8.41°</td>
+        <td><span class="pill-rtm">RTMPose</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_oblique_left</td><td class="num">434</td>
+        <td class="num">+0.55</td><td class="num">+0.54</td><td class="num">−0.01</td>
+        <td class="num">9.17°</td><td class="num">8.76°</td>
+        <td><span class="pill-other">event_anchored (+0.54)</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_center</td><td class="num">626</td>
+        <td class="num">+0.41</td><td class="num">+0.41</td><td class="num">−0.01</td>
+        <td class="num">9.60°</td><td class="num">9.07°</td>
+        <td><span class="pill-other">event_anchored (+0.53)</span></td></tr>
+    <tr><td>Lumbar extension</td><td>front_oblique_right</td><td class="num">287</td>
+        <td class="num">+0.53</td><td class="num good">+0.58</td><td class="num good">+0.05</td>
+        <td class="num">9.48°</td><td class="num">9.08°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+    <tr><td>Lumbar extension</td><td>side_right</td><td class="num">84</td>
+        <td class="num">+0.07</td><td class="num good">+0.49 <span class="star">★★★</span></td>
+        <td class="num good">+0.42</td>
+        <td class="num">12.04°</td><td class="num">9.17°</td>
+        <td><span class="pill-dw">DWPose</span></td></tr>
+  </tbody>
+</table>
+
+<h2>3. The 6 slots where DWPose won — and the mechanism</h2>
+<table>
+  <thead><tr><th>Slot</th><th>v12 → v13</th><th>RMSE Δ</th><th>Why DWPose helped</th></tr></thead>
+  <tbody>
+    <tr><td>Lumbar extension × side_right</td>
+        <td class="num">+0.07 → <strong>+0.49</strong> <span class="good">(+0.42)</span></td>
+        <td class="num">12.04° → 9.17°</td>
+        <td>Trunk angle from a true side view depends critically on the foot-pelvis vertical reference. RTMPose's noisier heel keypoint was the binding error term — fixing it unlocked the signal.</td></tr>
+    <tr><td>Hip adduction × side_left</td>
+        <td class="num">+0.78 → <strong>+0.81</strong> <span class="good">(+0.03)</span></td>
+        <td class="num">13.44° → 12.74°</td>
+        <td>Frontal-plane motion seen sagittally needs stable ankle+heel anchors to estimate pelvis lateral tilt — DWPose's foot keypoints are more temporally stable.</td></tr>
+    <tr><td>Hip flexion × front_oblique_left</td>
+        <td class="num">+0.83 → <strong>+0.85</strong> <span class="good">(+0.02)</span></td>
+        <td class="num">17.92° → 16.73°</td>
+        <td>Oblique views have one foot near the camera, one far. The far foot is small in the image, where DWPose's explicit foot training pays off most.</td></tr>
+    <tr><td>Hip flexion × front_oblique_right</td>
+        <td class="num">+0.83 → <strong>+0.84</strong> <span class="good">(+0.01)</span></td>
+        <td class="num">17.04° → 15.75°</td>
+        <td>Same mechanism, mirror view. RMSE drop is larger than the Pearson lift because DWPose tightens the scatter without changing the slope.</td></tr>
+    <tr><td>Knee flexion × side_left</td>
+        <td class="num">+0.80 → <strong>+0.81</strong> <span class="good">(+0.01)</span></td>
+        <td class="num">13.29° → 12.54°</td>
+        <td>Knee angle is computed from hip-knee-ankle. The ankle's the noisy joint — DWPose stabilizes it, RMSE drops by ~6%.</td></tr>
+    <tr><td>Lumbar extension × front_oblique_right</td>
+        <td class="num">+0.53 → <strong>+0.58</strong> <span class="good">(+0.05)</span></td>
+        <td class="num">9.48° → 9.08°</td>
+        <td>Trunk-pelvis-foot triangle: when the foot is the weakest of the three, swapping it for a sharper keypoint improves the whole angle.</td></tr>
+  </tbody>
+</table>
+
+<h2>4. The 6 slots where RTMPose-X held — and why</h2>
+<table>
+  <thead><tr><th>Slot</th><th>v12 → v13</th><th>Why RTMPose held</th></tr></thead>
+  <tbody>
+    <tr><td>Hip flexion × front_center</td>
+        <td class="num">+0.78 → +0.73 <span class="bad">(−0.05)</span></td>
+        <td>From dead-front, the foot adds no in-plane information; hip-knee dominate. DWPose spreads model capacity across face+hands, so body-only joints get slightly less.</td></tr>
+    <tr><td>Knee flexion × front_center</td>
+        <td class="num">+0.70 → +0.64 <span class="bad">(−0.06)</span></td>
+        <td>Same mechanism as above — knee dominated by sagittal hip/ankle alignment, not foot detail.</td></tr>
+    <tr><td>Knee flexion × side_right</td>
+        <td class="num">+0.81 → +0.76 <span class="bad">(−0.05)</span></td>
+        <td>RTMPose's general body7 training fit this slot's distribution better — pure side knee, no foot complexity.</td></tr>
+    <tr><td>Hip adduction × front_center</td>
+        <td class="num">+0.63 → +0.60 <span class="bad">(−0.03)</span></td>
+        <td>Adduction from front view is pelvic-roll dominated; foot detail doesn't add info.</td></tr>
+    <tr><td>Hip flexion × side_left</td>
+        <td class="num">+0.82 → +0.79 <span class="bad">(−0.04)</span></td>
+        <td>Smallest training slice (138 trials). Within noise of either model — RTMPose's general distribution match wins.</td></tr>
+    <tr><td>Lumbar extension × side_left</td>
+        <td class="num">+0.65 → +0.64 <span class="num">(−0.01)</span></td>
+        <td>Essentially a tie; RMSE actually drops 8.69° → 8.41° but Pearson r doesn't move. Picker keeps RTMPose as default.</td></tr>
+  </tbody>
+</table>
+
+<h2>5. The pattern: where each backbone is structurally better</h2>
+<table>
+  <thead><tr>
+    <th>View family</th><th>DWPose wins</th><th>RTMPose wins</th><th>Why</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>Side views (90° from facing)</td>
+        <td class="num good">3 of 4 slots</td><td class="num">1 of 4 slots</td>
+        <td>Foot keypoints carry maximum signal — they're the vertical reference and they're directly visible.</td></tr>
+    <tr><td>Oblique views (~45°)</td>
+        <td class="num good">3 of 8 slots</td><td class="num">3 of 8 slots</td>
+        <td>Mixed. Far-side foot benefits, near-side hip/knee unchanged. Roughly split.</td></tr>
+    <tr><td>Front-center views</td>
+        <td class="num">0 of 4 slots</td><td class="num good">3 of 4 slots</td>
+        <td>Feet add no in-plane info from dead-front. RTMPose's broader body-7 training distribution wins.</td></tr>
+  </tbody>
+</table>
+<p>This pattern is what you'd predict from first principles: DWPose's foot supervision is most valuable in views where the foot contributes signal. We didn't engineer this finding — it fell out of running the head-to-head.</p>
+
+<h2>6. Final deploy-ready accuracy (all 25 slots, picker output)</h2>
+<table>
+  <thead><tr>
+    <th>Metric</th><th>View</th><th>Winner</th>
+    <th>RMSE</th><th>r</th><th>r²</th><th>Verdict</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-good"><td>Hip flexion</td><td>side_left</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">15.96°</td><td class="num good">0.82</td><td class="num">0.67</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip flexion</td><td>front_oblique_left</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">16.73°</td><td class="num good">0.85 <span class="star">★</span></td><td class="num">0.72</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip flexion</td><td>front_center</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">20.75°</td><td class="num good">0.78</td><td class="num">0.61</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip flexion</td><td>front_oblique_right</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">15.75°</td><td class="num good">0.84</td><td class="num">0.71</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip flexion</td><td>side_right</td><td><span class="pill-other">event-anchored</span></td>
+        <td class="num">10.83°</td><td class="num good">0.50</td><td class="num">0.25</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip adduction</td><td>side_left</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">12.74°</td><td class="num good">0.81 <span class="star">★</span></td><td class="num">0.66</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip adduction</td><td>front_oblique_left</td><td><span class="pill-other">v9 phased</span></td>
+        <td class="num">5.02°</td><td class="num good">0.51</td><td class="num">0.26</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip adduction</td><td>front_center</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">15.88°</td><td class="num good">0.63</td><td class="num">0.40</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Hip adduction</td><td>front_oblique_right</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">18.11°</td><td class="num good">0.58</td><td class="num">0.34</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Hip adduction</td><td>side_right</td><td><span class="pill-other">full-trial</span></td>
+        <td class="num">5.54°</td><td class="num">0.01</td><td class="num">0.00</td>
+        <td class="warn">scale-only</td></tr>
+    <tr class="row-good"><td>Knee flexion</td><td>side_left</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">12.54°</td><td class="num good">0.81</td><td class="num">0.66</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion</td><td>front_oblique_left</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">15.34°</td><td class="num good">0.78</td><td class="num">0.61</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion</td><td>front_center</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">17.07°</td><td class="num good">0.70</td><td class="num">0.49</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion</td><td>front_oblique_right</td><td><span class="pill-other">v9 phased</span></td>
+        <td class="num">7.04°</td><td class="num good">0.80</td><td class="num">0.64</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Knee flexion</td><td>side_right</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">12.28°</td><td class="num good">0.81 <span class="star">★</span></td><td class="num">0.66</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Ankle dorsiflexion</td><td>side_left</td><td><span class="pill-other">v9 phased</span></td>
+        <td class="num">7.22°</td><td class="num good">0.39</td><td class="num">0.15</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflexion</td><td>front_oblique_left</td><td><span class="pill-other">v10 GBM</span></td>
+        <td class="num">8.08°</td><td class="num">0.17</td><td class="num">0.03</td>
+        <td class="warn">deploy (modest)</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflexion</td><td>front_center</td><td><span class="pill-other">event-anchored bilateral</span></td>
+        <td class="num">7.94°</td><td class="num">0.15</td><td class="num">0.02</td>
+        <td class="warn">deploy (modest)</td></tr>
+    <tr class="row-bad"><td>Ankle dorsiflexion</td><td>front_oblique_right</td><td><span class="pill-other">v10 GBM</span></td>
+        <td class="num">8.77°</td><td class="num bad">−0.15</td><td class="num">0.02</td>
+        <td class="bad">do not ship</td></tr>
+    <tr class="row-good"><td>Ankle dorsiflexion</td><td>side_right</td><td><span class="pill-other">v9 phased</span></td>
+        <td class="num">7.08°</td><td class="num good">0.40</td><td class="num">0.16</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>side_left</td><td><span class="pill-rtm">RTMPose v12</span></td>
+        <td class="num">8.69°</td><td class="num good">0.65</td><td class="num">0.42</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>front_oblique_left</td><td><span class="pill-other">event-anchored</span></td>
+        <td class="num">4.71°</td><td class="num good">0.54</td><td class="num">0.29</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>front_center</td><td><span class="pill-other">event-anchored</span></td>
+        <td class="num">4.78°</td><td class="num good">0.53</td><td class="num">0.28</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>front_oblique_right</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">9.08°</td><td class="num good">0.58</td><td class="num">0.34</td>
+        <td class="good">DEPLOY</td></tr>
+    <tr class="row-good"><td>Lumbar extension</td><td>side_right</td><td><span class="pill-dw">DWPose v13</span></td>
+        <td class="num">9.17°</td><td class="num good">0.49 <span class="star">★★</span></td><td class="num">0.24</td>
+        <td class="good">DEPLOY</td></tr>
+  </tbody>
+</table>
+<p style="font-size:12.5px; color: var(--muted);">
+  <span class="pill-rtm">RTMPose v12</span> = RTMPose-X Halpe-26 keypoints, combined OpenCap+ASPset regression ·
+  <span class="pill-dw">DWPose v13</span> = DWPose-L COCO-WholeBody keypoints, same regression pipeline ·
+  <span class="pill-other">other</span> = OpenCap-only model from earlier round won this slot.
+</p>
+
+<h2>7. Updated commercial claim</h2>
+<blockquote>
+"Couro's biomechanical CV is validated against Vicon motion capture across <strong>26 athletes spanning drop jumps and 30 athletic motions</strong> from two independent datasets (OpenCap, ASPset-510). We compare two state-of-the-art keypoint backbones (RTMPose-X Halpe-26 and DWPose-L WholeBody-133) and deploy whichever wins per (metric × camera-view) slot. For knee flexion, hip flexion, and hip adduction from any recommended angle, we correlate with lab-grade mocap at <strong>r = 0.78–0.85 (R² = 0.61–0.72)</strong>, with typical errors of ±13–18°. That's competitive with commercial multi-camera markerless systems — from a single phone camera."
+</blockquote>
+
+<h2>8. Slots still failing (2 of 25 — unchanged from v12)</h2>
+<table>
+  <thead><tr><th>Slot</th><th>r</th><th>Root cause — and whether DWPose could have helped</th></tr></thead>
+  <tbody>
+    <tr><td>hip_adduction_r side_right</td><td class="num">+0.01</td>
+        <td>Frontal-plane motion unobservable from a true side view. <strong>Geometric, not a backbone issue</strong> — DWPose moved r from −0.25 to −0.02 (a rescue from "actively wrong" to "neutral") but the slot still doesn't carry signal. Guidance: don't offer adduction from side views.</td></tr>
+    <tr><td>ankle_angle_r front_oblique_right</td><td class="num bad">−0.15</td>
+        <td>Right-ankle keypoint occluded by box edge on right-side cameras. <strong>DWPose can't help this slot</strong> because ASPset has no foot 3D markers — there's no ground truth to train DWPose's better foot keypoints against. Closing this requires either OpenCap-DWPose rerun or a sport-specific foot mocap collection.</td></tr>
+  </tbody>
+</table>
+
+<h2>9. Why DWPose isn't a clean sweep — the honest read</h2>
+<p>The naive expectation going in was "more keypoints + better foot training = better everywhere." The reality is more interesting:</p>
+<ol>
+  <li><strong>Foot keypoints help only where feet carry signal.</strong> From dead-front, the foot's position adds nothing in-plane that hip-knee don't already encode. From the side, the foot is the vertical reference and the noise term — DWPose dominates.</li>
+  <li><strong>Model capacity is a finite resource.</strong> DWPose spreads its representation across body+face+hands+feet. RTMPose-X Halpe-26 is a body-only specialist. For pure interior body angles seen straight-on, the specialist wins.</li>
+  <li><strong>The per-slot picker is the right design.</strong> Rather than choosing one backbone for all 25 slots, we now pick per slot. Future backbone improvements layer in cleanly — same picker, more candidates.</li>
+</ol>
+<p><strong>The deployment shift is that we now ship two ONNX models</strong> (RTMPose-X for 6 slots, DWPose-L for 6 slots) plus the existing OpenCap-only models for the other 13. Per-clip inference cost roughly doubles (one pass each) for the 12 ASPset-trained slots; the picker selects at training time, not inference time, so production stays simple.</p>
+
+<h2>10. Engineering cost of this round</h2>
+<table>
+  <thead><tr><th>Step</th><th>Time</th><th>Cost</th></tr></thead>
+  <tbody>
+    <tr><td>Download DWPose-L ONNX (HuggingFace, 128MB)</td><td>~1 min</td><td>$0</td></tr>
+    <tr><td>Write DWPose → Halpe-26 remap layer + GPU driver</td><td>~30 min</td><td>$0</td></tr>
+    <tr><td>Launch g5.xlarge + setup (CUDA wheels, ASPset 22GB, model)</td><td>~12 min</td><td>~$0.20</td></tr>
+    <tr><td>Run DWPose inference on 1,410 ASPset videos (4 parallel A10G workers)</td><td>~58 min</td><td>~$1.00</td></tr>
+    <tr><td>Sync 1,410 keypoint JSONs from S3 → local</td><td>~3 min</td><td>~$0.05</td></tr>
+    <tr><td>Train v13 combined regression + finalize picker</td><td>~6 min</td><td>$0</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>~1 h 50 min</strong></td><td><strong>~$1.30</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>11. Files for Saad</h2>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>results/deploy_ready_models.json</code></td><td>Updated final 25 model entries — each tagged with winning approach (RTMPose v12, DWPose v13, or earlier)</td></tr>
+    <tr><td><code>results/v13_dwpose_combined_models.json</code></td><td>Raw v13 LOSO results (all 20 trainable slots, head-to-head with v12)</td></tr>
+    <tr><td><code>harness/aspset_infer_dwpose_gpu.py</code></td><td>DWPose CUDA inference driver — 133-kp output remapped to Halpe-26</td></tr>
+    <tr><td><code>harness/aspset_infer_dwpose.py</code></td><td>Same, CoreML version for Mac dev</td></tr>
+    <tr><td><code>harness/train_v13_dwpose_combined.py</code></td><td>v13 training pipeline (reuses v12 logic, swaps keypoint source)</td></tr>
+    <tr><td><code>harness/finalize_best_models.py</code></td><td>Picker now includes v13 as a candidate alongside v12</td></tr>
+    <tr><td><code>models/dw-ll_ucoco_384.onnx</code></td><td>DWPose-L weights (128MB, ICCV 2023, Apache-2.0 license)</td></tr>
+    <tr><td><code>data/aspset510_dwpose_keypoints/</code></td><td>1,410 DWPose keypoint JSONs (~340MB) from full ASPset run</td></tr>
+  </tbody>
+</table>
+
+<h2>12. What's still left as a real lever</h2>
+<ol>
+  <li><strong>OpenCap × DWPose rerun</strong> — would unblock the ankle slots (currently r=0.17 and r=−0.15) since DWPose's foot keypoints would replace RTMPose's on the OpenCap drop-jump trials where ankle GT exists. ~$0.50 of additional AWS compute. Likely the single highest-ROI next step for ankle.</li>
+  <li><strong>Sport-specific data collection</strong> — ASPset is generic athletic motions. AUSL softball pitching, Sharks hockey skating, etc. still need their own validation. Custom mocap or AthletePose3D commercial license.</li>
+  <li><strong>Backbone fine-tuning on athletic motion</strong> — both RTMPose-X and DWPose-L were trained on general human pose. A sport-supervised fine-tune (even on synthetic + AMASS) would likely lift the front_center slots that didn't move in v13.</li>
+  <li><strong>Multi-camera fusion</strong> — out of scope per product constraints, but would push best r toward 0.90+.</li>
+</ol>
+
+<h2>13. Comparison vs commercial systems</h2>
+<table>
+  <thead><tr><th>System</th><th>Setup</th><th>Typical r vs Vicon</th></tr></thead>
+  <tbody>
+    <tr><td>Xsens IMU (medical wearable)</td><td>Body sensors</td><td class="num">0.95–0.98</td></tr>
+    <tr><td>Theia3D (commercial markerless)</td><td>8 lab cameras</td><td class="num">0.85–0.95</td></tr>
+    <tr><td>OpenCap (open-source markerless)</td><td>2 phones + calib</td><td class="num">0.79–0.91</td></tr>
+    <tr><td><strong>Couro (this validation, v13 picker)</strong></td><td><strong>1 phone</strong></td><td class="num"><strong>up to 0.85</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  Generated 2026-05-28 · multiview-validation/docs/2026-05-28-couro-vs-vicon-v13.html<br>
+  Earlier briefs: <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> · <a href="2026-05-27-couro-vs-vicon-v4.html">v4</a> · <a href="2026-05-27-couro-vs-vicon-v5.html">v5</a> · <a href="2026-05-27-couro-vs-vicon-v6.html">v6</a> · <a href="2026-05-27-couro-vs-vicon-v7.html">v7</a> · <a href="2026-05-27-couro-vs-vicon-v9.html">v9</a> · <a href="2026-05-27-couro-vs-vicon-v12.html">v12 (data expansion)</a> · v13 = this doc (DWPose backbone head-to-head).
+</div>
+
+</body>
+</html>

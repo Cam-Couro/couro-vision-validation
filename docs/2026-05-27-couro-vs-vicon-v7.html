@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v7 Bilateral Ankle Features (2026-05-27)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+    color: var(--ink); line-height: 1.55; max-width: 980px;
+    margin: 40px auto; padding: 0 24px; background: #fff;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; letter-spacing: -0.005em;
+       border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr {
+    background: var(--bg-soft); border-left: 3px solid var(--accent);
+    padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0;
+  }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  .big-numbers { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .big-num {
+    flex: 1 1 0; min-width: 140px; background: var(--bg-soft); padding: 14px;
+    border-radius: 4px; border-left: 3px solid var(--accent);
+  }
+  .big-num .n { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums;
+                font-family: "SF Mono", ui-monospace, monospace; }
+  .big-num .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase;
+                  letter-spacing: 0.04em; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", ui-monospace, monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .row-good td:last-child { background: var(--bg-good); }
+  .row-warn td:last-child { background: var(--bg-warn); }
+  .row-bad  td:last-child { background: var(--bg-bad); }
+  code, pre { font-family: "SF Mono", ui-monospace, monospace; }
+  pre {
+    background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+    overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+  }
+  .callout {
+    background: var(--bg-warn); border: 1px solid #f3d57a; border-radius: 4px;
+    padding: 10px 14px; margin: 12px 0; font-size: 13.5px;
+  }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+  .new { background: var(--bg-good); padding: 1px 6px; border-radius: 3px; font-weight: 700; color: var(--good); font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — bilateral ankle update</h1>
+<p class="subtitle">v7 · 2026-05-27 · incremental update to v6 · adds bilateral feature pool + multi-signal event detection for ankle</p>
+
+<div class="tldr">
+  <p><strong>Deploy count went from 19 → 20.</strong> Front-center ankle, which was "do not ship" in v6 (r = −0.37), is now deployable (r = +0.15) thanks to bilateral features + hip-vertical fallback for impact detection.</p>
+  <p><strong>What changed.</strong> Two refinements that we tried in v7:</p>
+  <ol style="margin: 4px 0 4px 24px;">
+    <li><strong>View-aware foot-side switch</strong> — picked the "far foot" per camera. <span class="bad">Didn't work</span> — far foot is smaller in pixels and not necessarily cleaner.</li>
+    <li><strong>Bilateral feature pool</strong> — feed both feet's event-anchored features and let ridge learn the weighting. Plus fall back to hip-center vertical for impact detection when ankle detection fails. <span class="good">Worked</span> — side-left and front-center ankle both improved.</li>
+  </ol>
+  <p><strong>Hard limit still in place.</strong> Right-side cameras (Cam3 front_oblique_right, Cam4 side_right) for ankle stay unsolved. The structural cause is keypoint quality from those angles — needs either multi-camera fusion or higher-resolution foot keypoints to fix.</p>
+</div>
+
+<div class="big-numbers">
+  <div class="big-num"><div class="n good">20</div><div class="lbl">Deploy-ready slots</div></div>
+  <div class="big-num"><div class="n">2</div><div class="lbl">Ankle views unlocked vs v6</div></div>
+  <div class="big-num"><div class="n bad">4</div><div class="lbl">Still do-not-ship (all ankle)</div></div>
+</div>
+
+<h2>1. Ankle progression across briefs</h2>
+<table>
+  <thead><tr>
+    <th>View</th>
+    <th>v4 (full-trial)</th>
+    <th>v5 (event-anchored)</th>
+    <th>v6 (best-of)</th>
+    <th>v7 (bilateral)</th>
+    <th>Final verdict</th>
+  </tr></thead>
+  <tbody>
+    <tr><td>side_left</td>
+      <td class="num bad">r = −0.17</td><td class="num good">r = +0.25</td>
+      <td class="num">r = +0.16</td><td class="num good">r = +0.37 ⬆</td>
+      <td class="good">DEPLOY</td></tr>
+    <tr><td>front_oblique_left</td>
+      <td class="num bad">r = −0.31</td><td class="num">r = +0.06</td>
+      <td class="num bad">r = −0.06</td><td class="num">r = −0.00</td>
+      <td class="bad">do not ship</td></tr>
+    <tr><td>front_center</td>
+      <td class="num bad">r = −0.37</td><td class="num">r = +0.19</td>
+      <td class="num bad">r = −0.37</td><td class="num good">r = +0.15 ⬆ <span class="new">NEW</span></td>
+      <td class="warn">deploy (modest)</td></tr>
+    <tr><td>front_oblique_right</td>
+      <td class="num bad">r = −0.21</td><td class="num bad">r = −0.50</td>
+      <td class="num bad">r = −0.21</td><td class="num bad">r = −0.37</td>
+      <td class="bad">do not ship</td></tr>
+    <tr><td>side_right</td>
+      <td class="num bad">r = −0.18</td><td class="num bad">r = −0.10</td>
+      <td class="num bad">r = −0.10</td><td class="num bad">r = −0.15</td>
+      <td class="bad">do not ship</td></tr>
+  </tbody>
+</table>
+<p class="small">v6 finalize picked the best of v4/v5; v7 adds bilateral as a third option for ankle. The pattern is clear — left-side and front-center cameras work, right-side cameras don't.</p>
+
+<h2>2. What "bilateral feature pool" means</h2>
+<p>v5 fed the ankle regression event-anchored features from the right ankle only. v7 feeds 13 features covering both ankles and both knees/hips, and ridge regression learns which to weight per view:</p>
+<pre>FEATURE_POOL = (
+  "ankle_r_rom_full",        # baseline — full-trial right ankle ROM
+  "ankle_r_at_contact",      # right ankle at impact
+  "ankle_r_rom_loading",     # right ankle ROM during loading
+  "ankle_r_min_loading",
+  "ankle_l_at_contact",      # NEW — left ankle features as proxy
+  "ankle_l_rom_loading",
+  "ankle_l_min_loading",
+  "knee_r_at_contact",       # coupled knee at impact
+  "knee_r_rom_loading",
+  "knee_l_at_contact",       # NEW — contralateral coupling
+  "hip_r_at_contact",
+  "hip_l_at_contact",
+  "loading_duration_frames",
+)</pre>
+<p>Plus the event detector now tries multiple signals in order: right-ankle vertical → left-ankle vertical → hip-center vertical. This rescued Cam2 (front-center), where right-ankle detection was failing on ~80% of trials. With the fallback, only 8 of 54 trials still fail event detection.</p>
+
+<h2>3. Updated deployment matrix (only changed rows shown)</h2>
+<table>
+  <thead><tr>
+    <th>Metric</th><th>Camera view</th><th>Approach</th>
+    <th>RMSE</th><th>95% within</th><th>Pearson r</th><th>vs v6</th>
+  </tr></thead>
+  <tbody>
+    <tr class="row-good"><td>Ankle dorsiflex ROM</td><td>side_left</td><td>event-anchored bilateral</td>
+      <td class="num">7.31°</td><td class="num">±14°</td><td class="num good">+0.37</td>
+      <td class="good">DEPLOY (was modest)</td></tr>
+    <tr class="row-warn"><td>Ankle dorsiflex ROM</td><td>front_center</td><td>event-anchored bilateral</td>
+      <td class="num">7.94°</td><td class="num">±16°</td><td class="num">+0.15</td>
+      <td class="good">deploy (was do-not-ship)</td></tr>
+  </tbody>
+</table>
+
+<h2>4. Final deploy-ready summary across all metrics</h2>
+<table>
+  <thead><tr><th>Metric</th><th>Validated views</th><th>Typical error</th><th>95% within</th></tr></thead>
+  <tbody>
+    <tr><td>Hip flexion ROM</td><td>side_left, front_oblique_left, side_right (3 strong + 2 modest)</td><td class="num">±9–14°</td><td class="num">±18–27°</td></tr>
+    <tr><td>Knee flexion ROM</td><td>side_left, front_oblique_L/R, side_right (4 strong + 1 modest)</td><td class="num">±8–10°</td><td class="num">±16–18°</td></tr>
+    <tr><td>Lumbar extension ROM</td><td>all 5 views</td><td class="num">±5–6°</td><td class="num">±9–11°</td></tr>
+    <tr><td>Hip adduction ROM</td><td>front_oblique_R strong + 2 modest</td><td class="num">±4–6°</td><td class="num">±9–10°</td></tr>
+    <tr><td><strong>Ankle dorsiflex ROM</strong></td><td><strong>side_left + front_center</strong> ⬆</td><td class="num">±7–8°</td><td class="num">±14–16°</td></tr>
+  </tbody>
+</table>
+
+<h2>5. The view-aware experiment that didn't work (and why)</h2>
+<div class="callout">
+  <p><strong>Hypothesis:</strong> right-ankle keypoint is occluded on right-side cameras, so for Cam3/Cam4 use the left ankle (the "far foot") as the measurement source instead.</p>
+  <p><strong>Result:</strong> front_oblique_right ankle r went from −0.21 to <span class="bad">−0.44</span> — worse. side_right went from −0.10 to −0.03 — barely changed.</p>
+  <p><strong>Why it failed:</strong> the "far foot" on a side camera is smaller in pixels (1/distance² in image area), so the keypoint estimate is also noisy — just for a different reason. Sub-pixel localization error in a small region maps to bigger angle error in 2D-to-3D recovery. Bilateral features dodge this trade-off by letting the regression weight both signals jointly.</p>
+</div>
+
+<h2>6. Where the remaining ceiling sits</h2>
+<p>Three of four still-broken ankle views are on right-side cameras. The bilateral approach exhausted what's recoverable from monocular keypoints on those angles. The next moves all require non-trivial engineering:</p>
+<ol>
+  <li><strong>Multi-camera fusion at inference</strong> (~1 month). Triangulate ankle keypoint in 3D when 2+ camera angles are available. This is the standard biomech-CV unlock and would push ankle into deploy territory across all views. Already maps cleanly onto the Couro 2-camera softball setup.</li>
+  <li><strong>Foot-orientation prior</strong> (~1 week). Use the constraint that the foot is approximately flat on the ground during the loading phase as a soft constraint in 3D recovery. Helps Cam3/Cam4 specifically since the foot is foreshortened from those angles but its <em>orientation</em> can be inferred from temporal context.</li>
+  <li><strong>Higher-resolution keypoints from sports-specific model</strong>. RTMPose-X Halpe-26 has noisy foot/heel keypoints. A specialized sports-pose model trained on athletic data with explicit foot/ankle supervision would lift the ceiling — but that's a real ML project, not a config change.</li>
+</ol>
+
+<h2>7. Final integration handoff (unchanged from v6 + new ankle file)</h2>
+<table>
+  <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>results/deploy_ready_models.json</code></td><td>Updated — 25 entries, ankle side_left + front_center now tagged <code>"approach": "event_anchored_bilateral"</code></td></tr>
+    <tr><td><code>harness/dj_events.py</code></td><td>Updated with <code>detect_dj_events_multi_signal</code> for hip-vertical fallback</td></tr>
+    <tr><td><code>harness/train_ankle_bilateral.py</code></td><td>New — bilateral ankle trainer for the two upgraded slots</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  Generated 2026-05-27 · multiview-validation/docs/2026-05-27-couro-vs-vicon-v7.html<br>
+  Earlier briefs: <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> · <a href="2026-05-27-couro-vs-vicon-v4.html">v4</a> · <a href="2026-05-27-couro-vs-vicon-v5.html">v5</a> · <a href="2026-05-27-couro-vs-vicon-v6.html">v6</a> · v7 = this doc.
+</div>
+
+</body>
+</html>

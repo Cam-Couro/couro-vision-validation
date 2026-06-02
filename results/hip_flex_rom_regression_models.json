@@ -1,0 +1,308 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.save_models",
+  "produced_date": "2026-05-27",
+  "description": "Hip-flexion ROM regression models, one per camera view bucket. Trained on OpenCap drop-jump trials following the existing knee_rotation.py pattern. Drop into metrics_calculator as a new MetricCalculator subclass.",
+  "models": {
+    "side_left": {
+      "camera_id": "Cam0",
+      "view_bucket": "side_left",
+      "target_metric": "hip_flexion_rom_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "trunk_lean_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "feature_mean": [
+        96.85417596094963,
+        88.9874679773319,
+        44.11754606092364,
+        358.80676805293007,
+        12.390760545478553,
+        236.90480324074073,
+        746.5478779456462
+      ],
+      "feature_std": [
+        15.424598112407239,
+        10.305465475757307,
+        10.933935812137156,
+        0.2758236312238049,
+        6.569775941469114,
+        121.3704026518055,
+        269.2388244541104
+      ],
+      "weights_zscored": [
+        5.7873663895447836,
+        3.2163050358775402,
+        0.24900982499080995,
+        -1.3388046451882554,
+        -0.9214475769209964,
+        0.4480475405102178,
+        -1.8711100538729613
+      ],
+      "intercept": 77.02687707814917,
+      "loso_cv_stats": {
+        "rmse_deg": 9.14750485120925,
+        "mae_deg": 7.1180092133746,
+        "bias_deg": -0.05373191305240768,
+        "sd_of_difference_deg": 9.23323950771147,
+        "loa_95_lower_deg": -18.150881348166887,
+        "loa_95_upper_deg": 18.043417522062075,
+        "pearson_r": 0.6872923136967113
+      },
+      "usage": "Predict hip flexion ROM from a single drop-jump trial:\n  z_features = (raw_features - feature_mean) / feature_std\n  hip_flex_rom_pred = z_features @ weights_zscored + intercept",
+      "trained_on": "OpenCap LabValidation_withVideos (drop jumps), 9 subjects per LOSO fold, Vicon mocap GT",
+      "training_dataset": {
+        "name": "OpenCap LabValidation",
+        "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+        "license": "Apache 2.0"
+      }
+    },
+    "front_oblique_left": {
+      "camera_id": "Cam1",
+      "view_bucket": "front_oblique_left",
+      "target_metric": "hip_flexion_rom_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "trunk_lean_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "feature_mean": [
+        72.83055191404712,
+        65.51930357570278,
+        34.51264531574935,
+        359.2075434850242,
+        9.767285455621098,
+        252.50122748480902,
+        668.2124361053807
+      ],
+      "feature_std": [
+        14.232637566267568,
+        8.032074391057462,
+        12.385005645250422,
+        0.1776921761504614,
+        7.747995100669473,
+        113.97348554671946,
+        342.4926375524447
+      ],
+      "weights_zscored": [
+        8.1247604214331,
+        -0.7037470304921519,
+        -0.07354323183002258,
+        1.3805870149171586,
+        0.1720737213577577,
+        -1.323435107721176,
+        -1.6783902831958293
+      ],
+      "intercept": 77.0268770781483,
+      "loso_cv_stats": {
+        "rmse_deg": 10.870271710973382,
+        "mae_deg": 8.911298118392667,
+        "bias_deg": 1.6272527801878407,
+        "sd_of_difference_deg": 10.848704117749344,
+        "loa_95_lower_deg": -19.636207290600872,
+        "loa_95_upper_deg": 22.890712850976556,
+        "pearson_r": 0.5542982645535747
+      },
+      "usage": "Predict hip flexion ROM from a single drop-jump trial:\n  z_features = (raw_features - feature_mean) / feature_std\n  hip_flex_rom_pred = z_features @ weights_zscored + intercept",
+      "trained_on": "OpenCap LabValidation_withVideos (drop jumps), 9 subjects per LOSO fold, Vicon mocap GT",
+      "training_dataset": {
+        "name": "OpenCap LabValidation",
+        "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+        "license": "Apache 2.0"
+      }
+    },
+    "front_center": {
+      "camera_id": "Cam2",
+      "view_bucket": "front_center",
+      "target_metric": "hip_flexion_rom_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "trunk_lean_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "feature_mean": [
+        30.5961246588821,
+        51.33702000015422,
+        10.346576014638636,
+        333.1186825182795,
+        4.604984193328982,
+        223.59445303457755,
+        599.7814773323545
+      ],
+      "feature_std": [
+        8.268137987894699,
+        10.015929788485911,
+        9.020838410729976,
+        92.86959819778252,
+        5.504936388735896,
+        95.46305445823258,
+        400.8312781114297
+      ],
+      "weights_zscored": [
+        2.8687007251941554,
+        2.4563530966661977,
+        1.8485476326076584,
+        -0.603618240943965,
+        -4.099832542747476,
+        2.4367850113998273,
+        -0.6059488867016508
+      ],
+      "intercept": 77.02687707814813,
+      "loso_cv_stats": {
+        "rmse_deg": 21.447273073797128,
+        "mae_deg": 12.977557338021324,
+        "bias_deg": 3.888255643911226,
+        "sd_of_difference_deg": 21.289920318044057,
+        "loa_95_lower_deg": -37.83998817945512,
+        "loa_95_upper_deg": 45.61649946727758,
+        "pearson_r": 0.2266657536419619
+      },
+      "usage": "Predict hip flexion ROM from a single drop-jump trial:\n  z_features = (raw_features - feature_mean) / feature_std\n  hip_flex_rom_pred = z_features @ weights_zscored + intercept",
+      "trained_on": "OpenCap LabValidation_withVideos (drop jumps), 9 subjects per LOSO fold, Vicon mocap GT",
+      "training_dataset": {
+        "name": "OpenCap LabValidation",
+        "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+        "license": "Apache 2.0"
+      }
+    },
+    "front_oblique_right": {
+      "camera_id": "Cam3",
+      "view_bucket": "front_oblique_right",
+      "target_metric": "hip_flexion_rom_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "trunk_lean_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "feature_mean": [
+        61.62734790671071,
+        65.86761822296288,
+        36.15522553194427,
+        359.2710004716001,
+        8.975235774080241,
+        228.9848237214265,
+        686.4386752751775
+      ],
+      "feature_std": [
+        18.258955198713835,
+        13.69753403040052,
+        12.290825665217882,
+        0.12835504538090753,
+        6.414085118121567,
+        86.31518642797802,
+        353.0852021973537
+      ],
+      "weights_zscored": [
+        3.518195461571786,
+        0.5177577370231644,
+        3.179108017452998,
+        0.3988684716083072,
+        1.2137825006572318,
+        0.9138926197063477,
+        -1.357245835125588
+      ],
+      "intercept": 77.02687707814815,
+      "loso_cv_stats": {
+        "rmse_deg": 14.573241951771621,
+        "mae_deg": 12.413915431196452,
+        "bias_deg": 1.3885445109600998,
+        "sd_of_difference_deg": 14.64315897766997,
+        "loa_95_lower_deg": -27.31204708527304,
+        "loa_95_upper_deg": 30.089136107193237,
+        "pearson_r": 0.14674463759842782
+      },
+      "usage": "Predict hip flexion ROM from a single drop-jump trial:\n  z_features = (raw_features - feature_mean) / feature_std\n  hip_flex_rom_pred = z_features @ weights_zscored + intercept",
+      "trained_on": "OpenCap LabValidation_withVideos (drop jumps), 9 subjects per LOSO fold, Vicon mocap GT",
+      "training_dataset": {
+        "name": "OpenCap LabValidation",
+        "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+        "license": "Apache 2.0"
+      }
+    },
+    "side_right": {
+      "camera_id": "Cam4",
+      "view_bucket": "side_right",
+      "target_metric": "hip_flexion_rom_r",
+      "n_train_trials": 54,
+      "n_subjects": 9,
+      "feature_names": [
+        "hip_flex_rom_r_2d3d",
+        "knee_flex_rom_r_2d3d",
+        "trunk_lean_rom",
+        "pelvis_tilt_rom",
+        "knee_flex_rom_diff_lr",
+        "hip_y_range_px",
+        "hip_flex_vel_peak"
+      ],
+      "feature_mean": [
+        84.78138727517651,
+        78.39917414867506,
+        43.94816054402307,
+        358.77822141547574,
+        11.14308316921717,
+        218.303219265408,
+        895.8031601932258
+      ],
+      "feature_std": [
+        19.727961246165624,
+        12.821965092871302,
+        11.12140662440426,
+        0.4482028810578039,
+        7.058584973471746,
+        84.81574221886119,
+        305.43248629436306
+      ],
+      "weights_zscored": [
+        3.739009755368171,
+        3.034056899910113,
+        1.717228625123177,
+        -1.0436092826377312,
+        1.0962630500119799,
+        -2.2156368889210385,
+        -0.24397891555944365
+      ],
+      "intercept": 77.02687707814815,
+      "loso_cv_stats": {
+        "rmse_deg": 17.34006349418884,
+        "mae_deg": 12.561280816043384,
+        "bias_deg": 1.9176376181595738,
+        "sd_of_difference_deg": 17.395523859948323,
+        "loa_95_lower_deg": -32.17758914733914,
+        "loa_95_upper_deg": 36.01286438365829,
+        "pearson_r": -0.02677274361286277
+      },
+      "usage": "Predict hip flexion ROM from a single drop-jump trial:\n  z_features = (raw_features - feature_mean) / feature_std\n  hip_flex_rom_pred = z_features @ weights_zscored + intercept",
+      "trained_on": "OpenCap LabValidation_withVideos (drop jumps), 9 subjects per LOSO fold, Vicon mocap GT",
+      "training_dataset": {
+        "name": "OpenCap LabValidation",
+        "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+        "license": "Apache 2.0"
+      }
+    }
+  }
+}

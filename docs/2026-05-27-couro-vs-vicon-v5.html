@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v5 Ankle Event-Anchoring Update (2026-05-27)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+    color: var(--ink); line-height: 1.55; max-width: 940px;
+    margin: 40px auto; padding: 0 24px; background: #fff;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; letter-spacing: -0.005em;
+       border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr {
+    background: var(--bg-soft); border-left: 3px solid var(--accent);
+    padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0;
+  }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", ui-monospace, monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12.5px; color: var(--muted); }
+  code, pre { font-family: "SF Mono", ui-monospace, monospace; }
+  pre {
+    background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+    overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+  }
+  .callout {
+    background: #fff8eb; border: 1px solid #f3d57a; border-radius: 4px;
+    padding: 10px 14px; margin: 12px 0; font-size: 13.5px;
+  }
+  .correction {
+    background: #fdecea; border: 1px solid #f5b8b0; border-radius: 4px;
+    padding: 10px 14px; margin: 12px 0; font-size: 13.5px;
+  }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — ankle event-anchoring update</h1>
+<p class="subtitle">v5 · 2026-05-27 · OpenCap LabValidation drop jumps · LOSO cross-validated · borrows Couro's existing gait_analyzer event-detection recipe</p>
+
+<div class="tldr">
+  <p><strong>Ankle is partially recoverable.</strong> v4 left ankle dorsiflexion as "do not deploy" — LOSO Pearson r was negative on all 5 camera views. By anchoring features to the detected drop-jump impact event (same technique Couro's <code>gait_analyzer.py</code> uses for sprint touchdown), <span class="good">r flipped from negative to positive on 3 of 5 views</span>.</p>
+  <p><strong>Headline numbers.</strong> Side-left ankle: <span class="num">9.35° → 7.57°</span> RMSE, r <span class="num">−0.17 → +0.25</span>. Front-center ankle: <span class="num">13.16° → 7.79°</span>, r <span class="num">−0.37 → +0.19</span>.</p>
+  <p><strong>Honest correction to v4.</strong> v4 claimed the hip-adduction wraparound bug existed in production. It does not — production uses <code>arccos</code> (returns 0–180°, no wraparound). The bug was in our <em>harness</em> file only. Already patched there.</p>
+  <p><strong>Still unsolved.</strong> Right-side cameras (Cam3, Cam4) for ankle. Likely cause: right-ankle keypoint is occluded / foreshortened when the camera is on the right side of the box. Possible fix is view-aware foot-side selection — not yet implemented.</p>
+</div>
+
+<h2>1. What changed: event-anchored features</h2>
+<p>v4 fed the ankle regression a single ROM number per trial — max minus min across the whole clip. That measurement is dominated by airborne ankle motion (toes pointed in flight, foot relaxed) which has nothing to do with the loading-phase ankle bend that matters biomechanically.</p>
+<p>v5 detects the drop-jump impact event from the ankle vertical trajectory (<code>scipy.signal.find_peaks</code> + Gaussian/Savgol smoothing — borrowed directly from <code>app/services/ecs/track_mode/utils/gait_analyzer.py</code>), then extracts features <em>only</em> from the loading window (initial contact → pushoff, typically 100–230ms):</p>
+<table>
+  <thead><tr><th>Feature</th><th>What it captures</th></tr></thead>
+  <tbody>
+    <tr><td><code>ankle_rom_loading</code></td><td>Ankle ROM during ground-contact phase (replaces full-trial ROM as primary signal)</td></tr>
+    <tr><td><code>ankle_at_contact</code></td><td>Ankle angle the instant the foot lands</td></tr>
+    <tr><td><code>ankle_min_loading</code></td><td>Deepest dorsiflexion during loading</td></tr>
+    <tr><td><code>knee_at_contact</code></td><td>Coupled knee angle at contact (drives ankle position)</td></tr>
+    <tr><td><code>knee_rom_loading</code></td><td>Coupled knee ROM in loading window</td></tr>
+    <tr><td><code>hip_at_contact</code></td><td>Coupled hip angle at contact</td></tr>
+    <tr><td><code>loading_duration_frames</code></td><td>Ground-contact duration (drop strategy indicator)</td></tr>
+  </tbody>
+</table>
+<p>Event detection succeeded on 207 of 216 trials (~96%). 9 front-center trials skipped because the ankle came to rest mid-window (no clean pushoff event).</p>
+
+<h2>2. Results: v4 vs v5 ankle</h2>
+<table>
+  <thead><tr>
+    <th>View</th><th>n</th>
+    <th colspan="2" style="text-align:center; border-right: 1px solid var(--line)">v4 (full-trial ROM)</th>
+    <th colspan="2" style="text-align:center">v5 (event-anchored)</th>
+    <th>verdict</th>
+  </tr><tr>
+    <th></th><th></th>
+    <th>RMSE</th><th>Pearson r</th>
+    <th>RMSE</th><th>Pearson r</th>
+    <th></th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>side_left (Cam0)</td>
+      <td class="num">54</td>
+      <td class="num">9.35°</td><td class="num bad">−0.17</td>
+      <td class="num good">7.57°</td><td class="num good">+0.25</td>
+      <td class="good">deploy</td>
+    </tr>
+    <tr>
+      <td>front_oblique_left (Cam1)</td>
+      <td class="num">54</td>
+      <td class="num">9.30°</td><td class="num bad">−0.31</td>
+      <td class="num good">8.20°</td><td class="num">+0.06</td>
+      <td class="warn">marginal</td>
+    </tr>
+    <tr>
+      <td>front_center (Cam2)</td>
+      <td class="num">45</td>
+      <td class="num">13.16°</td><td class="num bad">−0.37</td>
+      <td class="num good">7.79°</td><td class="num">+0.19</td>
+      <td class="good">deploy</td>
+    </tr>
+    <tr>
+      <td>front_oblique_right (Cam3)</td>
+      <td class="num">54</td>
+      <td class="num">12.83°</td><td class="num bad">−0.21</td>
+      <td class="num">10.29°</td><td class="num bad">−0.35</td>
+      <td class="bad">do not deploy</td>
+    </tr>
+    <tr>
+      <td>side_right (Cam4)</td>
+      <td class="num">53</td>
+      <td class="num">8.74°</td><td class="num bad">−0.18</td>
+      <td class="num">9.27°</td><td class="num bad">−0.16</td>
+      <td class="bad">do not deploy</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>Pattern in the failures.</strong> Both unsolved cameras are on the <em>right side</em> of the subject (where the right ankle — the one we're measuring — is the near foot and gets foreshortened or occluded by the box edge). Side-left and front-oblique-left work because the right ankle is the <em>far</em> foot and projects more cleanly. Likely fix: when measuring right-ankle metrics, pick a camera on the subject's left (and vice versa). This is "view-aware foot-side selection" and would be a small addition to <code>views.py</code> + the metric registration logic.
+</div>
+
+<h2>3. Honest correction on the hip-adduction "bug" from v4</h2>
+<div class="correction">
+  <p><strong>v4 said:</strong> "patch the hip-adduction wraparound bug in production — <code>couro_keypoints.py</code>'s arctan2-based 2D proxy needs <code>np.unwrap</code>."</p>
+  <p><strong>Correction:</strong> the file <code>couro_keypoints.py</code> in the validation harness has this bug, but production <code>couro-vision</code> does <em>not</em>. Production's <code>_calculate_hip_adduction</code> in <code>phase_specific_metrics.py</code> uses <code>arccos(dot/mag)</code>, which always returns 0–180° and has no wraparound discontinuity. Production also reports <em>peak</em> hip adduction within a detected phase, not max-minus-min across the whole trial, which sidesteps the issue entirely.</p>
+  <p><strong>Net:</strong> the harness patch was needed for the benchmarking only. No production PR required for this. Sorry for the false alarm in v4.</p>
+</div>
+
+<h2>4. Updated deploy-ready summary (across v3 + v4 + v5)</h2>
+<table>
+  <thead><tr><th>Metric</th><th>Best view(s)</th><th>cv RMSE</th><th>Pearson r</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Hip flexion ROM</td><td>side_left</td><td class="num">9.2°</td><td class="num good">0.69</td><td>v3</td></tr>
+    <tr><td>Knee flexion ROM</td><td>side_left, front_oblique L/R, side_right</td><td class="num">8.8–10.4°</td><td class="num good">0.36–0.56</td><td>v4 — 4 of 5 views</td></tr>
+    <tr><td>Lumbar extension ROM</td><td>side_left, front_oblique_left, side_right</td><td class="num">5.0–5.6°</td><td class="num good">0.32–0.49</td><td>v4</td></tr>
+    <tr><td>Hip adduction ROM</td><td>front_center</td><td class="num">5.2°</td><td class="num">0.18 (scale only)</td><td>v4</td></tr>
+    <tr><td><strong>Ankle dorsiflex ROM</strong></td><td>side_left, front_center</td><td class="num"><strong>7.6–7.8°</strong></td><td class="num good"><strong>0.19–0.25</strong></td><td><strong>v5 — new this brief</strong></td></tr>
+  </tbody>
+</table>
+
+<h2>5. How to use the ankle model in production</h2>
+<p>Coefficients live at <code>results/ankle_event_anchored_models.json</code>. Same JSON schema as the other regression models. The extra requirement vs the simpler v4 models: the event-detection module needs to run before feature extraction.</p>
+<p>Reusable from Couro's existing code:</p>
+<ul>
+  <li><code>app/services/ecs/track_mode/utils/gait_analyzer.py</code> already has the scipy smoothing + peak detection pattern — borrow <code>_detect_events_two_signal</code>'s setup directly</li>
+  <li>For DJ (single-impact), the simplified detector in <code>harness/dj_events.py</code> is ~120 lines and pure scipy. Drop-in to <code>metrics_calculator/utils/</code> and use from a new <code>AnkleDorsiflexionMetric</code> class</li>
+</ul>
+
+<p>Inference flow:</p>
+<pre>1. detect_dj_events(ankle_y_pixels, fps) → returns (initial_contact_frame, pushoff_frame)
+2. extract event-anchored features from the [IC, pushoff] window
+3. z = (raw - feature_mean) / feature_std
+4. predicted_ankle_rom_deg = z @ weights_zscored + intercept</pre>
+
+<h2>6. Where to push precision higher (open questions)</h2>
+<ol>
+  <li><strong>View-aware foot-side selection</strong> for Cam3/4 ankle. Quick implementation, would extend ankle coverage from 2 → 4 views.</li>
+  <li><strong>Foot vector from <code>midpoint(big_toe, small_toe) − heel</code></strong> instead of <code>heel → big_toe</code>. Averaging two keypoints cuts noise √2×. Worth ~½ day to test.</li>
+  <li><strong>Apply event-anchoring to all other metrics</strong> too — likely lifts <code>hip_flexion_r</code> front_center (currently scale-only at r=0.23) and <code>knee_angle_r</code> front_center (currently r=0.15) into properly deploy-ready territory.</li>
+  <li><strong>Add nonlinear regression (gradient boosting)</strong> on the same features. Ridge is linear; some couplings (e.g. hip-knee-ankle phase relationships) are not. With 54 trials × 9 subjects, careful regularization needed but worth trying.</li>
+  <li><strong>More training data</strong> remains the dominant ceiling — current ~54 trials × 9 subjects per view limits what any model can learn. Plausible expansions: AthletePose3D (Waseda, commercial license needed), in-house mocap data collection, OpenCap field-study sub-license.</li>
+</ol>
+
+<h2>7. Reproducibility</h2>
+<pre>cd multiview-validation
+python3 -m harness.train_ankle_event_anchored
+# wrote results/ankle_event_anchored_models.json</pre>
+
+<table>
+  <thead><tr><th>File</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td><code>harness/dj_events.py</code></td><td>Drop-jump impact + pushoff detector (~120 LOC, pure scipy)</td></tr>
+    <tr><td><code>harness/train_ankle_event_anchored.py</code></td><td>Re-trains ankle regression with event-anchored features</td></tr>
+    <tr><td><code>results/ankle_event_anchored_models.json</code></td><td>Updated ankle coefficients per view bucket</td></tr>
+    <tr><td><code>results/all_metrics_regression_models.json</code></td><td>Unchanged from v4 — other 4 metrics</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  Generated 2026-05-27 · multiview-validation/docs/2026-05-27-couro-vs-vicon-v5.html<br>
+  Earlier briefs: <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> (hip flexion only) · <a href="2026-05-27-couro-vs-vicon-v4.html">v4</a> (5-metric extension) · v5 = this doc.
+</div>
+
+</body>
+</html>

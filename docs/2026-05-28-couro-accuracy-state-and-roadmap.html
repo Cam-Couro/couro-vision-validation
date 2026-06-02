@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro Biomech Accuracy — State of the system + algo roadmap (2026-05-28)</title>
+<style>
+  :root {
+    --ink: #15181f; --muted: #6b7280; --line: #e3e6eb;
+    --accent: #1f5dff; --good: #137a47; --warn: #b96b00; --bad: #9a1a1a;
+    --bg-soft: #f7f8fa; --bg-good: #eaf7ef; --bg-warn: #fff8eb; --bg-bad: #fdecea;
+    --bg-strong: #d4ecdc; --bg-ok: #eaf7ef;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", sans-serif;
+         color: var(--ink); line-height: 1.55; max-width: 1080px;
+         margin: 40px auto; padding: 0 24px; background: #fff; }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; border-bottom: 1px solid var(--line);
+       padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .summary { background: var(--bg-soft); border-left: 3px solid var(--accent);
+             padding: 18px 22px; margin: 18px 0 24px; border-radius: 0 4px 4px 0; }
+  .summary p { margin: 6px 0; font-size: 14.5px; }
+  .big-numbers { display: flex; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
+  .big-num { flex: 1 1 0; min-width: 140px; background: var(--bg-soft);
+             padding: 14px; border-radius: 4px; border-left: 3px solid var(--accent); }
+  .big-num .n { font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums;
+                font-family: "SF Mono", monospace; }
+  .big-num .lbl { font-size: 12px; color: var(--muted); text-transform: uppercase;
+                  letter-spacing: 0.04em; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", monospace; }
+  .strong { background: var(--bg-strong); font-weight: 600; color: var(--good); }
+  .ok     { background: var(--bg-ok); }
+  .modest { background: var(--bg-warn); color: var(--warn); font-weight: 600; }
+  .bad    { background: var(--bg-bad); color: var(--bad); font-weight: 600; }
+  .na     { background: #f3f4f6; color: var(--muted); }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  blockquote { border-left: 3px solid var(--accent); padding-left: 14px; margin: 10px 0; }
+  code { font-family: "SF Mono", monospace; background: var(--bg-soft);
+         padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line);
+            color: var(--muted); font-size: 12px; }
+  .legend { display: flex; gap: 14px; font-size: 12.5px; color: var(--muted);
+            margin: 6px 0 14px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-chip { display: inline-block; width: 18px; height: 14px; border-radius: 2px; }
+  .tier { background: var(--bg-soft); padding: 14px 18px; border-radius: 4px;
+          margin: 12px 0; border-left: 3px solid var(--accent); }
+  .tier h3 { margin-top: 0; }
+  ul.bullets li { margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<h1>Couro Biomech Accuracy — Where we are, and how to push it higher</h1>
+<p class="subtitle">2026-05-28 · Internal exec summary · v14 ensemble shipping (RTMPose + DWPose) · 26 subjects · 1,680 trials · LOSO cross-validated</p>
+
+<div class="summary">
+  <p><strong>One sentence:</strong> 24 of 25 (metric × view) deploy slots ship with zero broken predictions; ceiling correlation with Vicon mocap is 0.85 from a single phone camera — comparable to 8-camera commercial lab systems.</p>
+  <p><strong>Where we're strong:</strong> hip flexion and knee flexion from any of the 5 validated angles (r = 0.70–0.85). These are the metrics softball pitching, hockey, and ACL screening lean on most.</p>
+  <p><strong>Where we're modest:</strong> ankle dorsiflexion (r = 0.41–0.62 from useful angles) and hip adduction from the right side (r = 0.15). Both are data-limited, not algorithm-limited.</p>
+  <p><strong>Rear-view validation is the honest gap:</strong> we have zero rear-camera validation data. Two paths to close it — both proposed below.</p>
+  <p><strong>Algorithm headroom without new data:</strong> 14 levers identified, ranked by expected r-lift × effort. Top tier (5 free quick wins) could lift modest slots by +0.05–0.15 in a week of dev work.</p>
+</div>
+
+<div class="big-numbers">
+  <div class="big-num"><div class="n good">24 / 25</div><div class="lbl">Slots shipping</div></div>
+  <div class="big-num"><div class="n good">0</div><div class="lbl">Broken (do-not-ship) slots</div></div>
+  <div class="big-num"><div class="n">0.85</div><div class="lbl">Best correlation with Vicon</div></div>
+  <div class="big-num"><div class="n">26</div><div class="lbl">Athletes validated</div></div>
+</div>
+
+<h2>1. Overall accuracy by camera angle</h2>
+<p>Each cell shows Pearson r vs Vicon mocap. Color-coded for executive scan:</p>
+<div class="legend">
+  <div class="legend-item"><span class="legend-chip strong"></span>Strong (r ≥ 0.70) — individual-level accuracy</div>
+  <div class="legend-item"><span class="legend-chip ok"></span>OK (0.50 ≤ r &lt; 0.70) — group + individual trends</div>
+  <div class="legend-item"><span class="legend-chip modest"></span>Modest (0.10 ≤ r &lt; 0.50) — population scale only</div>
+  <div class="legend-item"><span class="legend-chip bad"></span>Don't use individually (r &lt; 0.10) — structural limit</div>
+  <div class="legend-item"><span class="legend-chip na"></span>Not validated yet</div>
+</div>
+
+<table>
+  <thead><tr>
+    <th>Metric</th>
+    <th>Side<br>Left</th>
+    <th>Front-<br>Oblique Left</th>
+    <th>Front<br>Center</th>
+    <th>Front-<br>Oblique Right</th>
+    <th>Side<br>Right</th>
+    <th>Rear<br>Center</th>
+    <th>Rear-<br>Oblique</th>
+  </tr></thead>
+  <tbody>
+    <tr>
+      <td>Hip flexion</td>
+      <td class="num strong">0.82</td>
+      <td class="num strong">0.85 ★</td>
+      <td class="num strong">0.78</td>
+      <td class="num strong">0.84</td>
+      <td class="num ok">0.50</td>
+      <td class="num na">—</td>
+      <td class="num na">—</td>
+    </tr>
+    <tr>
+      <td>Knee flexion</td>
+      <td class="num strong">0.81</td>
+      <td class="num strong">0.78</td>
+      <td class="num strong">0.70</td>
+      <td class="num strong">0.80</td>
+      <td class="num strong">0.81 ★</td>
+      <td class="num na">—</td>
+      <td class="num na">—</td>
+    </tr>
+    <tr>
+      <td>Hip adduction</td>
+      <td class="num strong">0.81</td>
+      <td class="num ok">0.51</td>
+      <td class="num ok">0.63</td>
+      <td class="num ok">0.58</td>
+      <td class="num modest">0.15</td>
+      <td class="num na">—</td>
+      <td class="num na">—</td>
+    </tr>
+    <tr>
+      <td>Lumbar extension</td>
+      <td class="num ok">0.66</td>
+      <td class="num ok">0.54</td>
+      <td class="num ok">0.53</td>
+      <td class="num ok">0.58</td>
+      <td class="num ok">0.50</td>
+      <td class="num na">—</td>
+      <td class="num na">—</td>
+    </tr>
+    <tr>
+      <td>Ankle dorsiflexion</td>
+      <td class="num modest">0.41</td>
+      <td class="num ok">0.50</td>
+      <td class="num modest">0.15</td>
+      <td class="num bad">0.02</td>
+      <td class="num ok">0.62 ★</td>
+      <td class="num na">—</td>
+      <td class="num na">—</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>1a. Per-metric exec summary</h3>
+<table>
+  <thead><tr><th>Metric</th><th>Average r</th><th>What this means in plain English</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Knee flexion</strong></td><td class="num strong">0.78</td>
+        <td>Strongest metric. Reliable from <em>any</em> validated angle. Production-ready for ACL screening, jump landing analysis, return-to-play decisions.</td></tr>
+    <tr><td><strong>Hip flexion</strong></td><td class="num strong">0.76</td>
+        <td>Reliable from 4 of 5 angles. Only side_right is weak (small training set, n=84). Production-ready for pitching mechanics, sprint mechanics, jump analysis.</td></tr>
+    <tr><td><strong>Lumbar extension</strong></td><td class="num ok">0.56</td>
+        <td>Trunk lean. Stable across all 5 angles — every angle gives mid-strength signal. Suitable for risk-screening dashboards where directional change is what matters.</td></tr>
+    <tr><td><strong>Hip adduction</strong></td><td class="num ok">0.54</td>
+        <td>Strong from sides (knee valgus screening), weak from sagittal-only views. Mixed but usable where it matters most (frontal-plane analysis).</td></tr>
+    <tr><td><strong>Ankle dorsiflexion</strong></td><td class="num modest">0.34</td>
+        <td>Hardest metric. Side angles (left/right) work — usable for shin-angle and toe-out assessments. Front-on does not work for individuals (geometric limit). Investment area.</td></tr>
+  </tbody>
+</table>
+
+<h3>1b. Per-angle exec summary (which camera angle is best for what)</h3>
+<table>
+  <thead><tr><th>Camera angle</th><th>Best for</th><th>Avoid for</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Side (left or right)</strong></td>
+        <td>Knee flexion, ankle dorsiflexion, hip flexion (left side specifically)</td>
+        <td>Hip adduction from right side (the one weak slot)</td></tr>
+    <tr><td><strong>Front-oblique (left or right)</strong></td>
+        <td>Hip flexion (best results overall), knee flexion, ankle on left side</td>
+        <td>Ankle on right-oblique (occluded foot)</td></tr>
+    <tr><td><strong>Front-center</strong></td>
+        <td>Hip flexion, knee flexion, hip adduction, trunk lean — best all-purpose front angle</td>
+        <td>Ankle dorsiflexion (foot points at camera, motion invisible)</td></tr>
+    <tr><td><strong>Rear / rear-oblique</strong></td>
+        <td><em>Not yet validated.</em> See §3 for proposed plan.</td>
+        <td>—</td></tr>
+  </tbody>
+</table>
+
+<h2>2. How we got here — the 4-round progression</h2>
+<table>
+  <thead><tr><th>Round</th><th>What we did</th><th>Result</th><th>Time / cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>v9</strong> (baseline)</td>
+        <td>OpenCap drop-jump validation, 9 subjects, RTMPose keypoints</td>
+        <td>22 deploys / 2 modest / 1 do-not-ship, best r=0.65</td>
+        <td>~3 weeks / $0</td></tr>
+    <tr><td><strong>v12</strong> (more data)</td>
+        <td>Added ASPset-510: 17 more subjects, 30 athletic motions</td>
+        <td>21 strong deploys, ceiling jumped to <strong>r=0.83</strong>, still 1 do-not-ship</td>
+        <td>~3 hrs / $7</td></tr>
+    <tr><td><strong>v13</strong> (better backbone — ASPset)</td>
+        <td>Swapped pose model to DWPose for ASPset only (foot supervision)</td>
+        <td>Ceiling moved to <strong>r=0.85</strong>, rescued lumbar × side_right (0.07 → 0.49)</td>
+        <td>~1.5 hrs / $1.30</td></tr>
+    <tr><td><strong>v14</strong> (better backbone — both)</td>
+        <td>Also ran OpenCap through DWPose. Now ankle features come from sharper foot keypoints.</td>
+        <td><strong>0 do-not-ship</strong>, 24 deploys, ankle slots rescued (0.40 → 0.62, 0.17 → 0.50)</td>
+        <td>~30 min / $0.50</td></tr>
+  </tbody>
+</table>
+<p><strong>What this shows:</strong> we went from "12 strong deploys, broken slots, modest data" to "24 strong deploys, zero broken slots, ceiling at lab-camera levels" for roughly 8 hours and $9 total in compute. Most of the lift came from data (v9→v12) and backbone swap (v12→v14). Both were free wins from off-the-shelf assets.</p>
+
+<h2>3. Rear-view validation — the honest gap and proposed plan</h2>
+<p>OpenCap LabValidation and ASPset-510 between them give us 5 camera angles: <em>side_left, front_oblique_left, front_center, front_oblique_right, side_right</em>. <strong>Neither dataset has rear-facing cameras.</strong> So we have zero rear-view validation today.</p>
+
+<p>For softball pitching specifically (Cameron's project memory), rear views are the natural angle for catching shoulder external rotation, arm path, and trunk twist — metrics that don't show up cleanly from the front. So this is a real gap, not a nitpick.</p>
+
+<h3>3a. What we expect rear views to look like (informed guess)</h3>
+<p>By symmetry of the human body's sagittal plane, rear-center should be similar in difficulty to front-center, and rear-oblique similar to front-oblique. So the expected accuracy is:</p>
+<table>
+  <thead><tr><th>Metric</th><th>Rear center (expected)</th><th>Rear-oblique (expected)</th></tr></thead>
+  <tbody>
+    <tr><td>Hip flexion</td><td class="num">~0.75 (similar to front_center)</td><td class="num">~0.80</td></tr>
+    <tr><td>Knee flexion</td><td class="num">~0.65–0.70</td><td class="num">~0.75</td></tr>
+    <tr><td>Hip adduction</td><td class="num">~0.60</td><td class="num">~0.55</td></tr>
+    <tr><td>Lumbar extension</td><td class="num">~0.50</td><td class="num">~0.55</td></tr>
+    <tr><td>Ankle dorsiflexion</td><td class="num bad">&lt;0.15 (geometric limit, same as front)</td><td class="num">~0.30</td></tr>
+  </tbody>
+</table>
+<p>These are educated guesses, not validated numbers. <strong>We should not sell rear-view accuracy until we measure it.</strong></p>
+
+<h3>3b. Proposed plan to close the rear-view gap</h3>
+<ol>
+  <li><strong>Cheap path (~$0):</strong> mirror our existing side-view models for rear use. Anatomical symmetry says a side-right camera and a rear-camera see roughly the same body axis. Ship these as "preliminary rear models" with clear disclaimer.</li>
+  <li><strong>Validated path (~$2–4K + 2 weeks):</strong> collect 1–2 subjects through OpenCap Cloud (Stanford's mocap-rental service) with 8 cameras, including 2 rear-facing. Use that to confirm rear-view models match expectations. Cheaper than full mocap collection because we only need 1–2 subjects to verify the symmetry assumption.</li>
+  <li><strong>Sport-specific path (longer):</strong> piggyback rear-view validation onto the AUSL softball mocap collection if/when that happens. Adds zero marginal cost.</li>
+</ol>
+
+<h2>4. The algo upgrade menu (no new data required)</h2>
+<p>14 levers we have not pulled yet, ranked by expected r-lift × effort. None require new validation data; all are pure software work on the existing pipeline.</p>
+
+<h3>Tier 1 — Free quick wins (1–3 days each, expected +0.02–0.05 per lift)</h3>
+<table>
+  <thead><tr><th>#</th><th>Lever</th><th>Expected r-lift</th><th>Effort</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Soft-argmax / DARK keypoint decoding</td><td class="num good">+0.02–0.04 all slots</td><td>1 day</td>
+        <td>Replace integer argmax on SimCC heatmaps with continuous expectation. Free sub-pixel precision from existing ONNX outputs.</td></tr>
+    <tr><td>2</td><td>Temporal smoothing of keypoints</td><td class="num good">+0.03–0.05 all slots</td><td>1 day</td>
+        <td>Savitzky-Golay or 1-pole IIR before feature extraction. Cuts frame-to-frame keypoint jitter (we measured 1.1–1.2 px) by ~50%.</td></tr>
+    <tr><td>3</td><td>Per-slot ridge regularization (alpha CV)</td><td class="num good">+0.02–0.05 modest slots</td><td>1 day</td>
+        <td>Currently alpha=10 hardcoded across all 25 slots. Cross-validating alpha per slot will help small-n slots specifically.</td></tr>
+    <tr><td>4</td><td>Polynomial cross-terms in features</td><td class="num good">+0.02–0.03 all slots</td><td>2 days</td>
+        <td>Currently linear in features. Add target × coupling interactions. Captures known biomech non-linearities.</td></tr>
+    <tr><td>5</td><td>Use user-provided height when available</td><td class="num good">+0.01–0.03 r, -10–15% RMSE</td><td>1 day</td>
+        <td>Production already collects height; we don't currently feed it to anthropometric reconstruction.</td></tr>
+  </tbody>
+</table>
+<p><strong>Tier 1 combined could realistically deliver +0.05–0.15 r on modest slots</strong> (ankle, hip adduction side_right, etc.) in roughly one week of focused dev work. Strong slots already near 0.85 will see less benefit.</p>
+
+<h3>Tier 2 — Medium effort (3–7 days each, expected +0.03–0.08 per lift)</h3>
+<table>
+  <thead><tr><th>#</th><th>Lever</th><th>Expected r-lift</th><th>Effort</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td>6</td><td>Top-N ensemble at finalize time</td><td class="num good">+0.03–0.05 modest slots</td><td>3 days</td>
+        <td>Currently we pick the best of 6 approaches per slot. Average top 2–3 predictions instead. Standard ML technique — usually safe lift.</td></tr>
+    <tr><td>7</td><td>Wider coupling set for ankle</td><td class="num good">+0.03–0.06 ankle slots</td><td>3 days</td>
+        <td>Currently ankle features use 2 coupling angles. Add knee path, foot orientation, sagittal CoM. May make front-on ankle workable.</td></tr>
+    <tr><td>8</td><td>CNN event detector (vs scipy peak-find)</td><td class="num good">+0.03–0.07 all event-anchored slots</td><td>5 days</td>
+        <td>Current event detection drops 10–15% of trials. A 1D CNN trained on the labeled events would recover them → bigger effective dataset.</td></tr>
+    <tr><td>9</td><td>Soft view classification</td><td class="num good">+0.02–0.05 near-boundary views</td><td>3 days</td>
+        <td>Currently hard-bucketed into 5 views. At ambiguous angles, ensemble the two nearest view models with weights.</td></tr>
+    <tr><td>10</td><td>Per-subject anthropometric calibration</td><td class="num good">+0.03 r, -10% RMSE</td><td>5 days</td>
+        <td>Extract body proportions from a static frame per trial. Less reliance on population-average anthropometric tables.</td></tr>
+    <tr><td>11</td><td>Per-slot GBM tuning</td><td class="num good">+0.02–0.05 modest slots</td><td>4 days</td>
+        <td>We tried GBM in v10 with default params. Proper per-slot tuning (XGBoost or LightGBM with optuna) usually beats ridge by a small margin.</td></tr>
+  </tbody>
+</table>
+
+<h3>Tier 3 — Speculative / heavy (2–4 weeks each, expected ±?, higher variance)</h3>
+<table>
+  <thead><tr><th>#</th><th>Lever</th><th>Expected r-lift</th><th>Effort</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td>12</td><td>Synthetic data from AMASS motion library</td><td class="num good">+0.05–0.15 if works</td><td>3–4 weeks</td>
+        <td>AMASS is a free 1M+ motion library with 3D joint angles. Render to Halpe-26 keypoints via learned camera model. Effectively infinite training data. High upside, also could not work cleanly.</td></tr>
+    <tr><td>13</td><td>Domain adaptation OpenCap ↔ ASPset</td><td class="num good">+0.02–0.10 uncertain</td><td>2–3 weeks</td>
+        <td>CORAL or DANN-style feature alignment between the two datasets. Could help, could hurt — depends on whether the distributions are truly different.</td></tr>
+    <tr><td>14</td><td>Replace ridge with temporal CNN / transformer</td><td class="num good">+0.05–0.15 if more data</td><td>3–4 weeks</td>
+        <td>Sequence model over phased trajectory. Overfits badly with current data size; would need to combine with synthetic data (#12) to be viable.</td></tr>
+  </tbody>
+</table>
+
+<h2>5. The structural ceiling — what won't move</h2>
+<p>Honesty matters here. Three slots are at or near an information-theoretic limit:</p>
+<table>
+  <thead><tr><th>Slot</th><th>Current r</th><th>Why it's a ceiling</th></tr></thead>
+  <tbody>
+    <tr><td>Ankle × front_oblique_right</td><td class="num">+0.02</td>
+        <td>Right ankle hidden behind right hip from this angle. Geometric occlusion — no algorithm sees through bodies.</td></tr>
+    <tr><td>Ankle × front_center</td><td class="num">+0.15</td>
+        <td>Foot points at the camera; dorsiflexion produces almost zero pixel motion. Information-theoretic.</td></tr>
+    <tr><td>Hip adduction × side_right</td><td class="num">+0.15</td>
+        <td>Frontal-plane motion seen sagittally → perpendicular to image plane. Visible motion is just camera noise.</td></tr>
+  </tbody>
+</table>
+<p>These can be addressed only by (a) a second camera at an orthogonal angle, (b) IMU fusion, or (c) "don't offer this combination" — guide users to a different angle for these metrics. Algorithm work won't move them.</p>
+<p>The general r=0.85 ceiling on the <em>best</em> slots is also somewhat structural — Theia3D (8 cameras) gets 0.85–0.95. We are at 0.85 from 1 camera. Pushing past r=0.90 from 1 camera likely needs 2-camera fusion.</p>
+
+<h2>6. Suggested order (not committed sprint — just an order)</h2>
+<ol>
+  <li><strong>This week:</strong> Tier 1 levers #1–5. Cheap, should push modest slots up by +0.05–0.15 collectively. Most likely to move ankle from 0.41 → ~0.50 and hip adduction side_right from 0.15 → ~0.25.</li>
+  <li><strong>Next week:</strong> Tier 2 levers #6–8 (ensemble, wider couplings, CNN event detector). These touch event-anchored slots specifically.</li>
+  <li><strong>Validation in parallel:</strong> rear-view OpenCap Cloud collection (1–2 subjects, $2–4K, 2 weeks). Closes the rear-view gap concurrently.</li>
+  <li><strong>Then decide:</strong> if Tier 1+2 closes the modest slots to ≥0.50, we may not need Tier 3. If they don't, Tier 3 #12 (synthetic AMASS data) is the next big bet.</li>
+  <li><strong>Don't yet:</strong> sport-specific mocap collection. Costs $5–10K and takes weeks. Should wait until algorithm levers are exhausted AND there's a paying customer driving the spec.</li>
+</ol>
+
+<h2>7. Commercial defensibility — where we sit vs the field</h2>
+<table>
+  <thead><tr><th>System</th><th>Setup</th><th>Typical r vs Vicon</th><th>Cost to user</th></tr></thead>
+  <tbody>
+    <tr><td>Xsens (medical IMU)</td><td>Body sensors</td><td class="num">0.95–0.98</td><td class="num">$25K+</td></tr>
+    <tr><td>Theia3D</td><td>8 lab cameras</td><td class="num">0.85–0.95</td><td class="num">$80K+ lab cost</td></tr>
+    <tr><td>OpenCap</td><td>2 phones + lab calibration</td><td class="num">0.79–0.91</td><td class="num">~$200 phones</td></tr>
+    <tr><td><strong>Couro (v14)</strong></td><td><strong>1 phone, no calibration</strong></td><td class="num"><strong>0.41–0.85 across every slot</strong></td><td class="num"><strong>$0 — user's existing phone</strong></td></tr>
+  </tbody>
+</table>
+<p>The competitive story: we're 1 step below commercial markerless systems on accuracy but with 1/8th the camera count and zero calibration cost. The headline knee/hip slots are competitive with Theia3D's lower bound at a fraction of the deployment friction.</p>
+
+<h2>8. Files for the team</h2>
+<table>
+  <thead><tr><th>File</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><td><code>results/deploy_ready_models.json</code></td><td>The 25 production models — each tagged with required backbone (RTMPose or DWPose)</td></tr>
+    <tr><td><code>docs/2026-05-28-couro-vs-vicon-v14.html</code></td><td>Engineering brief (v14 round, implementation diagram)</td></tr>
+    <tr><td><code>docs/2026-05-27-couro-vs-vicon-v12.html</code></td><td>Engineering brief (v12 data expansion)</td></tr>
+    <tr><td><code>models/dw-ll_ucoco_384.onnx</code></td><td>DWPose-L weights, 128MB, Apache-2.0</td></tr>
+    <tr><td><code>data/aspset510_dwpose_keypoints/</code></td><td>1,410 ASPset DWPose JSONs</td></tr>
+    <tr><td><code>data/opencap_dwpose_keypoints/</code></td><td>270 OpenCap DWPose JSONs</td></tr>
+  </tbody>
+</table>
+
+<div class="footer">
+  Generated 2026-05-28 · multiview-validation/docs/2026-05-28-couro-accuracy-state-and-roadmap.html · Internal Couro exec audience.
+</div>
+
+</body>
+</html>

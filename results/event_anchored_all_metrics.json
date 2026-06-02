@@ -1,0 +1,1906 @@
+{
+  "version": "1.0",
+  "produced_by": "harness.train_event_anchored_all",
+  "produced_date": "2026-05-27",
+  "description": "Event-anchored regression for all 5 DJ biomech metrics. DJ impact detected via ankle-y peak (scipy peak-find, same recipe Couro's gait_analyzer.py uses for sprint touchdown). Loading-window features replace full-trial ROM as inputs to ridge regression. 9 features per metric \u00d7 5 camera views, LOSO cross-validated.",
+  "feature_names": [
+    "target_rom_full",
+    "target_at_contact",
+    "target_rom_loading",
+    "target_min_loading",
+    "target_max_loading",
+    "target_end_loading",
+    "coup1_at_contact",
+    "coup1_rom_loading",
+    "coup2_at_contact",
+    "loading_duration_frames"
+  ],
+  "training_dataset": {
+    "name": "OpenCap LabValidation_withVideos (drop jumps)",
+    "citation": "Uhlrich et al. 2023, PLOS Comp Bio 19(10): e1011462",
+    "license": "Apache 2.0"
+  },
+  "alpha": 10.0,
+  "targets": {
+    "hip_flexion_r": {
+      "feature_names": [
+        "target_rom_full",
+        "target_at_contact",
+        "target_rom_loading",
+        "target_min_loading",
+        "target_max_loading",
+        "target_end_loading",
+        "coup1_at_contact",
+        "coup1_rom_loading",
+        "coup2_at_contact",
+        "loading_duration_frames"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            96.85417596094963,
+            89.2417635299614,
+            54.732152655581274,
+            44.47300746275204,
+            99.2051601183333,
+            45.17152732031226,
+            79.0532231084362,
+            44.20702530038689,
+            -14.152043023043962,
+            20.944444444444443
+          ],
+          "feature_std": [
+            15.424598112407239,
+            18.78577736343582,
+            20.311694747945005,
+            10.644625389236813,
+            19.791455142418695,
+            10.701488346567007,
+            14.565415980346126,
+            16.265048403511123,
+            10.388169520341513,
+            8.64830676355454
+          ],
+          "weights_zscored": [
+            6.374284013425429,
+            -0.056586449039547244,
+            1.2450114949689008,
+            -1.2705671135017724,
+            0.594376836050196,
+            0.8683350249369798,
+            -0.04063158336954022,
+            -0.7478658199114253,
+            2.617481044574067,
+            1.0761996124379247
+          ],
+          "intercept": 77.02687707814813,
+          "naive_baseline": {
+            "rmse": 21.853457007475004,
+            "pearson_r": 0.8031536846671931
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 10.406343178346074,
+            "mae_deg": 8.59550440769321,
+            "bias_deg": 0.1910023755938713,
+            "sd_of_difference_deg": 10.50228798760508,
+            "loa_95_lower_deg": -20.393482080112083,
+            "loa_95_upper_deg": 20.775486831299826,
+            "pearson_r": 0.5751660339724132
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 9.14750485120925,
+            "v4_pearson_r": 0.6872923136967113,
+            "delta_r": -0.11212627972429812
+          }
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            72.83055191404712,
+            51.10109002960814,
+            38.29471687238888,
+            24.276330695754865,
+            62.57104756814374,
+            25.380680418833563,
+            46.84073304805356,
+            32.36507271958441,
+            -38.41845084128064,
+            18.0
+          ],
+          "feature_std": [
+            14.232637566267568,
+            15.62192537748899,
+            15.558413313123815,
+            9.34284780531888,
+            20.584795398003838,
+            11.114588364116582,
+            14.411021096147566,
+            12.529093592202852,
+            8.22891719532764,
+            11.524531001946015
+          ],
+          "weights_zscored": [
+            7.445861614070779,
+            0.860674918013756,
+            0.5783202185799496,
+            -1.566009468928645,
+            -0.27366039025259536,
+            0.47053663306827204,
+            -0.08194330381371459,
+            -0.8723535846789925,
+            2.112508588044685,
+            0.12349027595044794
+          ],
+          "intercept": 77.02687707814812,
+          "naive_baseline": {
+            "rmse": 9.62892487220157,
+            "pearson_r": 0.7970507096367692
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 10.364044776795446,
+            "mae_deg": 8.133528493642764,
+            "bias_deg": 0.23009371822405272,
+            "sd_of_difference_deg": 10.45878341249075,
+            "loa_95_lower_deg": -20.26912177025782,
+            "loa_95_upper_deg": 20.72930920670592,
+            "pearson_r": 0.5636963633718051
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 10.870271710973382,
+            "v4_pearson_r": 0.5542982645535747,
+            "delta_r": 0.009398098818230394
+          }
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 45,
+          "n_subjects": 9,
+          "n_skipped_no_event": 9,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            31.18448183207776,
+            15.16098928897711,
+            8.367285339698835,
+            7.7982266252487635,
+            16.165511964947594,
+            8.922563204909332,
+            18.51393354153098,
+            17.567127559639413,
+            -57.96152001694095,
+            8.488888888888889
+          ],
+          "feature_std": [
+            7.809031547624339,
+            7.31966941207645,
+            5.805787822562376,
+            4.233001631151951,
+            6.878239081826079,
+            4.375617602989827,
+            11.718703502543983,
+            10.770881413968864,
+            13.029601081934949,
+            3.138451296931318
+          ],
+          "weights_zscored": [
+            1.9671699138792653,
+            -1.2950395786722282,
+            0.6845638143990184,
+            -2.89365203482113,
+            -1.2029825406683081,
+            0.12851533857019407,
+            -2.7431526173838283,
+            2.2915551762806152,
+            1.3766932679276938,
+            0.4152011948075486
+          ],
+          "intercept": 78.76432560177777,
+          "naive_baseline": {
+            "rmse": 49.22918114464964,
+            "pearson_r": 0.19386837384005234
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 11.812335751119468,
+            "mae_deg": 9.125530273564562,
+            "bias_deg": -1.1285852373824294,
+            "sd_of_difference_deg": 11.891164315900875,
+            "loa_95_lower_deg": -24.435267296548147,
+            "loa_95_upper_deg": 22.178096821783285,
+            "pearson_r": 0.19897952412996012
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 21.447273073797128,
+            "v4_pearson_r": 0.2266657536419619,
+            "delta_r": -0.02768622951200178
+          }
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            61.62734790671071,
+            47.22916430733912,
+            33.8600273702828,
+            22.583584502124648,
+            56.443611872407445,
+            24.00319382018988,
+            54.888011082143,
+            24.849065751085003,
+            -32.29647320161978,
+            18.01851851851852
+          ],
+          "feature_std": [
+            18.258955198713835,
+            17.743414116355005,
+            16.531473732006205,
+            9.28877647895048,
+            20.133121339082635,
+            10.676739654690758,
+            14.73504288313162,
+            11.286728900007676,
+            10.176075533773986,
+            9.736321346420741
+          ],
+          "weights_zscored": [
+            5.757754654097322,
+            2.0638373372145558,
+            2.3279456178125857,
+            -4.095600103763055,
+            0.021917014851024198,
+            0.18829517760880604,
+            -1.1376509787215936,
+            1.6545724563896027,
+            -0.38064493513159225,
+            -0.8477564233965522
+          ],
+          "intercept": 77.02687707814813,
+          "naive_baseline": {
+            "rmse": 21.098396548320373,
+            "pearson_r": 0.616743151495411
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 13.693479528142904,
+            "mae_deg": 11.50424615376208,
+            "bias_deg": 1.9251271712640554,
+            "sd_of_difference_deg": 13.684783186703232,
+            "loa_95_lower_deg": -24.89704787467428,
+            "loa_95_upper_deg": 28.74730221720239,
+            "pearson_r": 0.26338777024066545
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 14.573241951771621,
+            "v4_pearson_r": 0.14674463759842782,
+            "delta_r": 0.11664313264223763
+          }
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "hip_flexion_r",
+          "n_train_trials": 53,
+          "n_subjects": 9,
+          "n_skipped_no_event": 1,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            84.87786554801193,
+            75.2044247019869,
+            42.26813054861359,
+            39.679056382489314,
+            81.94718693110288,
+            40.623535671680045,
+            72.53902196762894,
+            32.475854147700865,
+            -22.81568102041702,
+            16.735849056603772
+          ],
+          "feature_std": [
+            19.900579733058986,
+            19.556004440412725,
+            16.81345315484283,
+            12.517351272732746,
+            21.661384285196082,
+            14.242924138967437,
+            14.092588034497059,
+            12.612836589288953,
+            9.348523264041091,
+            8.219055042310938
+          ],
+          "weights_zscored": [
+            3.1467760346512046,
+            1.114386477664619,
+            2.9607569937724687,
+            -2.2978490619186873,
+            0.9702780238414916,
+            0.22210350789314304,
+            0.3585328287357002,
+            2.4148020951647218,
+            -0.2955891116521597,
+            -1.1313733210976002
+          ],
+          "intercept": 77.42379603396226,
+          "naive_baseline": {
+            "rmse": 17.227029925894655,
+            "pearson_r": 0.6253493439235276
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 10.831417310241477,
+            "mae_deg": 9.424075662994,
+            "bias_deg": 0.9080580969059423,
+            "sd_of_difference_deg": 10.896573796722528,
+            "loa_95_lower_deg": -20.44922654467021,
+            "loa_95_upper_deg": 22.265342738482097,
+            "pearson_r": 0.4981714906897232
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 17.34006349418884,
+            "v4_pearson_r": -0.02677274361286277,
+            "delta_r": 0.524944234302586
+          }
+        }
+      }
+    },
+    "hip_adduction_r": {
+      "feature_names": [
+        "target_rom_full",
+        "target_at_contact",
+        "target_rom_loading",
+        "target_min_loading",
+        "target_max_loading",
+        "target_end_loading",
+        "coup1_at_contact",
+        "coup1_rom_loading",
+        "coup2_at_contact",
+        "loading_duration_frames"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            63.308832823402845,
+            97.41035152712602,
+            44.707728222961414,
+            79.30352559222798,
+            124.01125381518938,
+            121.85532392842899,
+            -96.97915111181543,
+            48.48521807835351,
+            79.0532231084362,
+            20.944444444444443
+          ],
+          "feature_std": [
+            8.802898369996763,
+            84.181189057376,
+            62.49633062017712,
+            100.71830795468607,
+            92.80557596446802,
+            98.1668393869364,
+            82.53284917798605,
+            61.99862957116409,
+            14.565415980346126,
+            8.64830676355454
+          ],
+          "weights_zscored": [
+            0.27277850817410204,
+            -0.5289305503428812,
+            -0.2605823406506541,
+            -0.07737949715716652,
+            -0.25945609290067295,
+            -0.10295342729719767,
+            0.39527296807002354,
+            -0.21208705224874733,
+            -0.5523714199447235,
+            0.2588793631642199
+          ],
+          "intercept": 11.213052722962964,
+          "naive_baseline": {
+            "rmse": 53.01105051293687,
+            "pearson_r": -0.015994291153358327
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 6.3568345387885685,
+            "mae_deg": 4.115365281041188,
+            "bias_deg": -1.5459950464529053,
+            "sd_of_difference_deg": 6.223872501018371,
+            "loa_95_lower_deg": -13.744785148448912,
+            "loa_95_upper_deg": 10.652795055543102,
+            "pearson_r": -0.4373295697882547
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 4.645929954764854,
+            "v4_pearson_r": -0.08171732796758231,
+            "delta_r": -0.3556122418206724
+          }
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            43.2334905554491,
+            120.7117475658948,
+            59.4068178667244,
+            75.9980625084975,
+            135.40488037522195,
+            94.5027504355018,
+            -116.1942397290561,
+            34.843779315842625,
+            46.84073304805356,
+            18.0
+          ],
+          "feature_std": [
+            6.777555226128415,
+            97.82113653540058,
+            105.34847575910356,
+            133.02863049548367,
+            102.55376424159056,
+            141.6009588180547,
+            94.63144893945413,
+            63.83730695814927,
+            14.411021096147566,
+            11.524531001946015
+          ],
+          "weights_zscored": [
+            0.015843720331834076,
+            -0.5416790119099167,
+            -0.40956537219849287,
+            -0.04460773636095949,
+            -0.4785898803948406,
+            -0.005585944832056454,
+            0.4858147554688496,
+            0.08811295727207201,
+            -0.6100686621490645,
+            -0.6299602193075565
+          ],
+          "intercept": 11.213052722962962,
+          "naive_baseline": {
+            "rmse": 33.066131208045036,
+            "pearson_r": -0.08094755772815204
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.495059234080561,
+            "mae_deg": 3.518249032240356,
+            "bias_deg": -0.01163868686554739,
+            "sd_of_difference_deg": 4.537252079985201,
+            "loa_95_lower_deg": -8.904652763636541,
+            "loa_95_upper_deg": 8.881375389905447,
+            "pearson_r": -0.0034509105360541023
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 4.434915129568267,
+            "v4_pearson_r": 0.1334310463880838,
+            "delta_r": -0.1368819569241379
+          }
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 52,
+          "n_subjects": 9,
+          "n_skipped_no_event": 2,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            13.860503769831698,
+            -39.71192127540389,
+            139.91795591963285,
+            -150.2171063830196,
+            -10.299150463386713,
+            -121.22806507670218,
+            -104.81553972049007,
+            58.19204126456517,
+            19.053840813172567,
+            9.76923076923077
+          ],
+          "feature_std": [
+            6.261881038677246,
+            171.4414967229382,
+            173.33382802676866,
+            94.2984740560045,
+            175.8714761883604,
+            127.87903882540786,
+            137.90662012660098,
+            128.46133464310634,
+            12.804031648734796,
+            6.735712470496874
+          ],
+          "weights_zscored": [
+            0.4356250396784242,
+            0.6575433966882144,
+            0.4989588066975547,
+            -0.379485396099154,
+            0.2882874887543769,
+            1.2907163995629412,
+            -0.050214780173873284,
+            0.12919872313384656,
+            0.40330943122147533,
+            -0.7433639203736798
+          ],
+          "intercept": 11.391519914230768,
+          "naive_baseline": {
+            "rmse": 8.151434859884453,
+            "pearson_r": -0.07290292850594898
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.622074016493313,
+            "mae_deg": 4.199890378658188,
+            "bias_deg": 0.147188727860626,
+            "sd_of_difference_deg": 5.674978949112967,
+            "loa_95_lower_deg": -10.975770012400789,
+            "loa_95_upper_deg": 11.270147468122042,
+            "pearson_r": -0.10218804704109506
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 5.213526898326918,
+            "v4_pearson_r": 0.17910245925519594,
+            "delta_r": -0.281290506296291
+          }
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            48.048838600155975,
+            -112.21596670806659,
+            22.19334180104351,
+            -128.2355149278823,
+            -106.04217312683873,
+            -126.04627021449038,
+            116.31878248603385,
+            33.76574823631908,
+            54.888011082143,
+            18.01851851851852
+          ],
+          "feature_std": [
+            9.849217184612199,
+            93.75763767307936,
+            8.632151613747443,
+            98.81250180430239,
+            97.4231984136435,
+            104.06433885938468,
+            95.44261207669187,
+            63.65939023924393,
+            14.73504288313162,
+            9.736321346420741
+          ],
+          "weights_zscored": [
+            -0.1271653119415706,
+            0.38049349198115257,
+            0.3880752993719769,
+            0.3076761501275606,
+            0.346449054341697,
+            0.21599552806573863,
+            -0.30367763260924197,
+            0.04430034321819059,
+            -0.49595618062504265,
+            0.21705592763995035
+          ],
+          "intercept": 11.213052722962962,
+          "naive_baseline": {
+            "rmse": 38.501229771515646,
+            "pearson_r": -0.1325373122907798
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 21.350689415057026,
+            "mae_deg": 9.649411540445655,
+            "bias_deg": 7.173173244343826,
+            "sd_of_difference_deg": 20.29846462344137,
+            "loa_95_lower_deg": -32.61181741760125,
+            "loa_95_upper_deg": 46.95816390628891,
+            "pearson_r": 0.35409834525615846
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 5.133430143082033,
+            "v4_pearson_r": 0.07411985590044244,
+            "delta_r": 0.279978489355716
+          }
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "hip_adduction_r",
+          "n_train_trials": 53,
+          "n_subjects": 9,
+          "n_skipped_no_event": 1,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            65.2440030969058,
+            -98.73608432831304,
+            28.381894445045265,
+            -122.17027343287342,
+            -93.78837898782818,
+            -119.6855090201743,
+            99.06690414561623,
+            25.822885655391584,
+            72.53902196762894,
+            16.735849056603772
+          ],
+          "feature_std": [
+            10.098103526881356,
+            84.09078173645422,
+            10.417057338537534,
+            91.05279100389485,
+            88.80082404352042,
+            97.34834565927159,
+            84.06985158753041,
+            8.566787506133116,
+            14.092588034497059,
+            8.219055042310938
+          ],
+          "weights_zscored": [
+            -0.2349084212665,
+            0.31793681400830587,
+            -0.3259113979371157,
+            0.2776329868669924,
+            0.24644163885988513,
+            0.15788012715262872,
+            -0.3443259833009861,
+            0.6052992082493981,
+            -0.08907536895967601,
+            0.4109517121304265
+          ],
+          "intercept": 11.252533742830188,
+          "naive_baseline": {
+            "rmse": 55.16154515229853,
+            "pearson_r": -0.09356964567379435
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 7.3070802533050125,
+            "mae_deg": 4.5616596282971065,
+            "bias_deg": -1.8622122991536276,
+            "sd_of_difference_deg": 7.1334209624072935,
+            "loa_95_lower_deg": -15.843717385471923,
+            "loa_95_upper_deg": 12.119292787164667,
+            "pearson_r": -0.44211873706115107
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 5.542975257188684,
+            "v4_pearson_r": 0.008863262778694087,
+            "delta_r": -0.45098199983984516
+          }
+        }
+      }
+    },
+    "knee_angle_r": {
+      "feature_names": [
+        "target_rom_full",
+        "target_at_contact",
+        "target_rom_loading",
+        "target_min_loading",
+        "target_max_loading",
+        "target_end_loading",
+        "coup1_at_contact",
+        "coup1_rom_loading",
+        "coup2_at_contact",
+        "loading_duration_frames"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            88.9874679773319,
+            79.0532231084362,
+            44.20702530038689,
+            44.953413975115716,
+            89.16043927550265,
+            45.842687067215074,
+            89.2417635299614,
+            54.732152655581274,
+            -14.152043023043962,
+            20.944444444444443
+          ],
+          "feature_std": [
+            10.305465475757307,
+            14.565415980346126,
+            16.265048403511123,
+            12.357054248428387,
+            13.065057318650851,
+            12.21133437898017,
+            18.78577736343582,
+            20.311694747945005,
+            10.388169520341513,
+            8.64830676355454
+          ],
+          "weights_zscored": [
+            7.330637303871776,
+            1.3375110857938293,
+            0.9444473008611035,
+            -0.2611382260547127,
+            0.9287813701401099,
+            0.771092365651798,
+            -0.484926316429589,
+            -0.925422320342925,
+            -2.0786734299637954,
+            -0.8480850182495135
+          ],
+          "intercept": 101.69553695407406,
+          "naive_baseline": {
+            "rmse": 14.39491931977487,
+            "pearson_r": 0.7897106314640107
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.56343749175818,
+            "mae_deg": 7.21689165155243,
+            "bias_deg": -0.7232515172074527,
+            "sd_of_difference_deg": 9.625592038334378,
+            "loa_95_lower_deg": -19.589411912342833,
+            "loa_95_upper_deg": 18.14290887792793,
+            "pearson_r": 0.4929658768752254
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 9.110560682506353,
+            "v4_pearson_r": 0.5462084314904362,
+            "delta_r": -0.05324255461521077
+          }
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            65.51930357570278,
+            46.84073304805356,
+            32.36507271958441,
+            25.214474677974717,
+            57.57954739755912,
+            27.367561665584844,
+            51.10109002960814,
+            38.29471687238888,
+            -38.41845084128064,
+            18.0
+          ],
+          "feature_std": [
+            8.032074391057462,
+            14.411021096147566,
+            12.529093592202852,
+            13.98207611468622,
+            14.994380308406132,
+            15.699190274087876,
+            15.62192537748899,
+            15.558413313123815,
+            8.22891719532764,
+            11.524531001946015
+          ],
+          "weights_zscored": [
+            6.3424540933005,
+            -0.848317220949865,
+            -0.447854136565336,
+            -1.2741918814896918,
+            -1.562388960566274,
+            0.5781300128748023,
+            1.9230774904579382,
+            3.388180020632033,
+            -1.1557023191667324,
+            -0.038994581105968464
+          ],
+          "intercept": 101.69553695407407,
+          "naive_baseline": {
+            "rmse": 37.11092843964766,
+            "pearson_r": 0.6323112607572913
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.171803377837023,
+            "mae_deg": 7.394651960183171,
+            "bias_deg": 0.0852707333225961,
+            "sd_of_difference_deg": 9.257525372918344,
+            "loa_95_lower_deg": -18.05947899759736,
+            "loa_95_upper_deg": 18.23002046424255,
+            "pearson_r": 0.4932952474179306
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 8.765156512784442,
+            "v4_pearson_r": 0.5640227968401856,
+            "delta_r": -0.07072754942225501
+          }
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 29,
+          "n_subjects": 8,
+          "n_skipped_no_event": 25,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            52.972409930180305,
+            17.94048262877373,
+            22.508859920807,
+            8.6136069084777,
+            31.1224668292847,
+            14.305678921552316,
+            15.252534179597646,
+            8.978860761203476,
+            -54.33102515255197,
+            8.827586206896552
+          ],
+          "feature_std": [
+            8.896178585925949,
+            12.433587824176842,
+            9.834620804003855,
+            6.81564641819595,
+            9.898034416219406,
+            8.312246081625569,
+            8.102873010828786,
+            6.294845205080333,
+            12.517154038775663,
+            3.3637926615881932
+          ],
+          "weights_zscored": [
+            1.3156061353148416,
+            -1.2760404475980316,
+            -0.6353011790664,
+            0.2958145752919838,
+            -0.42753727295405,
+            -2.6620115064330583,
+            -0.01194214123736146,
+            3.237862577229805,
+            -2.767327348472895,
+            1.4149842428916193
+          ],
+          "intercept": 103.51802895758621,
+          "naive_baseline": {
+            "rmse": 51.9719558648806,
+            "pearson_r": 0.09623178640920345
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 12.006808715451697,
+            "mae_deg": 9.701485354940607,
+            "bias_deg": -0.7008411568157031,
+            "sd_of_difference_deg": 12.198501135778411,
+            "loa_95_lower_deg": -24.609903382941386,
+            "loa_95_upper_deg": 23.20822106930998,
+            "pearson_r": -0.40483942267878353
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 20.85150286442593,
+            "v4_pearson_r": 0.15218264227233158,
+            "delta_r": -0.5570220649511151
+          }
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 50,
+          "n_subjects": 9,
+          "n_skipped_no_event": 4,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            66.81206755742573,
+            55.43804494341052,
+            25.479698884678854,
+            37.275297990930675,
+            62.75499687560954,
+            39.240148574783014,
+            47.558586772910196,
+            34.08628434047782,
+            -31.711425313562412,
+            18.08
+          ],
+          "feature_std": [
+            13.791375420656303,
+            15.018684180194162,
+            11.307593698897254,
+            11.393931426081876,
+            16.11935240106973,
+            13.044669420122805,
+            18.030044198683388,
+            16.418250426850694,
+            10.28944132999063,
+            9.842438722186692
+          ],
+          "weights_zscored": [
+            3.0376954165939605,
+            4.019795145305619,
+            1.1527474827829274,
+            -0.1268030191522725,
+            0.7190124627541666,
+            2.0845623638627875,
+            0.3366032649903564,
+            -0.02480126391862598,
+            -1.423605955643568,
+            0.022378964763509708
+          ],
+          "intercept": 101.5125461464,
+          "naive_baseline": {
+            "rmse": 35.887138893189736,
+            "pearson_r": 0.7489698450595327
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.974500325121296,
+            "mae_deg": 7.4807863290054915,
+            "bias_deg": 1.1507345760321541,
+            "sd_of_difference_deg": 8.990781334297333,
+            "loa_95_lower_deg": -16.47119683919062,
+            "loa_95_upper_deg": 18.772665991254925,
+            "pearson_r": 0.5844015689161249
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 10.442176117994258,
+            "v4_pearson_r": 0.35919065693184515,
+            "delta_r": 0.22521091198427978
+          }
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "knee_angle_r",
+          "n_train_trials": 53,
+          "n_subjects": 9,
+          "n_skipped_no_event": 1,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            78.3166380339841,
+            72.53902196762894,
+            32.475854147700865,
+            44.81542767134146,
+            77.29128181904237,
+            45.605834761397844,
+            75.2044247019869,
+            42.26813054861359,
+            -22.81568102041702,
+            16.735849056603772
+          ],
+          "feature_std": [
+            12.928142515559287,
+            14.092588034497059,
+            12.612836589288953,
+            8.434179825383344,
+            14.448640781025315,
+            10.142932442276617,
+            19.556004440412725,
+            16.81345315484283,
+            9.348523264041091,
+            8.219055042310938
+          ],
+          "weights_zscored": [
+            4.924228514961013,
+            1.9684228618084707,
+            2.2883309784066634,
+            0.29482910989959077,
+            2.1696841176002706,
+            0.8077375630591428,
+            0.35260598057845743,
+            -1.2358079297023126,
+            -5.114448931711386,
+            -1.7480706468243017
+          ],
+          "intercept": 101.47729970924529,
+          "naive_baseline": {
+            "rmse": 25.19631078848906,
+            "pearson_r": 0.6593282200966292
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.099929555209972,
+            "mae_deg": 6.6275422212173,
+            "bias_deg": -0.19381063196672565,
+            "sd_of_difference_deg": 8.175101388020936,
+            "loa_95_lower_deg": -16.21700935248776,
+            "loa_95_upper_deg": 15.829388088554309,
+            "pearson_r": 0.6387676516365454
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 9.095432880128385,
+            "v4_pearson_r": 0.5544840448997868,
+            "delta_r": 0.08428360673675861
+          }
+        }
+      }
+    },
+    "ankle_angle_r": {
+      "feature_names": [
+        "target_rom_full",
+        "target_at_contact",
+        "target_rom_loading",
+        "target_min_loading",
+        "target_max_loading",
+        "target_end_loading",
+        "coup1_at_contact",
+        "coup1_rom_loading",
+        "coup2_at_contact",
+        "loading_duration_frames"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 52,
+          "n_subjects": 9,
+          "n_skipped_no_event": 2,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            50.0644945537263,
+            -14.187785360995784,
+            23.909051307661425,
+            -34.683144300283416,
+            -10.774092992622,
+            -34.31276402121232,
+            79.42632621186887,
+            43.40885455440931,
+            89.75412000643226,
+            20.365384615384617
+          ],
+          "feature_std": [
+            6.310939195468643,
+            10.510967164755222,
+            10.101910949623194,
+            9.337436488009665,
+            10.680201067879697,
+            8.785572579067702,
+            14.485307444857055,
+            15.730704238839271,
+            18.81538109242931,
+            8.283507353943754
+          ],
+          "weights_zscored": [
+            0.832959393076661,
+            -1.6340754822643542,
+            1.3952883668166092,
+            -0.7454457386632811,
+            0.6680142579016882,
+            -1.8694874183886192,
+            3.215935250574321,
+            -0.07227854133101301,
+            -1.845464307626995,
+            0.7532465968784223
+          ],
+          "intercept": 71.97876736903848,
+          "naive_baseline": {
+            "rmse": 23.538995878370848,
+            "pearson_r": 0.2535783273469603
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.20353874181245,
+            "mae_deg": 6.444331749106766,
+            "bias_deg": 0.48761576165563764,
+            "sd_of_difference_deg": 8.268928962327498,
+            "loa_95_lower_deg": -15.719485004506259,
+            "loa_95_upper_deg": 16.694716527817533,
+            "pearson_r": 0.15652761676979343
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 9.35115661327176,
+            "v4_pearson_r": -0.1650431175268421,
+            "delta_r": 0.3215707342966355
+          }
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            41.07456440034818,
+            -38.41845084128064,
+            18.686196915148653,
+            -53.4320954270704,
+            -34.74589851192174,
+            -51.43113795908567,
+            46.84073304805356,
+            32.36507271958441,
+            51.10109002960814,
+            18.0
+          ],
+          "feature_std": [
+            5.976625529074634,
+            8.22891719532764,
+            8.333055371537585,
+            7.7258728559096275,
+            9.09530625741985,
+            9.525761231877517,
+            14.411021096147566,
+            12.529093592202852,
+            15.62192537748899,
+            11.524531001946015
+          ],
+          "weights_zscored": [
+            -0.634810925002291,
+            -0.8952871197350286,
+            1.4140945619570944,
+            -0.628745571138535,
+            0.7615048628401762,
+            -1.7350615613765565,
+            -0.18697574305566783,
+            1.0560399116651278,
+            0.5640825334779597,
+            0.9537249486152911
+          ],
+          "intercept": 72.06000281277778,
+          "naive_baseline": {
+            "rmse": 32.524918534222316,
+            "pearson_r": -0.05577115340092295
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.724875009521009,
+            "mae_deg": 7.23985495979062,
+            "bias_deg": 0.0008393469342101517,
+            "sd_of_difference_deg": 8.806800475138935,
+            "loa_95_lower_deg": -17.260489584338103,
+            "loa_95_upper_deg": 17.262168278206524,
+            "pearson_r": -0.06426124899630213
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 9.30296765261935,
+            "v4_pearson_r": -0.30748785079407637,
+            "delta_r": 0.24322660179777422
+          }
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 43,
+          "n_subjects": 8,
+          "n_skipped_no_event": 11,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            48.303821473138406,
+            -31.219796600607726,
+            22.53885393863498,
+            -52.18176332219839,
+            -29.642909383563424,
+            -51.702014354954095,
+            55.587213577050626,
+            26.500980311165257,
+            48.2348938893791,
+            18.25581395348837
+          ],
+          "feature_std": [
+            9.634363690634503,
+            10.359802465716793,
+            9.095307472239867,
+            8.540524695760556,
+            10.817697943140596,
+            9.420720143378963,
+            15.919988177478112,
+            11.324582111289256,
+            19.113147616501493,
+            10.095112847672738
+          ],
+          "weights_zscored": [
+            0.6339625216539808,
+            -0.5998695571439521,
+            -0.09939737442431511,
+            0.11541903664193544,
+            0.007551463435936558,
+            0.0340565135021211,
+            3.3440199829655266,
+            0.4995749529996879,
+            -1.4302398687807891,
+            0.7601055613857861
+          ],
+          "intercept": 70.78382196511627,
+          "naive_baseline": {
+            "rmse": 24.840887700768043,
+            "pearson_r": 0.2161444779359597
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.642850468845154,
+            "mae_deg": 7.759767168990305,
+            "bias_deg": 0.2313996218357802,
+            "sd_of_difference_deg": 9.754161301623093,
+            "loa_95_lower_deg": -18.88675652934548,
+            "loa_95_upper_deg": 19.34955577301704,
+            "pearson_r": -0.49518552860402537
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 12.830369912967308,
+            "v4_pearson_r": -0.21002041570392677,
+            "delta_r": -0.2851651129000986
+          }
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "ankle_angle_r",
+          "n_train_trials": 52,
+          "n_subjects": 9,
+          "n_skipped_no_event": 2,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            52.1759406069552,
+            -22.56936001863036,
+            18.996678216056907,
+            -39.224859366998174,
+            -20.22818115094128,
+            -39.14559719686521,
+            72.7556917652075,
+            32.53837104374616,
+            75.48123169564501,
+            16.846153846153847
+          ],
+          "feature_std": [
+            9.21067375823548,
+            9.266058181478218,
+            7.746457595425464,
+            6.1793036836418445,
+            10.387027415200624,
+            6.4105063410857355,
+            14.139736941284028,
+            12.725399975136986,
+            19.640033131308414,
+            8.258759022499444
+          ],
+          "weights_zscored": [
+            0.4971401067583937,
+            -2.687223006302697,
+            0.44449072247729743,
+            -1.2309548269812445,
+            -0.40080910515737356,
+            -1.1230678210808716,
+            1.3964487263632144,
+            -0.12818276890670532,
+            -0.03227104931200517,
+            1.0979054167578313
+          ],
+          "intercept": 71.81565814480768,
+          "naive_baseline": {
+            "rmse": 23.69189230284237,
+            "pearson_r": -0.23756461658495892
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 9.185886808983012,
+            "mae_deg": 7.63208336993706,
+            "bias_deg": -0.12481626683808159,
+            "sd_of_difference_deg": 9.274651035222664,
+            "loa_95_lower_deg": -18.3031322958745,
+            "loa_95_upper_deg": 18.05349976219834,
+            "pearson_r": -0.09540216322891612
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 8.73730221806136,
+            "v4_pearson_r": -0.18258758776497627,
+            "delta_r": 0.08718542453606015
+          }
+        }
+      }
+    },
+    "lumbar_extension": {
+      "feature_names": [
+        "target_rom_full",
+        "target_at_contact",
+        "target_rom_loading",
+        "target_min_loading",
+        "target_max_loading",
+        "target_end_loading",
+        "coup1_at_contact",
+        "coup1_rom_loading",
+        "coup2_at_contact",
+        "loading_duration_frames"
+      ],
+      "models": {
+        "side_left": {
+          "camera_id": "Cam0",
+          "view_bucket": "side_left",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            44.11754606092364,
+            28.038750753196037,
+            24.98494858668029,
+            9.672412726807783,
+            34.657361313488074,
+            11.72282121379527,
+            89.2417635299614,
+            54.732152655581274,
+            128.81140661702673,
+            20.944444444444443
+          ],
+          "feature_std": [
+            10.933935812137156,
+            25.198281927737774,
+            11.3940063244717,
+            18.990730486340283,
+            24.396158136842896,
+            15.11553832831688,
+            18.78577736343582,
+            20.311694747945005,
+            105.41063553276875,
+            8.64830676355454
+          ],
+          "weights_zscored": [
+            2.260937354428821,
+            0.2909025889335053,
+            1.0066507143971337,
+            -0.03399232766852966,
+            0.443686477694686,
+            -0.02550082970624549,
+            1.1718577304767455,
+            -0.0030552563834996987,
+            -0.7439646110231031,
+            -0.3413127110743787
+          ],
+          "intercept": 36.25847421518518,
+          "naive_baseline": {
+            "rmse": 11.189570814509006,
+            "pearson_r": 0.7154570121910544
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.631365553994694,
+            "mae_deg": 4.580501348120745,
+            "bias_deg": -1.4095440483932404,
+            "sd_of_difference_deg": 5.503300953220929,
+            "loa_95_lower_deg": -12.196013916706262,
+            "loa_95_upper_deg": 9.376925819919782,
+            "pearson_r": 0.43124288599141014
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 4.973615537300478,
+            "v4_pearson_r": 0.4911370494957477,
+            "delta_r": -0.05989416350433757
+          }
+        },
+        "front_oblique_left": {
+          "camera_id": "Cam1",
+          "view_bucket": "front_oblique_left",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            34.51264531574935,
+            10.954508690556134,
+            17.681205974101683,
+            1.4586602573959595,
+            19.13986623149765,
+            4.434717265814472,
+            51.10109002960814,
+            38.29471687238888,
+            58.80969920071798,
+            18.0
+          ],
+          "feature_std": [
+            12.385005645250422,
+            18.7560129608023,
+            11.238547443446734,
+            16.02750416230117,
+            19.50750184793007,
+            10.601128010408955,
+            15.62192537748899,
+            15.558413313123815,
+            167.2400054086312,
+            11.524531001946015
+          ],
+          "weights_zscored": [
+            2.452770113815905,
+            0.5593126962067498,
+            1.3084968389989255,
+            -0.05758780598146727,
+            0.7065289606052652,
+            -0.1108108925093239,
+            0.6539692295010257,
+            -0.4158174961989317,
+            -0.23991521584594527,
+            -0.535961287693359
+          ],
+          "intercept": 36.25847421518518,
+          "naive_baseline": {
+            "rmse": 9.751195536909014,
+            "pearson_r": 0.6696353606022541
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.707826010678261,
+            "mae_deg": 3.752071265090394,
+            "bias_deg": -0.29458683547189407,
+            "sd_of_difference_deg": 4.7427195337776125,
+            "loa_95_lower_deg": -9.590317121676014,
+            "loa_95_upper_deg": 9.001143450732227,
+            "pearson_r": 0.5401291884578074
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 5.242744729840478,
+            "v4_pearson_r": 0.40511229228867957,
+            "delta_r": 0.13501689616912788
+          }
+        },
+        "front_center": {
+          "camera_id": "Cam2",
+          "view_bucket": "front_center",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 53,
+          "n_subjects": 9,
+          "n_skipped_no_event": 1,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            10.403705554524484,
+            0.44454550857474,
+            2.1377672604936913,
+            -1.0766790916480347,
+            1.0610881688456557,
+            -0.3813757387156013,
+            14.445852951304456,
+            8.201456310966748,
+            -50.596963813055744,
+            10.264150943396226
+          ],
+          "feature_std": [
+            9.095859967858868,
+            4.018774913609633,
+            1.5233920932811889,
+            3.349793470789442,
+            3.544879866819378,
+            2.8449397712181392,
+            7.056086184866351,
+            5.584806873776737,
+            171.17945060704682,
+            7.566437668816417
+          ],
+          "weights_zscored": [
+            2.157838144142558,
+            -0.6522247490900869,
+            0.7586126279622408,
+            -0.08748973668047587,
+            0.2433346017397264,
+            0.6363447750425264,
+            1.617229790189437,
+            0.24938938407400726,
+            -0.824477566320768,
+            -0.8123478067340066
+          ],
+          "intercept": 36.24696512754717,
+          "naive_baseline": {
+            "rmse": 27.01052872006237,
+            "pearson_r": 0.5147124412873333
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 4.780551394440431,
+            "mae_deg": 3.8502709765358656,
+            "bias_deg": -0.0650001102057656,
+            "sd_of_difference_deg": 4.825853194572992,
+            "loa_95_lower_deg": -9.52367237156883,
+            "loa_95_upper_deg": 9.393672151157299,
+            "pearson_r": 0.5325809900381125
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 6.6951672186171285,
+            "v4_pearson_r": 0.07373642621885228,
+            "delta_r": 0.45884456381926025
+          }
+        },
+        "front_oblique_right": {
+          "camera_id": "Cam3",
+          "view_bucket": "front_oblique_right",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 54,
+          "n_subjects": 9,
+          "n_skipped_no_event": 0,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            36.15522553194427,
+            -15.955967439391232,
+            19.657356363845448,
+            -24.37427517711802,
+            -4.716918813272576,
+            -8.19096031071754,
+            47.22916430733912,
+            33.8600273702828,
+            -64.79799074013994,
+            18.01851851851852
+          ],
+          "feature_std": [
+            12.290825665217882,
+            20.913669724266867,
+            12.207750399107375,
+            20.011184511451713,
+            17.303874058867407,
+            11.376515345274447,
+            17.743414116355005,
+            16.531473732006205,
+            165.12777382712554,
+            9.736321346420741
+          ],
+          "weights_zscored": [
+            1.7711894900968324,
+            0.28188823687031006,
+            1.3990618318087926,
+            -0.8767634628038937,
+            -0.026911764951859735,
+            0.5735014448504417,
+            -1.0143892267459687,
+            0.9399114562793729,
+            -0.4531080615244988,
+            -0.7188095473628869
+          ],
+          "intercept": 36.25847421518518,
+          "naive_baseline": {
+            "rmse": 9.861861831765308,
+            "pearson_r": 0.6197336502027921
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 5.399814737050686,
+            "mae_deg": 4.3479350119838,
+            "bias_deg": -0.10123071121346994,
+            "sd_of_difference_deg": 5.449560451427041,
+            "loa_95_lower_deg": -10.78236919601047,
+            "loa_95_upper_deg": 10.57990777358353,
+            "pearson_r": 0.3301250074586856
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 6.777756524803192,
+            "v4_pearson_r": 0.13532272841222223,
+            "delta_r": 0.19480227904646338
+          }
+        },
+        "side_right": {
+          "camera_id": "Cam4",
+          "view_bucket": "side_right",
+          "target_metric": "lumbar_extension",
+          "n_train_trials": 53,
+          "n_subjects": 9,
+          "n_skipped_no_event": 1,
+          "feature_names": [
+            "target_rom_full",
+            "target_at_contact",
+            "target_rom_loading",
+            "target_min_loading",
+            "target_max_loading",
+            "target_end_loading",
+            "coup1_at_contact",
+            "coup1_rom_loading",
+            "coup2_at_contact",
+            "loading_duration_frames"
+          ],
+          "feature_mean": [
+            44.16155533337115,
+            -25.954699877126696,
+            21.518200325305973,
+            -30.36018632398263,
+            -8.84198599867668,
+            -11.668000406370293,
+            75.2044247019869,
+            42.26813054861359,
+            -109.80877664176488,
+            16.735849056603772
+          ],
+          "feature_std": [
+            11.115770838335331,
+            27.454084103835154,
+            9.324801956145603,
+            25.048539841915996,
+            23.658638198538355,
+            17.870882292640278,
+            19.556004440412725,
+            16.81345315484283,
+            129.29409566192592,
+            8.219055042310938
+          ],
+          "weights_zscored": [
+            2.140893157203154,
+            -0.6190893009669604,
+            1.6032322130337986,
+            -0.5458736981343671,
+            0.053954238158968146,
+            0.22638727212543377,
+            -0.0741176392729088,
+            -0.06466462565545551,
+            0.3890704226045199,
+            -0.6248790386317274
+          ],
+          "intercept": 36.33252772660378,
+          "naive_baseline": {
+            "rmse": 11.461584270049466,
+            "pearson_r": 0.6817238568117666
+          },
+          "loso_cv_stats": {
+            "rmse_deg": 8.794505512472536,
+            "mae_deg": 6.478922850456179,
+            "bias_deg": -2.57908898820401,
+            "sd_of_difference_deg": 8.488290850875824,
+            "loa_95_lower_deg": -19.216139055920625,
+            "loa_95_upper_deg": 14.057961079512605,
+            "pearson_r": 0.1653252455355046
+          },
+          "v4_comparison": {
+            "v4_rmse_deg": 5.6260640155503205,
+            "v4_pearson_r": 0.31534346266822066,
+            "delta_r": -0.15001821713271607
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro — How We Think About Accuracy</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a26;
+    --border: #2a2a3a; --text: #e0e0e8; --text-dim: #8888a0;
+    --accent: #6c5ce7; --accent-light: #a29bfe;
+    --green: #00d4aa; --green-dim: #00d4aa22; --green-bg: #00d4aa14;
+    --blue: #4da6ff; --blue-bg: #4da6ff14;
+    --orange: #ffa04d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.65;
+         padding: 40px 32px; max-width: 1050px; margin: 0 auto; }
+  .header { text-align: center; padding: 24px 0 36px; border-bottom: 1px solid var(--border);
+            margin-bottom: 40px; }
+  .eyebrow { font-size: 12px; color: var(--text-dim); text-transform: uppercase;
+             letter-spacing: 2px; font-weight: 600; margin-bottom: 14px; }
+  h1 { font-size: 38px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.15;
+       background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+       background-clip: text; margin-bottom: 10px; }
+  .subtitle { font-size: 17px; color: var(--text); max-width: 700px; margin: 0 auto; }
+  h2 { font-size: 14px; color: var(--text-dim); text-transform: uppercase;
+       letter-spacing: 2px; font-weight: 600; padding-bottom: 8px;
+       border-bottom: 1px solid var(--border); margin: 48px 0 20px; }
+  .layer { background: var(--surface); border: 1px solid var(--border);
+           border-radius: 10px; padding: 22px 28px; margin: 14px 0;
+           border-left: 4px solid var(--border); }
+  .layer.l1 { border-left-color: var(--blue); }
+  .layer.l2 { border-left-color: var(--accent-light); }
+  .layer.l3 { border-left-color: var(--green); }
+  .layer.l4 { border-left-color: var(--orange); }
+  .layer .tag { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                letter-spacing: 1.2px; font-weight: 600; margin-bottom: 6px; }
+  .layer h3 { font-size: 19px; color: #fff; margin-bottom: 6px; }
+  .layer .q { font-size: 14px; color: var(--text-dim); font-style: italic; margin-bottom: 14px; }
+  .layer .big-num { font-size: 30px; font-weight: 700; color: var(--green);
+                    font-family: 'SF Mono', monospace; line-height: 1; }
+  .layer .num-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                      letter-spacing: 1px; margin-top: 4px; margin-bottom: 14px; }
+  .layer .explain { font-size: 14px; color: var(--text); line-height: 1.7; }
+  .layer .explain strong { color: #fff; }
+  .layer.l1 .big-num { color: var(--blue); }
+  .layer.l2 .big-num { color: var(--accent-light); }
+  .layer.l4 .big-num { color: var(--orange); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px;
+          background: var(--surface); border-radius: 10px; overflow: hidden;
+          border: 1px solid var(--border); margin-top: 12px; }
+  thead th { background: var(--surface2); color: var(--text-dim); font-weight: 600;
+             font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+             padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody td { padding: 14px 16px; border-bottom: 1px solid #1e1e2e; vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { font-weight: 600; color: #fff; }
+  .quote-card { background: var(--surface); border: 1px solid var(--border);
+                border-left: 4px solid var(--green); border-radius: 10px;
+                padding: 18px 24px; margin: 12px 0;
+                font-size: 14.5px; line-height: 1.7; color: var(--text); }
+  .quote-card .audience { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                          letter-spacing: 1.2px; font-weight: 600; margin-bottom: 8px; }
+  .quote-card strong { color: #fff; }
+  .quote-card em { color: var(--accent-light); font-style: normal; font-weight: 500; }
+  .takeaway { background: var(--green-dim); border: 1px solid #00d4aa66;
+              border-radius: 10px; padding: 18px 24px; margin: 18px 0;
+              color: var(--text); font-size: 14.5px; line-height: 1.7; }
+  .takeaway strong { color: #fff; }
+  .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+            font-size: 11px; color: var(--text-dim); text-align: center; line-height: 1.6; }
+  .key-rule { background: var(--blue-bg); border: 1px solid #4da6ff44;
+              border-radius: 10px; padding: 18px 24px; margin: 18px 0;
+              font-size: 14.5px; color: var(--text); line-height: 1.7; }
+  .key-rule strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Couro Vision · Internal Reference · 2026-05-29</div>
+  <h1>How we think about accuracy</h1>
+  <p class="subtitle">There is no single "Couro accuracy %" — there are 4 layers, each measuring a different thing. This is the mental model and what to say to whom.</p>
+</div>
+
+<h2>The 4 layers</h2>
+
+<div class="layer l1">
+  <div class="tag">Layer 1</div>
+  <h3>Finding body parts in the video</h3>
+  <p class="q">"Where's the knee in this image?"</p>
+  <div class="big-num">98%</div>
+  <div class="num-label">Pearson r = 0.98 vs lab mocap</div>
+  <p class="explain">
+    <strong>One global number.</strong> Couro's DWPose-L detector finds 26 body landmarks per frame with ~5–8 mm real-world accuracy. Comparable to gold-standard mocap markers. This is the foundation everything downstream depends on.
+  </p>
+</div>
+
+<div class="layer l2">
+  <div class="tag">Layer 2</div>
+  <h3>Reading joint angles per frame</h3>
+  <p class="q">"How bent is the knee in this frame?"</p>
+  <div class="big-num">58%</div>
+  <div class="num-label">Pooled |r| = 0.58 across all metrics × views (after blend)</div>
+  <p class="explain">
+    <strong>One pooled number — varies a lot underneath.</strong> Going from 2D pixels to 3D angles loses information. Side views read sagittal angles cleanly; front views struggle on depth-ambiguous metrics. This is "raw" angle reading before any model cleanup. <em>This is the ~0.5 number you may have seen — that was pre-blend at 0.51, today's view-aware blend lifted it to 0.58.</em>
+  </p>
+</div>
+
+<div class="layer l3">
+  <div class="tag">Layer 3 — what ships in product</div>
+  <h3>Predicting range of motion per trial</h3>
+  <p class="q">"How far did the knee bend during this whole jump?"</p>
+  <div class="big-num">83–94%</div>
+  <div class="num-label">CCC range on validated slots — the publication-grade number</div>
+  <p class="explain">
+    <strong>23 different models — one per (joint × camera angle).</strong> This is where "accuracy" gets specific. Each slot is measured against the standard biomechanics literature bar: Lin's Concordance Correlation Coefficient > 0.60 AND Bland-Altman 95% limits of agreement < ±10°. By that bar:
+  </p>
+  <ul style="margin: 12px 0 0 0; padding-left: 22px; font-size: 14px; color: var(--text); line-height: 1.8;">
+    <li><strong style="color:#00d4aa">3 slots Good (publication-grade validated):</strong> lumbar trunk extension side-left (CCC 0.83), hip adduction side-left (CCC 0.94), ankle dorsi/plantarflexion side-right (CCC 0.64 preliminary)</li>
+    <li><strong style="color:#ffa04d">9 slots Moderate (usable, not yet publication-grade):</strong> mostly knee and lumbar across various views, CCC 0.45–0.86</li>
+    <li><strong style="color:#ff6b6b">11 slots Poor (not deployed):</strong> mostly depth-ambiguous front-view sagittal angles and frontal-plane motions on side views</li>
+  </ul>
+  <p class="explain" style="margin-top: 14px;">
+    The <strong>83–94%</strong> headline is the Good-tier range (excluding the preliminary ankle). It's not "average accuracy" — it's "range across measurements that pass the same publication bar OpenCap and Theia3D papers use."
+  </p>
+</div>
+
+<div class="layer l4">
+  <div class="tag">Layer 4 — sport scoring</div>
+  <h3>Interpreting ROM as good or risky</h3>
+  <p class="q">"Is this knee bend healthy or an ACL risk?"</p>
+  <div class="big-num">Calibrated, not measured</div>
+  <div class="num-label">Targets set against 303 athletes from clinical studies</div>
+  <p class="explain">
+    <strong>Not an accuracy number — a calibration claim.</strong> Layer 4 takes the ROM measurements from Layer 3 and compares them to clinical population norms. The norms come from peer-reviewed studies: Fukuchi (28 runners), DVJ Basketball (20), ACL Jump-Landing (42), GaitRec (211), OpenCap (9). Our scoring says "good" or "risky" based on where the athlete sits in that distribution.
+  </p>
+</div>
+
+<h2>What to say to whom</h2>
+
+<div class="quote-card">
+  <div class="audience">Investor or sales — one number, snappy</div>
+  <p>"<strong>Couro is 80–95% accurate against gold-standard motion capture, from a single phone camera with no calibration.</strong>"</p>
+</div>
+
+<div class="quote-card">
+  <div class="audience">Investor or sales — Theia-style range (preferred)</div>
+  <p>"Couro's measurements show <strong>CCC 0.83–0.94 vs lab motion capture</strong> on validated joint readings — <em>comparable to 8-camera Theia3D (0.85–0.97), outperforming 2-phone OpenCap (0.79–0.91)</em> on our strongest slot, from one phone with no calibration."</p>
+</div>
+
+<div class="quote-card">
+  <div class="audience">Clinical advisor or diligence reviewer — honest layer-by-layer</div>
+  <p>"<strong>Layer 1</strong> pose detection r = 0.98. <strong>Layer 2</strong> per-frame angle reading pooled |r| = 0.58. <strong>Layer 3</strong> ROM prediction: 3 of 23 deploy slots clear publication-grade validity (CCC 0.83 lumbar, 0.94 hip adduction, 0.64 ankle preliminary), 9 slots usable with caveats, 11 not yet ready. <strong>Layer 4</strong> sport scoring calibrated against 303 clinical-norms subjects. Single phone, no calibration."</p>
+</div>
+
+<div class="quote-card">
+  <div class="audience">Technical / engineering deep dive</div>
+  <p>The full v2.1 validation doc — all 23 Layer 3 slots tier-labeled with CCC, Bland-Altman LoA, bias, 95% CI, and per-trial vs per-subject divergence analysis. Lives in <code>docs/2026-05-28-couro-validation-v2.1-post-build-cycle.html</code>.</p>
+</div>
+
+<h2>Why there isn't one number</h2>
+
+<div class="key-rule">
+  <p>
+    <strong>The honest reason there are multiple accuracy numbers:</strong> Couro does multiple things. There's no more a single "Couro accuracy %" than there's a single "car safety %." City driving, highway driving, and crash protection are all real measurements but they answer different questions. Same here.
+  </p>
+  <p style="margin-top: 12px;">
+    Anyone serious in this space (OpenCap, Theia3D, Vicon papers) reports accuracy per joint × view, not as one number. Investors and partners who've seen the field expect this. The single-number framing is for first-meeting-elevator-pitch only.
+  </p>
+</div>
+
+<h2>The rule of thumb</h2>
+
+<div class="takeaway">
+  <p>
+    <strong>If you only get to say one thing, say this:</strong>
+  </p>
+  <p style="margin-top: 10px; font-size: 16px;">
+    "Couro is <strong>publication-grade validated</strong> against gold-standard motion capture on three joint measurements, <strong>CCC 0.83–0.94</strong>, from a single phone camera with no calibration."
+  </p>
+  <p style="margin-top: 12px; font-size: 13.5px; color: var(--text-dim);">
+    That's defensible under diligence, comparable to what Theia3D and OpenCap publish, doesn't oversell, and doesn't pick a single body part.
+  </p>
+</div>
+
+<div class="footer">
+  Couro Vision · Internal reference · 2026-05-29<br>
+  Full validation: <code>docs/2026-05-28-couro-validation-v2.1-post-build-cycle.html</code> · Slot breakdown: <code>docs/2026-05-29-couro-slot-breakdown.html</code>
+</div>
+
+</body>
+</html>

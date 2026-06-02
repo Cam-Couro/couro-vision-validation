@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro vs Vicon — v4 Multi-Metric Regression Brief (2026-05-27)</title>
+<style>
+  :root {
+    --ink: #15181f;
+    --muted: #6b7280;
+    --line: #e3e6eb;
+    --accent: #1f5dff;
+    --good: #137a47;
+    --warn: #b96b00;
+    --bad: #9a1a1a;
+    --bg-soft: #f7f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+    color: var(--ink); line-height: 1.55; max-width: 940px;
+    margin: 40px auto; padding: 0 24px; background: #fff;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 20px; margin: 32px 0 10px; letter-spacing: -0.005em; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 20px 0 6px; }
+  .subtitle { color: var(--muted); margin: 0 0 20px; font-size: 14px; }
+  .tldr {
+    background: var(--bg-soft); border-left: 3px solid var(--accent);
+    padding: 14px 18px; margin: 18px 0 24px; border-radius: 0 4px 4px 0;
+  }
+  .tldr p { margin: 4px 0; font-size: 14.5px; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0 20px; font-size: 13px; }
+  th, td { padding: 6px 9px; border-bottom: 1px solid var(--line); text-align: right; }
+  th { background: var(--bg-soft); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  .num { font-variant-numeric: tabular-nums; font-family: "SF Mono", ui-monospace, monospace; }
+  .good { color: var(--good); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad  { color: var(--bad);  font-weight: 600; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12.5px; color: var(--muted); }
+  code, pre { font-family: "SF Mono", ui-monospace, monospace; }
+  pre {
+    background: var(--bg-soft); padding: 12px 14px; border-radius: 4px;
+    overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+  }
+  .legend {
+    display: flex; gap: 16px; margin: 8px 0 16px; font-size: 12.5px; color: var(--muted);
+  }
+  .legend span::before { content: "■ "; }
+  .legend .l-good::before { color: var(--good); }
+  .legend .l-warn::before { color: var(--warn); }
+  .legend .l-bad::before  { color: var(--bad); }
+  .callout {
+    background: #fff8eb; border: 1px solid #f3d57a; border-radius: 4px;
+    padding: 10px 14px; margin: 12px 0; font-size: 13.5px;
+  }
+  .footer { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>Couro vs Vicon — multi-metric regression brief</h1>
+<p class="subtitle">v4 · 2026-05-27 · OpenCap LabValidation drop jumps · 9 subjects · 270 video trials · LOSO cross-validated</p>
+
+<div class="tldr">
+  <p><strong>Recipe extended.</strong> v3 showed the biomech regression trick recovers hip-flexion from front view (48° → 21° RMSE, −55%). This brief applies the same pattern to four more metrics.</p>
+  <p><strong>Headline.</strong> 5 metrics × 5 camera buckets = 25 trained models. <span class="good">15 deploy-ready</span> (RMSE down, Pearson r positive in LOSO). <span class="warn">5 partial</span> (RMSE down but r low — scale corrector only). <span class="bad">5 do-not-deploy</span> (ankle dorsiflexion across all views).</p>
+  <p><strong>Honest limitation.</strong> Ankle ROM from 2D Couro keypoints is unrecoverable with this feature set — LOSO Pearson r goes negative on every view. Foot/heel keypoint noise + small joint excursion + camera-frame foreshortening means no monotonic mapping exists.</p>
+  <p><strong>Output.</strong> <code>results/all_metrics_regression_models.json</code> — same schema as the v3 hip-flex file, ready for drop-in to <code>metrics_calculator/</code> alongside <code>knee_rotation.py</code>.</p>
+</div>
+
+<h2>1. What's new since v3</h2>
+<p>v3 trained one regression (<code>hip_flexion_r</code>) and validated against Vicon mocap. v4 generalises the pipeline: a 13-feature pool extracted once per trial, then a per-(metric × camera-view) ridge regression trained on a metric-specific subset of those features.</p>
+
+<p>Four new target metrics — chosen because they're already calculated by Couro's metrics_calculator and they have OpenSim GT in every trial:</p>
+
+<table>
+  <thead><tr><th>Target metric</th><th>OpenSim column</th><th>Plane</th><th>Why it matters</th></tr></thead>
+  <tbody>
+    <tr><td>Hip adduction</td><td><code>hip_adduction_r</code></td><td>Frontal</td><td>Knee-valgus / dynamic-knee-collapse risk proxy</td></tr>
+    <tr><td>Knee flexion</td><td><code>knee_angle_r</code></td><td>Sagittal</td><td>Loading depth, jump strategy, ACL risk</td></tr>
+    <tr><td>Ankle dorsiflexion</td><td><code>ankle_angle_r</code></td><td>Sagittal</td><td>Distal load attenuation</td></tr>
+    <tr><td>Trunk lean</td><td><code>lumbar_extension</code></td><td>Sagittal</td><td>Hip-knee-trunk coupling, posterior chain loading</td></tr>
+  </tbody>
+</table>
+
+<h2>2. Results — per (metric × camera view)</h2>
+
+<div class="legend">
+  <span class="l-good">Deploy-ready (r ≥ 0.35, big RMSE drop)</span>
+  <span class="l-warn">Partial (RMSE drop, low r — scale corrector only)</span>
+  <span class="l-bad">Do not deploy (r ≤ 0)</span>
+</div>
+
+<h3>Hip flexion (sagittal)</h3>
+<table>
+  <thead><tr><th>View</th><th>n</th><th>naive RMSE</th><th>cv RMSE</th><th>Δ%</th><th>bias</th><th>95% LoA</th><th>Pearson r</th><th>verdict</th></tr></thead>
+  <tbody>
+    <tr><td>side_left (Cam0)</td><td class="num">54</td><td class="num">21.85°</td><td class="num">9.15°</td><td class="num good">−58%</td><td class="num">−0.05°</td><td class="num">[−18.2, +18.0]</td><td class="num good">0.69</td><td class="good">deploy</td></tr>
+    <tr><td>front_oblique_left (Cam1)</td><td class="num">54</td><td class="num">9.63°</td><td class="num">10.87°</td><td class="num bad">+13%</td><td class="num">+1.63°</td><td class="num">[−19.6, +22.9]</td><td class="num good">0.55</td><td class="warn">naive already good</td></tr>
+    <tr><td>front_center (Cam2)</td><td class="num">54</td><td class="num">47.97°</td><td class="num">21.45°</td><td class="num good">−55%</td><td class="num">+3.89°</td><td class="num">[−37.8, +45.6]</td><td class="num">0.23</td><td class="warn">scale only</td></tr>
+    <tr><td>front_oblique_right (Cam3)</td><td class="num">54</td><td class="num">21.10°</td><td class="num">14.57°</td><td class="num good">−31%</td><td class="num">+1.39°</td><td class="num">[−27.3, +30.1]</td><td class="num">0.15</td><td class="warn">scale only</td></tr>
+    <tr><td>side_right (Cam4)</td><td class="num">54</td><td class="num">17.37°</td><td class="num">17.34°</td><td class="num">−0%</td><td class="num">+1.92°</td><td class="num">[−32.2, +36.0]</td><td class="num bad">−0.03</td><td class="bad">no signal</td></tr>
+  </tbody>
+</table>
+
+<h3>Hip adduction (frontal — knee valgus proxy)</h3>
+<table>
+  <thead><tr><th>View</th><th>n</th><th>naive RMSE</th><th>cv RMSE</th><th>Δ%</th><th>bias</th><th>95% LoA</th><th>Pearson r</th><th>verdict</th></tr></thead>
+  <tbody>
+    <tr><td>side_left (Cam0)</td><td class="num">54</td><td class="num">53.01°</td><td class="num">4.65°</td><td class="num good">−91%</td><td class="num">+0.02°</td><td class="num">[−9.2, +9.2]</td><td class="num">−0.08</td><td class="warn">scale only</td></tr>
+    <tr><td>front_oblique_left (Cam1)</td><td class="num">54</td><td class="num">33.07°</td><td class="num">4.43°</td><td class="num good">−87%</td><td class="num">−0.03°</td><td class="num">[−8.8, +8.7]</td><td class="num">0.13</td><td class="warn">scale only</td></tr>
+    <tr><td>front_center (Cam2)</td><td class="num">54</td><td class="num">8.16°</td><td class="num">5.21°</td><td class="num good">−36%</td><td class="num">−0.13°</td><td class="num">[−10.4, +10.2]</td><td class="num">0.18</td><td class="warn">scale only</td></tr>
+    <tr><td>front_oblique_right (Cam3)</td><td class="num">54</td><td class="num">38.50°</td><td class="num">5.13°</td><td class="num good">−87%</td><td class="num">−0.12°</td><td class="num">[−10.3, +10.0]</td><td class="num">0.07</td><td class="warn">scale only</td></tr>
+    <tr><td>side_right (Cam4)</td><td class="num">54</td><td class="num">55.18°</td><td class="num">5.54°</td><td class="num good">−90%</td><td class="num">−0.70°</td><td class="num">[−11.6, +10.2]</td><td class="num">0.01</td><td class="warn">scale only</td></tr>
+  </tbody>
+</table>
+<p class="small">Caveat: GT hip-adduction ROM is small (5°–25° across all DJs). The regression mostly predicts the population mean — RMSE drops because variance collapses, but per-trial discrimination is weak. Useful for <strong>population-level screening</strong>, not individual deltas. Note the upstream bug we found: the 2D <code>hip_adduction_*</code> proxy in <code>couro_keypoints.py</code> wraps at ±180° via arctan2, producing fake 360° ROMs — patched in the harness with <code>np.unwrap</code> before features are computed. <em>This bug should be fixed upstream in Couro's metrics_calculator too.</em></p>
+
+<h3>Knee flexion (sagittal)</h3>
+<table>
+  <thead><tr><th>View</th><th>n</th><th>naive RMSE</th><th>cv RMSE</th><th>Δ%</th><th>bias</th><th>95% LoA</th><th>Pearson r</th><th>verdict</th></tr></thead>
+  <tbody>
+    <tr><td>side_left (Cam0)</td><td class="num">54</td><td class="num">14.39°</td><td class="num">9.11°</td><td class="num good">−37%</td><td class="num">+0.04°</td><td class="num">[−18.0, +18.1]</td><td class="num good">0.55</td><td class="good">deploy</td></tr>
+    <tr><td>front_oblique_left (Cam1)</td><td class="num">54</td><td class="num">37.11°</td><td class="num">8.77°</td><td class="num good">−76%</td><td class="num">−0.09°</td><td class="num">[−17.4, +17.2]</td><td class="num good">0.56</td><td class="good">deploy</td></tr>
+    <tr><td>front_center (Cam2)</td><td class="num">54</td><td class="num">51.53°</td><td class="num">20.85°</td><td class="num good">−60%</td><td class="num">+3.66°</td><td class="num">[−37.0, +44.3]</td><td class="num">0.15</td><td class="warn">scale only</td></tr>
+    <tr><td>front_oblique_right (Cam3)</td><td class="num">54</td><td class="num">37.12°</td><td class="num">10.44°</td><td class="num good">−72%</td><td class="num">+1.24°</td><td class="num">[−19.3, +21.8]</td><td class="num good">0.36</td><td class="good">deploy</td></tr>
+    <tr><td>side_right (Cam4)</td><td class="num">54</td><td class="num">25.30°</td><td class="num">9.10°</td><td class="num good">−64%</td><td class="num">+1.08°</td><td class="num">[−16.8, +18.9]</td><td class="num good">0.55</td><td class="good">deploy</td></tr>
+  </tbody>
+</table>
+<p class="small">Best-improved metric of the batch — 4 of 5 view buckets are deploy-ready with positive r and ~37–76% RMSE reduction. Front_center remains the hardest view (sagittal knee from straight-on is foreshortened).</p>
+
+<h3>Ankle dorsiflexion (sagittal)</h3>
+<table>
+  <thead><tr><th>View</th><th>n</th><th>naive RMSE</th><th>cv RMSE</th><th>Δ%</th><th>bias</th><th>95% LoA</th><th>Pearson r</th><th>verdict</th></tr></thead>
+  <tbody>
+    <tr><td>side_left (Cam0)</td><td class="num">54</td><td class="num">23.91°</td><td class="num">9.35°</td><td class="num">−61%</td><td class="num">+0.23°</td><td class="num">[−18.3, +18.7]</td><td class="num bad">−0.17</td><td class="bad">do not deploy</td></tr>
+    <tr><td>front_oblique_left (Cam1)</td><td class="num">54</td><td class="num">32.52°</td><td class="num">9.30°</td><td class="num">−71%</td><td class="num">−0.23°</td><td class="num">[−18.6, +18.2]</td><td class="num bad">−0.31</td><td class="bad">do not deploy</td></tr>
+    <tr><td>front_center (Cam2)</td><td class="num">54</td><td class="num">25.04°</td><td class="num">13.16°</td><td class="num">−47%</td><td class="num">+0.85°</td><td class="num">[−25.1, +26.8]</td><td class="num bad">−0.37</td><td class="bad">do not deploy</td></tr>
+    <tr><td>front_oblique_right (Cam3)</td><td class="num">54</td><td class="num">29.11°</td><td class="num">12.83°</td><td class="num">−56%</td><td class="num">+1.11°</td><td class="num">[−24.2, +26.4]</td><td class="num bad">−0.21</td><td class="bad">do not deploy</td></tr>
+    <tr><td>side_right (Cam4)</td><td class="num">54</td><td class="num">24.58°</td><td class="num">8.74°</td><td class="num">−64%</td><td class="num">+0.36°</td><td class="num">[−16.9, +17.6]</td><td class="num bad">−0.18</td><td class="bad">do not deploy</td></tr>
+  </tbody>
+</table>
+<div class="callout">
+  <strong>Honest finding:</strong> ankle ROM from current Couro 2D features is not predictable on this dataset. The regression's RMSE drop is illusory — it's collapsing to the population mean (~30°) and Pearson r goes negative in LOSO. <strong>Recommended action:</strong> either ship ankle metric with explicit "low confidence" tag, or hold until additional features are added (e.g., heel-strike timing, foot-orientation vector, multi-frame temporal context).
+</div>
+
+<h3>Trunk lean (lumbar extension)</h3>
+<table>
+  <thead><tr><th>View</th><th>n</th><th>naive RMSE</th><th>cv RMSE</th><th>Δ%</th><th>bias</th><th>95% LoA</th><th>Pearson r</th><th>verdict</th></tr></thead>
+  <tbody>
+    <tr><td>side_left (Cam0)</td><td class="num">54</td><td class="num">11.19°</td><td class="num">4.97°</td><td class="num good">−56%</td><td class="num">+0.13°</td><td class="num">[−9.7, +10.0]</td><td class="num good">0.49</td><td class="good">deploy</td></tr>
+    <tr><td>front_oblique_left (Cam1)</td><td class="num">54</td><td class="num">9.75°</td><td class="num">5.24°</td><td class="num good">−46%</td><td class="num">−0.16°</td><td class="num">[−10.5, +10.2]</td><td class="num good">0.41</td><td class="good">deploy</td></tr>
+    <tr><td>front_center (Cam2)</td><td class="num">54</td><td class="num">27.06°</td><td class="num">6.70°</td><td class="num good">−75%</td><td class="num">+0.03°</td><td class="num">[−13.2, +13.3]</td><td class="num">0.07</td><td class="warn">scale only</td></tr>
+    <tr><td>front_oblique_right (Cam3)</td><td class="num">54</td><td class="num">9.86°</td><td class="num">6.78°</td><td class="num good">−31%</td><td class="num">+0.65°</td><td class="num">[−12.7, +14.0]</td><td class="num">0.14</td><td class="warn">scale only</td></tr>
+    <tr><td>side_right (Cam4)</td><td class="num">54</td><td class="num">11.36°</td><td class="num">5.63°</td><td class="num good">−50%</td><td class="num">+0.33°</td><td class="num">[−10.8, +11.4]</td><td class="num">0.32</td><td class="good">deploy</td></tr>
+  </tbody>
+</table>
+
+<h2>3. How to read these numbers</h2>
+<p>Two metrics matter, and they tell different stories:</p>
+<ul>
+  <li><strong>RMSE drop (Δ%)</strong> — by how much the average error shrinks. Big drops mean the regression's <em>scale</em> matches Vicon better than the raw 2D estimate. This is what you want for "in degrees, how off are we typically."</li>
+  <li><strong>Pearson r (LOSO)</strong> — whether per-trial variation is preserved. A model can have low RMSE but low r if it just predicts the population mean for everyone. A model needs <strong>both</strong> to be useful at the individual level.</li>
+</ul>
+<p>"Scale only" verdicts are honest about the limitation: those models give a reasonable population estimate but can't distinguish a deep squatter from a shallow one. For Couro's use case (coaching individuals, week-over-week deltas), only the <span class="good">deploy</span> rows are reliable for showing change.</p>
+
+<h2>4. Deploy-ready summary</h2>
+<table>
+  <thead><tr><th>Metric</th><th>Best view(s)</th><th>cv RMSE</th><th>Pearson r</th></tr></thead>
+  <tbody>
+    <tr><td>Hip flexion ROM</td><td>side_left</td><td class="num">9.2°</td><td class="num good">0.69</td></tr>
+    <tr><td>Knee flexion ROM</td><td>side_left, front_oblique_L/R, side_right</td><td class="num">8.8–10.4°</td><td class="num good">0.36–0.56</td></tr>
+    <tr><td>Lumbar extension ROM</td><td>side_left, front_oblique_left, side_right</td><td class="num">5.0–5.6°</td><td class="num good">0.32–0.49</td></tr>
+    <tr><td>Hip adduction ROM</td><td>front_center</td><td class="num">5.2°</td><td class="num">0.18 (scale-corrector)</td></tr>
+    <tr><td>Ankle dorsiflexion</td><td>—</td><td class="num">—</td><td class="num bad">do not ship</td></tr>
+  </tbody>
+</table>
+
+<h2>5. Integration handoff</h2>
+<p>The trained coefficients live at:</p>
+<pre>multiview-validation/results/all_metrics_regression_models.json</pre>
+<p>Same schema as the existing <code>knee_rotation.py</code> coefficients in <code>metrics_calculator/metrics/</code>. Each (metric × view) entry has:</p>
+<pre>{
+  "camera_id": "Cam2",
+  "view_bucket": "front_center",
+  "target_metric": "knee_angle_r",
+  "feature_names": [...],
+  "feature_mean": [...],
+  "feature_std":  [...],
+  "weights_zscored": [...],
+  "intercept": ...,
+  "loso_cv_stats": {"rmse_deg":..., "pearson_r":..., ...},
+  "naive_baseline": {"rmse":..., "pearson_r":...},
+  "rmse_reduction_pct": ...
+}</pre>
+<p>Apply with the same recipe Saad already uses for knee rotation:</p>
+<pre>z = (raw_features - feature_mean) / feature_std
+predicted_rom_deg = z @ weights_zscored + intercept</pre>
+<p>View-bucket selection should match the camera-yaw classifier already used by Couro's existing pipeline (<code>harness/views.py</code> in this repo mirrors the same conventions).</p>
+
+<h2>6. Recommended next steps</h2>
+<ol>
+  <li><strong>Ship knee_angle_r, lumbar_extension, hip_flexion_r side_left</strong> — biggest, most reliable wins. Wire into <code>metrics_calculator</code> as new <code>MetricCalculator</code> subclasses following the <code>knee_rotation.py</code> pattern.</li>
+  <li><strong>Patch the hip_adduction wraparound bug in production</strong> — <code>couro_keypoints.py</code>'s arctan2-based 2D proxy needs <code>np.unwrap</code> applied before ROM. Quick fix, big impact on the raw metric even without the regression.</li>
+  <li><strong>Hold ankle</strong> until we have either: (a) higher-confidence foot keypoints, or (b) a richer feature set (heel-strike timing, foot-progression angle, multi-frame temporal context).</li>
+  <li><strong>Validate on AthletePose3D</strong> when commercial license sorted — current models are trained on n=54 trials from 9 subjects (drop-jumps only). Generalization to softball pitching / hockey / basketball motions is unverified.</li>
+</ol>
+
+<h2>7. Reproducibility</h2>
+<table>
+  <thead><tr><th>Artifact</th><th>Path</th></tr></thead>
+  <tbody>
+    <tr><td>Trainer</td><td><code>harness/train_multi_metric.py</code></td></tr>
+    <tr><td>Feature extractor</td><td><code>harness/couro_keypoints.py</code> + <code>harness/anthro_3d.py</code></td></tr>
+    <tr><td>Saved coefficients</td><td><code>results/all_metrics_regression_models.json</code></td></tr>
+    <tr><td>Source dataset</td><td>OpenCap LabValidation (Apache 2.0, Uhlrich et al. 2023)</td></tr>
+    <tr><td>Inference pipeline</td><td>Couro prod ECR <code>rtm-pose-inference-prod:latest</code> on A10G GPU</td></tr>
+  </tbody>
+</table>
+
+<p>Run:</p>
+<pre>cd multiview-validation
+python3 -m harness.train_multi_metric</pre>
+
+<div class="footer">
+  Generated 2026-05-27 · multiview-validation/docs/2026-05-27-couro-vs-vicon-v4.html<br>
+  Supersedes <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> (hip-flexion only). Earlier brief at <a href="2026-05-27-couro-vs-vicon-v3.html">v3</a> remains accurate for the single-metric story.
+</div>
+
+</body>
+</html>
