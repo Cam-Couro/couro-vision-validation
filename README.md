@@ -13,9 +13,14 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v35 selective oracle)
+## Current state (as of 2026-06-02 / v40 selective oracle)
 
-**11 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°). **14 slots at Tier 1 (CCC ≥ 0.79)** — up from 13 in v32 and 7 in v28.
+**12 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°), up from 11 in v35. **14 slots at Tier 1 (CCC ≥ 0.79)** — unchanged vs v35. The new Good slot is **`knee_angle_r / side_left`**: previously LoA 10.15° (just over the gate), now LoA 9.78° with CCC 0.903 via v38 (v31 mirror-flip L2 + ridge L3 + nested-LOSO residual calibration). See `data/v40_selective_oracle/REPORT.md`.
+
+Two PP levers shipped:
+
+- **Lever 1 (v36) — LoA-then-CCC tie-break in the LoA-limited Moderate band.** Hygiene fix to v35's CCC-first tie-break inside the Moderate tier when all top-tier candidates have CCC ≥ 0.79 (LoA is the binding constraint). One shift: `knee_angle_r / side_left` v31 → v29 (LoA 10.15 → 10.02). Still Moderate, doesn't cross the gate alone — that took calibration. Rule preserved in v40.
+- **Lever 2 (v37/v38/v39) — Nested-LOSO residual calibration.** Per slot × reader, fit linear calibration `pred_cal = a*pred + b` on pseudo-residuals from inner-LOSO over training subjects only; apply to outer held-out subject. Per-slot fallback to uncalibrated if calibration inflates LoA. Cracks the LoA wall on **1 of 5** Category A targets (`knee_angle_r / side_left` via v38). On average across all 23 slots × 3 readers, calibration tightens LoA on ~5/23 slots and is neutral or worse on the rest — the per-slot fallback handles regressions cleanly.
 
 See `data/v35_selective_oracle/REPORT.md` for the v35 delta vs v32 (Agent OO extrema-aware L3). **v35 Good slot count is unchanged from v32 (11);** the extrema-aware lever did NOT crack the LoA wall on Category A targets (knee/side_left stuck at 10.15° vs the 10.0° gate). Tier 1 count picked up +1 via v33 (extrema-aware L3) on `lumbar_extension / front_oblique_right` (CCC 0.79→0.80). Detailed history of v32's wins vs v28 is in `data/v32_selective_oracle/REPORT.md`. v32 had added three readers to the v28 pool: v29 (mirror-flip Layer 2 + ridge L3), v30 (v23 L2 + learned L3), v31 (mirror-flip L2 + learned L3). Two slot promotions came in v32 vs v28:
 
@@ -24,7 +29,7 @@ See `data/v35_selective_oracle/REPORT.md` for the v35 delta vs v32 (Agent OO ext
 
 Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left all unchanged). Learned L3 did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but did tighten LoA on 3 of 5 slots (knee_angle_r FOL/side_left LoA below 11° for the first time).
 
-### v35 deploy slot table (11 Good slots ordered by CCC)
+### v40 deploy slot table (12 Good slots ordered by CCC)
 
 
 
@@ -38,11 +43,12 @@ Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slot
 | lumbar_extension / front_oblique_left | 0.82 | ±5.18° | v26 per-source heads + per-frame SmoothL1 (MM-A) |
 | **lumbar_extension / front_oblique_right** | **0.80** | **±8.80°** | **v33 extrema-aware learned Layer 3 (OO)** |
 | lumbar_extension / front_center | 0.80 | ±5.95° | v31 mirror-flip Layer 2 + learned Layer 3 (NN) |
+| **knee_angle_r / side_left** | **0.90** | **±9.78°** | **v38 mirror-flip L2 + ridge L3 + nested-LOSO calibration (PP)** |
 | ankle_angle_r / front_oblique_right | 0.73 | ±8.08° | v23 combined-cohort learned Layer 2 |
 | hip_adduction_r / front_oblique_left | 0.69 | ±3.29° | v20 ROM-aware learned Layer 2 |
 | ankle_angle_r / side_right | 0.64 | ±9.46° | v17 hand-engineered |
 
-**Range: CCC 0.64–0.94, single phone camera, no calibration.** v35 selective oracle: **11 Good slots (unchanged vs v32); 14 Tier 1 slots at CCC ≥ 0.79 (+1 vs v32, +7 vs v28)**. Reader distribution: v17=4, v20=1, v23=4, v24=2, v26=2, v27=2, v29=1, v30=2, v31=4, v33=1, v34=0. The single v33 (extrema-aware) pick is `lumbar_extension / front_oblique_right` — a CCC tighten (0.79→0.80) within the Good tier, not a tier promotion. **No Category A LoA-limited knee/hip_flexion slot was promoted to Good.** Historical context: v32 had added `lumbar_extension / front_center` (Moderate → Good via v31) and bumped `hip_adduction_r / front_oblique_right` from Poor to Moderate via v30 (CCC 0.84 → 0.89).
+**Range: CCC 0.64–0.94, single phone camera.** v40 selective oracle: **12 Good slots (+1 vs v35); 14 Tier 1 slots at CCC ≥ 0.79 (unchanged vs v35, +1 vs v32, +7 vs v28)**. Reader distribution: v17=4, v20=1, v23=3, v24=2, v26=2, v27=2, v30=2, v31=3, v33=1, v37=1, v38=1, v39=1. Three calibrated readers ship at v40. **One Category A LoA-limited slot promoted to Good** (knee_angle_r/side_left via v38 calibration). Historical: v32 added `lumbar_extension / front_center` (Moderate → Good via v31) and bumped `hip_adduction_r / front_oblique_right` from Poor to Moderate via v30 (CCC 0.84 → 0.89).
 
 > **Mirror-flip + learned Layer 3 verdict (NN build):** Mirror flip Layer 2 augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left — all unchanged within ±0.01 CCC). Learned Layer 3 (TinyMLP replacing ridge per slot, with ridge fallback if learned underperforms) did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but it DID tighten LoA on 3 of 5 borderline slots (knee_angle_r/FOL: LoA 11.83→10.77; knee_angle_r/side_left: 11.79→10.15; hip_adduction_r/FOR: 15.74→13.80). See `data/v32_selective_oracle/REPORT.md` for the slot-by-slot verdict.
 
@@ -78,7 +84,15 @@ Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slot
 | `results/deploy_ready_models_v29_mirrorflip.json` | v17 base + v29 NN mirror-flip per-source per-frame learned-L2 + ridge L3 (Agent NN, Phase 1). |
 | `results/deploy_ready_models_v30_learned_l3.json` | v17 base + v23 HH2 combined L2 + per-slot **learned Layer 3** (TinyMLP) with ridge fallback (Agent NN, Phase 2). |
 | `results/deploy_ready_models_v31_mirrorflip_learned_l3.json` | v17 base + v29 mirror-flip L2 + per-slot learned Layer 3 with ridge fallback (Agent NN, Phase 2). |
-| `results/deploy_ready_models_v32_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27/v29/v30/v31 (**11 Good slots**, +1 vs v28; 13 Tier 1 slots at CCC ≥ 0.79, +6 vs v28). New Good slot: `lumbar_extension/front_center` at CCC 0.80 via v31. New Moderate via v30: `hip_adduction_r/front_oblique_right` at CCC 0.89. |
+| `results/deploy_ready_models_v32_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27/v29/v30/v31 (**11 Good slots**, +1 vs v28; 13 Tier 1 slots at CCC ≥ 0.79, +6 vs v28). New Good slot: `lumbar_extension/front_center` at CCC 0.80 via v31. New Moderate via v30: `hip_adduction_r/front_oblique_right` at CCC 0.89. Superseded by v40. |
+| `results/deploy_ready_models_v33_extrema_l3.json` | v17 base + v23 L2 + per-slot extrema-aware learned L3 (Agent OO, two-head pred_max + pred_min). |
+| `results/deploy_ready_models_v34_mirrorflip_extrema_l3.json` | v17 base + v29 mirror-flip L2 + extrema-aware learned L3 (Agent OO). |
+| `results/deploy_ready_models_v35_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27/v29/v30/v31/v33/v34 (**11 Good slots, 14 Tier 1**). Adds v33/v34 to pool; no net Good promotion. Superseded by v40. |
+| `results/deploy_ready_models_v36_selective.json` | Same reader pool as v35 with LoA-then-CCC tie-break inside the LoA-limited Moderate band (Agent PP, Lever 1). Selection hygiene only — no net tier change. Rule preserved in v40. |
+| `results/deploy_ready_models_v37_v23_calibrated.json` | v17 base + v23 L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback to uncalibrated (Agent PP, Lever 2). |
+| `results/deploy_ready_models_v38_v31_calibrated.json` | v17 base + v29 mirror-flip L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback (Agent PP, Lever 2). |
+| `results/deploy_ready_models_v39_v17_calibrated.json` | v17 base + hand-engineered L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback (Agent PP, Lever 2). |
+| `results/deploy_ready_models_v40_selective.json` | **Recommended:** per-slot oracle-best across the v35 reader pool + v37/v38/v39 calibrated readers, with the v36 LoA-then-CCC tie-break (**12 Good slots**, +1 vs v35; 14 Tier 1 slots at CCC ≥ 0.79, unchanged). New Good slot: `knee_angle_r / side_left` via v38 at LoA 9.78° / CCC 0.903 — first Category A LoA-wall crossing. |
 
 ## Methodology — what "validated" means here
 
