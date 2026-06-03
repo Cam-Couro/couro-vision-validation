@@ -13,38 +13,40 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v32 selective oracle)
+## Current state (as of 2026-06-02 / v35 selective oracle)
 
-**11 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°). **13 slots at Tier 1 (CCC ≥ 0.79)** — up from 7 in v28.
+**11 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°). **14 slots at Tier 1 (CCC ≥ 0.79)** — up from 13 in v32 and 7 in v28.
 
-See `data/v32_selective_oracle/REPORT.md` for the full delta vs v28. v32 adds three readers to the v28 pool: v29 (mirror-flip Layer 2 + ridge L3), v30 (v23 L2 + learned L3), v31 (mirror-flip L2 + learned L3). Two slot promotions vs v28:
+See `data/v35_selective_oracle/REPORT.md` for the v35 delta vs v32 (Agent OO extrema-aware L3). **v35 Good slot count is unchanged from v32 (11);** the extrema-aware lever did NOT crack the LoA wall on Category A targets (knee/side_left stuck at 10.15° vs the 10.0° gate). Tier 1 count picked up +1 via v33 (extrema-aware L3) on `lumbar_extension / front_oblique_right` (CCC 0.79→0.80). Detailed history of v32's wins vs v28 is in `data/v32_selective_oracle/REPORT.md`. v32 had added three readers to the v28 pool: v29 (mirror-flip Layer 2 + ridge L3), v30 (v23 L2 + learned L3), v31 (mirror-flip L2 + learned L3). Two slot promotions came in v32 vs v28:
 
 - `hip_adduction_r / front_oblique_right`: Poor → Moderate via v30 (CCC 0.84 → 0.89, LoA tightened 15.74 → 13.80°).
 - `lumbar_extension / front_center`: Moderate → **Good** via v31 (CCC 0.55 → 0.80, LoA 8.48 → 5.95°). Surprise win — front_center was previously the broken view family.
 
 Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left all unchanged). Learned L3 did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but did tighten LoA on 3 of 5 slots (knee_angle_r FOL/side_left LoA below 11° for the first time).
 
-### v32 deploy slot table (11 Good slots ordered by CCC)
+### v35 deploy slot table (11 Good slots ordered by CCC)
 
 
 
 | Slot | CCC | LoA half | Reader |
 |---|---:|---:|---|
-| hip_adduction_r / side_left | 0.94 | ±9.32° | **v29 mirror-flip Layer 2 (NN)** |
+| hip_adduction_r / side_left | 0.94 | ±9.32° | v29 mirror-flip Layer 2 (NN) |
 | knee_angle_r / front_oblique_right | 0.89 | ±8.05° | v24 combined-cohort + ROM-aware learned Layer 2 (LL) |
 | lumbar_extension / side_left | 0.88 | ±6.42° | v23 combined-cohort learned Layer 2 |
 | hip_flexion_r / side_left | 0.86 | ±9.24° | v26 per-source heads + per-frame SmoothL1 (MM-A) |
 | lumbar_extension / side_right | 0.85 | ±7.03° | v23 combined-cohort learned Layer 2 |
 | lumbar_extension / front_oblique_left | 0.82 | ±5.18° | v26 per-source heads + per-frame SmoothL1 (MM-A) |
-| **lumbar_extension / front_center** | **0.80** | **±5.95°** | **v31 mirror-flip Layer 2 + learned Layer 3 (NN)** |
-| lumbar_extension / front_oblique_right | 0.79 | ±9.68° | v23 combined-cohort learned Layer 2 |
+| **lumbar_extension / front_oblique_right** | **0.80** | **±8.80°** | **v33 extrema-aware learned Layer 3 (OO)** |
+| lumbar_extension / front_center | 0.80 | ±5.95° | v31 mirror-flip Layer 2 + learned Layer 3 (NN) |
 | ankle_angle_r / front_oblique_right | 0.73 | ±8.08° | v23 combined-cohort learned Layer 2 |
 | hip_adduction_r / front_oblique_left | 0.69 | ±3.29° | v20 ROM-aware learned Layer 2 |
 | ankle_angle_r / side_right | 0.64 | ±9.46° | v17 hand-engineered |
 
-**Range: CCC 0.64–0.94, single phone camera, no calibration.** v32 selective oracle: **11 Good slots (+1 vs v28); 13 Tier 1 slots at CCC ≥ 0.79 (+6 vs v28)**. Reader distribution: v17=4, v20=1, v23=5, v24=2, v26=2, v27=2, v29=1, v30=2, v31=4. New Good slot is `lumbar_extension / front_center` at CCC 0.80 via v31 — a Moderate-to-Good promotion. The v32 build also bumped `hip_adduction_r / front_oblique_right` from Poor to Moderate via v30 (CCC 0.84 → 0.89).
+**Range: CCC 0.64–0.94, single phone camera, no calibration.** v35 selective oracle: **11 Good slots (unchanged vs v32); 14 Tier 1 slots at CCC ≥ 0.79 (+1 vs v32, +7 vs v28)**. Reader distribution: v17=4, v20=1, v23=4, v24=2, v26=2, v27=2, v29=1, v30=2, v31=4, v33=1, v34=0. The single v33 (extrema-aware) pick is `lumbar_extension / front_oblique_right` — a CCC tighten (0.79→0.80) within the Good tier, not a tier promotion. **No Category A LoA-limited knee/hip_flexion slot was promoted to Good.** Historical context: v32 had added `lumbar_extension / front_center` (Moderate → Good via v31) and bumped `hip_adduction_r / front_oblique_right` from Poor to Moderate via v30 (CCC 0.84 → 0.89).
 
 > **Mirror-flip + learned Layer 3 verdict (NN build):** Mirror flip Layer 2 augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left — all unchanged within ±0.01 CCC). Learned Layer 3 (TinyMLP replacing ridge per slot, with ridge fallback if learned underperforms) did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but it DID tighten LoA on 3 of 5 borderline slots (knee_angle_r/FOL: LoA 11.83→10.77; knee_angle_r/side_left: 11.79→10.15; hip_adduction_r/FOR: 15.74→13.80). See `data/v32_selective_oracle/REPORT.md` for the slot-by-slot verdict.
+
+> **Extrema-aware Layer 3 verdict (OO build):** Two-head TinyMLP at L3 (pred_max + pred_min, with loss = SmoothL1(ROM) + 0.5·SmoothL1(max) + 0.5·SmoothL1(min)) **did NOT crack the LoA wall** on any Category A target. Across the 5 Cat A slots, extrema-aware L3 produced LoA equal-to or worse-than the v32 winner on every slot (e.g. knee/side_left v32 v31 ridge LoA 10.15° → v33 extrema 11.79°, v34 extrema 13.48°). v33 still earned 1 reader slot in v35 (lumbar_extension/front_oblique_right, CCC 0.79→0.80, +1 Tier 1). With per-slot n=9–22 LOSO inner folds and two output heads, the model overfits the extrema signal before improving LoA. Negative result: max/min supervision alone is not enough at this dataset size. See `data/v35_selective_oracle/REPORT.md`.
 
 ## Headline build cycles
 
