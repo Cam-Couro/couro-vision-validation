@@ -13,32 +13,34 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v25 selective oracle)
+## Current state (as of 2026-06-02 / v28 selective oracle)
 
-**9 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
+**10 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
 
 | Slot | CCC | LoA half | Reader |
 |---|---:|---:|---|
 | hip_adduction_r / side_left | 0.94 | ±9.80° | v17 hand-engineered |
 | knee_angle_r / front_oblique_right | 0.89 | ±8.05° | v24 combined-cohort + ROM-aware learned Layer 2 (LL) |
 | lumbar_extension / side_left | 0.88 | ±6.42° | v23 combined-cohort learned Layer 2 |
+| hip_flexion_r / side_left | 0.86 | ±9.24° | **v26 per-source heads + per-frame SmoothL1 (MM-A)** |
 | lumbar_extension / side_right | 0.85 | ±7.03° | v23 combined-cohort learned Layer 2 |
+| lumbar_extension / front_oblique_left | 0.82 | ±5.18° | **v26 per-source heads + per-frame SmoothL1 (MM-A)** |
 | lumbar_extension / front_oblique_right | 0.79 | ±9.68° | v23 combined-cohort learned Layer 2 |
 | ankle_angle_r / front_oblique_right | 0.73 | ±8.08° | v23 combined-cohort learned Layer 2 |
-| lumbar_extension / front_oblique_left | 0.71 | ±6.57° | v18 EE2 learned Layer 2 |
 | hip_adduction_r / front_oblique_left | 0.69 | ±3.29° | v20 ROM-aware learned Layer 2 |
 | ankle_angle_r / side_right | 0.64 | ±9.46° | v17 hand-engineered |
 
-**Range: CCC 0.64–0.94, single phone camera, no calibration.** v25 selective oracle (9 Good slots, **+1 vs v22**). Reader distribution: v17=8, v18=1, v20=4, v23=8, v24=2. The new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24 (LL combined-cohort + ROM-aware).
+**Range: CCC 0.64–0.94, single phone camera, no calibration.** v28 selective oracle (10 Good slots, **+1 vs v25**). Reader distribution: v17=6, v20=2, v23=7, v24=2, v26=3, v27=3. The new Good slot via v26 (Agent MM per-source heads) is `hip_flexion_r / side_left` at CCC 0.858 — unexpected lift outside the original target slots. The same v26 reader also pushed `lumbar_extension / front_oblique_left` from CCC 0.71 (v18 reader in v25) up to **CCC 0.82** — a clean Tier 1 (≥0.79) promotion on a target slot.
 
-> **Floor lift status (LL build):** the 0.80 CCC floor was **NOT cleared** on any of the 5 sub-0.80 slots Cameron called out in the LL brief (lumbar_extension/front_oblique_right stayed at 0.79; ankle_angle_r/side_right stayed at 0.64). v24 added a new Good slot at CCC 0.89 (knee_angle_r/front_oblique_right), but no existing sub-0.80 slot was lifted. Honest recommendation per the LL brief: present validated Good slots as **Tier 1 (CCC ≥ 0.79)** vs **supplementary (CCC 0.60–0.78)** rather than headline a higher floor. See `data/v25_selective_oracle/REPORT.md` for the slot-by-slot verdict.
+> **Floor lift status (MM build):** the 0.79 Tier 1 floor **WAS cleared** on `lumbar_extension / front_oblique_left` (0.71 → 0.82 via v26 MM-A per-source heads). The second target slot `hip_adduction_r / front_oblique_left` was NOT lifted (per-source heads collapsed it; v28 keeps v20 at CCC 0.69, LoA ±3.29°). Net Tier 1 (CCC ≥ 0.79) count: **7 in v28 vs 5 in v25**. See `data/v28_selective_oracle/REPORT.md` for the slot-by-slot verdict and the negative-result discussion on hip_adduction_r/FO_left.
 
 ## Headline build cycles
 
 - **2026-05-28 build cycle:** Demoted 2 broken front_center slots (Agent Q); added view-aware blend (+0.067 Layer 2, Agent R); synthetic AMASS pipeline POC (Agent S); rear-view path documented.
 - **2026-05-29 build cycle:** Selective adoption of blend-retrained lumbar slot (Agent X); rear-view synthetic validation (Agent W, pooled \|r\| 0.74); learned Layer 2 trained on real OpenCap mocap GT (Agent EE2, pooled \|r\| 0.645 frame-level); ensemble of hand-engineered + learned Layer 2 (Agent JJ, the v19 deploy candidate).
 - **2026-06-02 build cycle:** ROM-aware learned Layer 2 (Agent GG2) → v20 deploy candidate; v21 selective oracle across v17/v18/v20 reaches 7 Good slots; combined-cohort OpenCap+ASPset learned Layer 2 (Agent HH2, pooled OpenCap-held \|r\| 0.670, +0.025 vs EE2 OpenCap-only baseline); v23 Phase B Layer 3 retrain on HH2's combined L2 (Agent KK) lifts the v22 selective oracle to **8 Good slots** (CCC 0.64–0.94). Trunk extension now validated from 4 camera angles; ankle dorsi/plantarflexion from 2.
-- **2026-06-02 LL build (this work):** LL combined-cohort + ROM-aware learned Layer 2 (Agent LL) → v24 Phase B Layer 3 retrain; v25 selective oracle adds v24 to the reader pool. Verdict: **9 Good slots** (+1 vs v22), new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24. **Floor lift to ≥0.80 was NOT achieved** on any of the 5 sub-0.80 slots Cameron called out. See `data/v25_selective_oracle/REPORT.md`.
+- **2026-06-02 LL build:** LL combined-cohort + ROM-aware learned Layer 2 (Agent LL) → v24 Phase B Layer 3 retrain; v25 selective oracle adds v24 to the reader pool. Verdict: **9 Good slots** (+1 vs v22), new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24. **Floor lift to ≥0.80 was NOT achieved** on any of the 5 sub-0.80 slots Cameron called out. See `data/v25_selective_oracle/REPORT.md`.
+- **2026-06-02 MM build (this work):** Per-source heads learned Layer 2 (Agent MM) addresses HH2's own recommended fix for the OpenCap/ASPset hip_adduction_r convention mismatch. Two variants: v26 (MM-A, per-frame SmoothL1) and v27 (MM-B, ROM-aware). v28 selective oracle adds both to the v25 pool. **Verdict: 10 Good slots (+1 vs v25); 7 Tier 1 slots at CCC ≥ 0.79 (+2 vs v25).** `lumbar_extension / front_oblique_left` lifted from 0.71 to **0.82** via v26 (the only target slot that crossed Tier 1). `hip_adduction_r / front_oblique_left` did NOT lift — convention mismatch was not the bottleneck on the bias-limited slot. Bonus: `hip_flexion_r / side_left` unexpectedly promoted Moderate → Good via v26 at CCC 0.858. See `data/v28_selective_oracle/REPORT.md`.
 
 ## Deploy table candidates
 
@@ -54,7 +56,10 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `results/deploy_ready_models_v23_combined_l2.json` | Full v17 + v23 combined-cohort (OpenCap+ASPset) learned Layer 2 (Agent KK build, see data/layer3_retrain_combined_l2/REPORT.md) |
 | `results/deploy_ready_models_v22_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23 (**8 Good slots**, +1 vs v21) |
 | `results/deploy_ready_models_v24_combined_rom_aware.json` | v17 base + v24 LL combined-cohort + ROM-aware learned-L2 ridge re-fit (Agent LL build) |
-| `results/deploy_ready_models_v25_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24 (**9 Good slots**, +1 vs v22 — the new Good slot is `knee_angle_r/front_oblique_right` at CCC 0.887 via v24). Recommended for use when the additional Good slot is worth the extra reader-dispatch complexity; otherwise use v22. Floor lift to CCC ≥ 0.80 was NOT achieved on any of the 5 sub-0.80 slots. |
+| `results/deploy_ready_models_v25_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24 (**9 Good slots**, +1 vs v22). |
+| `results/deploy_ready_models_v26_persource_perframe.json` | v17 base + v26 MM-A per-source heads + per-frame SmoothL1 learned-L2 ridge re-fit (Agent MM build) |
+| `results/deploy_ready_models_v27_persource_romaware.json` | v17 base + v27 MM-B per-source heads + ROM-aware learned-L2 ridge re-fit (Agent MM build) |
+| `results/deploy_ready_models_v28_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27 (**10 Good slots**, +1 vs v25; 7 Tier 1 slots at CCC ≥ 0.79, +2 vs v25). Includes `lumbar_extension/front_oblique_left` lifted from 0.71 to 0.82 via v26 and `hip_flexion_r/side_left` promoted Moderate → Good via v26 at CCC 0.858. |
 
 ## Methodology — what "validated" means here
 

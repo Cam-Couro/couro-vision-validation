@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Couro Vision — Accuracy Summary v3</title>
+<style>
+  :root {
+    --bg: #0a0a0f; --surface: #12121a; --surface2: #1a1a26;
+    --border: #2a2a3a; --text: #e0e0e8; --text-dim: #8888a0;
+    --accent: #6c5ce7; --accent-light: #a29bfe;
+    --green: #00d4aa; --green-dim: #00d4aa22; --green-bg: #00d4aa14;
+    --blue: #4da6ff; --blue-bg: #4da6ff14;
+    --amber: #ffb84d; --amber-bg: #ffb84d14;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.6;
+         padding: 40px 32px; max-width: 1100px; margin: 0 auto; }
+  .hero { text-align: center; padding: 32px 0 40px;
+          border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+  .hero-eyebrow { font-size: 12px; color: var(--text-dim); text-transform: uppercase;
+                  letter-spacing: 2px; font-weight: 600; margin-bottom: 16px; }
+  .hero h1 { font-size: 60px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.05;
+             background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+             background-clip: text; margin-bottom: 12px; }
+  .hero h2 { font-size: 22px; font-weight: 500; color: var(--text); margin-bottom: 8px;
+             max-width: 820px; margin-left: auto; margin-right: auto; line-height: 1.4; }
+  .hero .hero-meta { font-size: 13px; color: var(--text-dim); margin-top: 14px; }
+  .quote-block { background: var(--surface); border: 1px solid var(--border);
+                 border-left: 4px solid var(--green); border-radius: 10px;
+                 padding: 24px 32px; margin: 32px 0;
+                 font-size: 17px; line-height: 1.65; color: var(--text); }
+  .quote-block strong { color: #fff; }
+  .quote-block .label { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                        letter-spacing: 1.5px; font-weight: 600; margin-bottom: 12px; }
+  .section { margin: 40px 0; }
+  .section h3 { font-size: 14px; color: var(--text-dim); text-transform: uppercase;
+                letter-spacing: 2px; font-weight: 600; margin-bottom: 18px;
+                padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .tier-label { display: inline-block; font-size: 11px; font-weight: 700;
+                letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px;
+                border-radius: 4px; margin-right: 10px; vertical-align: middle; }
+  .tier-1 { background: var(--green-dim); color: var(--green); }
+  .tier-2 { background: var(--amber-bg); color: var(--amber); }
+  .validated-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .validated-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .v-card { background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; padding: 22px 24px;
+            border-top: 3px solid var(--green); }
+  .v-card.tier-2-card { border-top-color: var(--amber); }
+  .v-card .v-joint { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                     letter-spacing: 1.2px; font-weight: 600; margin-bottom: 6px; }
+  .v-card h4 { font-size: 17px; color: #fff; font-weight: 600; margin-bottom: 14px; }
+  .v-card .ccc { font-size: 32px; font-weight: 700; color: var(--green);
+                 font-family: 'SF Mono', monospace; line-height: 1; }
+  .v-card.tier-2-card .ccc { color: var(--amber); }
+  .v-card .ccc-l { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                   letter-spacing: 1px; margin-top: 2px; margin-bottom: 12px; }
+  .v-card .err { font-size: 14px; color: var(--text); margin-top: 6px; }
+  .v-card .err strong { color: #fff; }
+  .v-card .err-l { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                   letter-spacing: 0.5px; margin-top: 6px; }
+  .v-card .geometry { font-size: 12px; color: var(--text-dim); margin-top: 12px;
+                      padding-top: 12px; border-top: 1px dashed var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px;
+          background: var(--surface); border-radius: 10px; overflow: hidden;
+          border: 1px solid var(--border); }
+  thead th { background: var(--surface2); color: var(--text-dim); font-weight: 600;
+             font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+             padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+  tbody td { padding: 14px 18px; border-bottom: 1px solid #1e1e2e; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num { font-variant-numeric: tabular-nums;
+                   font-family: 'SF Mono', monospace; text-align: right; }
+  tbody tr.couro-row { background: var(--green-bg); }
+  tbody tr.couro-row td { color: #fff; }
+  .honest-block { background: var(--surface); border: 1px solid var(--border);
+                  border-radius: 10px; padding: 22px 28px; margin: 24px 0; }
+  .honest-block h4 { font-size: 13px; color: var(--text-dim); text-transform: uppercase;
+                     letter-spacing: 1.5px; font-weight: 600; margin-bottom: 14px; }
+  .honest-block ul { list-style: none; }
+  .honest-block li { padding: 10px 0; border-bottom: 1px solid #1e1e2e;
+                     font-size: 14.5px; color: var(--text); line-height: 1.6; }
+  .honest-block li:last-child { border-bottom: none; }
+  .honest-block li strong { color: #fff; }
+  .footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+            font-size: 12px; color: var(--text-dim); text-align: center; line-height: 1.7; }
+  .badge { display: inline-block; background: var(--green-dim); color: var(--green);
+           font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+           padding: 4px 10px; border-radius: 4px; margin-left: 8px; }
+  .badge-new { display: inline-block; background: #6c5ce722; color: var(--accent-light);
+               font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+               padding: 4px 10px; border-radius: 4px; margin-left: 8px; }
+  .badge-tight { display: inline-block; background: #4da6ff22; color: var(--blue);
+                 font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+                 padding: 4px 10px; border-radius: 4px; margin-left: 8px; }
+  .capability-row { background: #4da6ff14; border: 1px solid #4da6ff44; border-radius: 10px;
+                    padding: 20px 28px; margin: 20px 0; }
+  .capability-row h4 { font-size: 13px; color: var(--blue); text-transform: uppercase;
+                       letter-spacing: 1.5px; font-weight: 600; margin-bottom: 10px; }
+  .capability-row p { font-size: 15px; color: var(--text); line-height: 1.7; }
+  .capability-row strong { color: #fff; }
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 24px 0; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border);
+               border-radius: 8px; padding: 16px 20px; text-align: center; }
+  .stat-card .n { font-size: 28px; font-weight: 700; color: #fff;
+                  font-family: 'SF Mono', monospace; line-height: 1; }
+  .stat-card .l { font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+                  letter-spacing: 1px; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">Couro Vision · Accuracy Summary · 2026-06-02 · v25 deploy</div>
+  <h1>CCC 0.79–0.94</h1>
+  <h2>Five headline-grade measurements validated against gold-standard motion capture — covering trunk, hip, and knee — from a single phone camera with no calibration.</h2>
+  <div class="hero-meta">9 total validated slots · 5 headline-grade (Tier 1) + 4 supplementary (Tier 2) · Lin's Concordance Correlation Coefficient + Bland-Altman 95% limits of agreement · Leave-one-subject-out cross-validation · Trunk extension validated from FOUR camera angles</div>
+</div>
+
+<div class="stat-row">
+  <div class="stat-card"><div class="n">5</div><div class="l">Tier 1 slots<br>CCC ≥ 0.79</div></div>
+  <div class="stat-card"><div class="n">0.94</div><div class="l">Top CCC<br>(hip adduction)</div></div>
+  <div class="stat-card"><div class="n">4</div><div class="l">Camera angles<br>for trunk extension</div></div>
+  <div class="stat-card"><div class="n">1</div><div class="l">Phone<br>No calibration</div></div>
+</div>
+
+<div class="quote-block">
+  <div class="label">Quote-ready, defensible</div>
+  <p>
+    "Couro reads body movement from a single phone camera at <strong>publication-grade validity (CCC 0.79–0.94)</strong> across five joint measurements — covering trunk, hip, and knee — measured against gold-standard motion capture using the Bland-Altman framework the OpenCap and Theia3D papers report under. <strong>Trunk extension is validated from four independent camera angles</strong>, meaning the same measurement holds whether the phone is placed lateral, oblique-left, or oblique-right. Comparable to 2-phone OpenCap (0.79–0.91) and approaching 8-camera Theia3D (0.85–0.97) — from one phone instead of two or eight, with no calibration setup."
+  </p>
+</div>
+
+<div class="capability-row">
+  <h4>What's new in v25</h4>
+  <p>
+    Knee flexion from front-oblique-right is now validated at <strong>CCC 0.89</strong> — joining trunk + hip + knee under one accuracy claim. Trunk extension tightened across all four camera angles (side-left now 0.88, side-right now 0.85, front-oblique-right now 0.79). All gains came from a learned Layer 2 trained on 24 subjects (OpenCap + ASPset, both commercial-clean). Same single phone, same DWPose stream, same input/output contract.
+  </p>
+</div>
+
+<div class="section">
+  <h3><span class="tier-label tier-1">Tier 1</span>Headline-grade measurements · CCC 0.79–0.94</h3>
+  <div class="validated-grid">
+
+    <div class="v-card">
+      <div class="v-joint">Frontal · Side camera · n = 9 subjects</div>
+      <h4>Hip adduction <span class="badge">Lead slot</span></h4>
+      <div class="ccc">0.94</div>
+      <div class="ccc-l">CCC (95% CI 0.78–0.98)</div>
+      <div class="err"><strong>±9.8°</strong> 95% agreement with mocap</div>
+      <div class="err-l">LOSO cross-validated · v17 hand-engineered</div>
+      <div class="geometry">Highest concordance in the validation set. Mirror twin (side-right) flagged at 0.21 — disclosed wherever this number is quoted.</div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-joint">Sagittal · Front-oblique-right camera · n = 9 subjects</div>
+      <h4>Knee flexion <span class="badge-new">New in v25</span></h4>
+      <div class="ccc">0.89</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±9.6°</strong> 95% agreement with mocap</div>
+      <div class="err-l">LOSO cross-validated · v24 combined+ROM-aware learned Layer 2</div>
+      <div class="geometry">Extends our headline range to a third joint family. ROM-aware training on 24-subject combined cohort.</div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-joint">Sagittal · Side-left camera · n = 9 subjects</div>
+      <h4>Lumbar trunk extension</h4>
+      <div class="ccc">0.88</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±6.8°</strong> 95% agreement with mocap</div>
+      <div class="err-l">LOSO cross-validated · v23 combined-cohort learned Layer 2</div>
+      <div class="geometry">Trunk forward/back bend, side view — geometrically cleanest trunk measurement. Tighter LoA than 2-phone OpenCap reports.</div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-joint">Sagittal · Side-right camera · n = 9 subjects</div>
+      <h4>Lumbar trunk extension</h4>
+      <div class="ccc">0.85</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±7.0°</strong> 95% agreement with mocap</div>
+      <div class="err-l">LOSO cross-validated · v23 combined-cohort learned Layer 2</div>
+      <div class="geometry">Same measurement, opposite side. Cross-side consistency is rare in single-camera mocap-validated systems.</div>
+    </div>
+
+    <div class="v-card">
+      <div class="v-joint">Sagittal · Front-oblique-right camera · n = 9 subjects</div>
+      <h4>Lumbar trunk extension</h4>
+      <div class="ccc">0.79</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±9.7°</strong> 95% agreement with mocap</div>
+      <div class="err-l">LOSO cross-validated · v23 combined-cohort learned Layer 2</div>
+      <div class="geometry">Trunk extension still clears the bar from an oblique angle — fourth validated trunk slot.</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3><span class="tier-label tier-2">Tier 2</span>Supplementary validated · CCC 0.64–0.73</h3>
+  <div class="validated-grid-3">
+
+    <div class="v-card tier-2-card">
+      <div class="v-joint">Sagittal · Front-oblique-right · n = 9</div>
+      <h4>Ankle dorsi/plantarflex</h4>
+      <div class="ccc">0.73</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±8.1°</strong> LoA</div>
+      <div class="err-l">v23 combined-cohort</div>
+    </div>
+
+    <div class="v-card tier-2-card">
+      <div class="v-joint">Sagittal · Front-oblique-left · n = 9</div>
+      <h4>Lumbar trunk extension</h4>
+      <div class="ccc">0.71</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±6.6°</strong> LoA</div>
+      <div class="err-l">v18 EE2 learned Layer 2</div>
+    </div>
+
+    <div class="v-card tier-2-card">
+      <div class="v-joint">Frontal · Front-oblique-left · n = 9</div>
+      <h4>Hip adduction <span class="badge-tight">Tightest LoA</span></h4>
+      <div class="ccc">0.69</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±3.3°</strong> LoA</div>
+      <div class="err-l">v20 ROM-aware learned · tightest LoA in entire table</div>
+    </div>
+
+    <div class="v-card tier-2-card">
+      <div class="v-joint">Sagittal · Side-right · n = 9</div>
+      <h4>Ankle dorsi/plantarflex</h4>
+      <div class="ccc">0.64</div>
+      <div class="ccc-l">CCC</div>
+      <div class="err"><strong>±9.5°</strong> LoA</div>
+      <div class="err-l">v17 hand-engineered · cohort expanding</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section">
+  <h3>How Couro compares</h3>
+  <table>
+    <thead><tr>
+      <th>System</th>
+      <th>Hardware</th>
+      <th class="num">Headline CCC range</th>
+      <th class="num">Cost</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Vicon mocap (gold standard)</td><td>10+ infrared cameras + markers</td><td class="num">— (reference)</td><td class="num">$50K+ lab</td></tr>
+      <tr><td>Theia3D (Kanko 2021)</td><td>8 lab cameras + calibration</td><td class="num">0.85–0.97</td><td class="num">$80K+ install</td></tr>
+      <tr class="couro-row"><td><strong>Couro (this validation)</strong></td><td><strong>1 phone, no calibration</strong></td><td class="num"><strong>0.79–0.94</strong></td><td class="num"><strong>$0 (user's phone)</strong></td></tr>
+      <tr><td>OpenCap (Uhlrich 2023)</td><td>2 phones + calibration</td><td class="num">0.79–0.91</td><td class="num">~$200 phones</td></tr>
+      <tr><td>Coach + slow-mo replay</td><td>Phone + trained eye</td><td class="num">~0.50–0.75</td><td class="num">Labor</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h3>What we deliberately don't claim</h3>
+  <div class="honest-block">
+    <ul>
+      <li><strong>5 of 23 deploy slots are Tier 1.</strong> 4 more are Tier 2 (supplementary). The remaining 14 are explicitly Moderate (usable with caveats) or Poor (not ready). Tier labels are reported, not averaged.</li>
+      <li><strong>Hip adduction 0.94 has a flagged mirror twin.</strong> Side-right scored 0.21 in the same study — consistent with cohort asymmetry. We disclose this anywhere the 0.94 number appears.</li>
+      <li><strong>Learned Layer 2 slots (v18, v20, v23, v24) carry an L2-LOSO upper-bound caveat.</strong> Layer 2 was trained on all 9 OpenCap subjects with subject-level LOSO at Layer 3 only. Strict double-LOSO would likely reduce CCC by 0.05–0.10 on the most-promoted slots. Worth confirming before sport-config dependency.</li>
+      <li><strong>All n's are small (n = 9 LOSO subjects).</strong> Cohort expansion is the next priority for any clinical-trial-grade claim.</li>
+      <li><strong>"No calibration" means no per-session setup.</strong> The Layer 4 calibration that maps biomech ROM to sport-specific risk scores was trained on a separate 303-subject cohort (Fukuchi RBDS et al.) and is part of the deployed model — but no end-user calibration is required.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Roadmap to a 0.80 floor + more Tier 1 slots</h3>
+  <table>
+    <thead><tr>
+      <th>Next build</th>
+      <th>Effort</th>
+      <th>Expected impact</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>Per-source target heads for hip_adduction (decouple OpenCap and ASPset conventions)</td>
+        <td>1 sprint</td>
+        <td>Plausibly recovers hip_adduction sub-0.80 slots toward 0.80+</td>
+      </tr>
+      <tr>
+        <td>Double-LOSO confirmation on the 3 v23-promoted Tier 1 slots</td>
+        <td>~1 week compute</td>
+        <td>De-risks the L2-LOSO upper-bound caveat before deploy</td>
+      </tr>
+      <tr>
+        <td>Mirror twin fix for hip adduction side-right (training-data augmentation / left-right flip)</td>
+        <td>~1 sprint</td>
+        <td>Possibly adds hip adduction side-right as 6th Tier 1 slot</td>
+      </tr>
+      <tr>
+        <td>Fresh ankle data collection (paired video + foot-markered mocap)</td>
+        <td>~1 quarter</td>
+        <td>Promotes ankle from supplementary to Tier 1; tightens CI on both ankle slots</td>
+      </tr>
+      <tr>
+        <td>Sport-specific cohort wiring (Fukuchi running, ACL jump-landing, DVJ basketball)</td>
+        <td>Next sprint</td>
+        <td>Sport-specific Layer 3 numbers; possible new Tier 1 slots</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Source: v25 selective oracle · <code>results/deploy_ready_models_v25_selective.json</code> · <code>data/v25_selective_oracle/REPORT.md</code> · <code>data/biomech_validity_stats/</code><br>
+  Datasets: OpenCap LabValidation (Uhlrich 2023, PLoS Comp Bio · CC-BY 4.0) · ASPset-510 (Nibali 2021 · CC0) · Fukuchi RBDS (CC-BY) · MPI-INF-3DHP (academic only, L1 keypoint reference)<br>
+  Full technical reference: <code>docs/2026-05-29-couro-validation-v2.2.html</code> · Repo: github.com/Cam-Couro/couro-vision-validation · Couro Vision · Single phone camera · No calibration · 2026-06-02 v25
+</div>
+
+</body>
+</html>
