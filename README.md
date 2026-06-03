@@ -13,9 +13,9 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v40 selective oracle)
+## Current state (as of 2026-06-03 / v42 selective oracle)
 
-**12 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°), up from 11 in v35. **14 slots at Tier 1 (CCC ≥ 0.79)** — unchanged vs v35. The new Good slot is **`knee_angle_r / side_left`**: previously LoA 10.15° (just over the gate), now LoA 9.78° with CCC 0.903 via v38 (v31 mirror-flip L2 + ridge L3 + nested-LOSO residual calibration). See `data/v40_selective_oracle/REPORT.md`.
+**12 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°) — unchanged vs v40. **14 slots at Tier 1 (CCC ≥ 0.79)** — unchanged vs v40. v42 extends Agent PP's residual calibration to v20 (Agent QQ, "v41" candidate = v20 + nested-LOSO calibration). On the focus slot `hip_adduction_r / front_oblique_left` — tightest LoA in the table (±3.3°) but modest CCC (0.69) — calibration collapsed CCC from 0.690 to 0.213 in nested LOSO; per-slot fallback held v20 uncalibrated. **Bias hypothesis refuted for v20-based slots:** the n=9 OpenCap subject pool makes the inner-LOSO (a, b) fit too noisy for the v20 reader, even on the slot with the textbook bias-dominated pattern. v42 ships unchanged from v40 (no new picks, no demotions). See `data/v42_selective_oracle/REPORT.md`.
 
 Two PP levers shipped:
 
@@ -92,7 +92,9 @@ Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slot
 | `results/deploy_ready_models_v37_v23_calibrated.json` | v17 base + v23 L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback to uncalibrated (Agent PP, Lever 2). |
 | `results/deploy_ready_models_v38_v31_calibrated.json` | v17 base + v29 mirror-flip L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback (Agent PP, Lever 2). |
 | `results/deploy_ready_models_v39_v17_calibrated.json` | v17 base + hand-engineered L2 + ridge L3 + nested-LOSO residual calibration with per-slot fallback (Agent PP, Lever 2). |
-| `results/deploy_ready_models_v40_selective.json` | **Recommended:** per-slot oracle-best across the v35 reader pool + v37/v38/v39 calibrated readers, with the v36 LoA-then-CCC tie-break (**12 Good slots**, +1 vs v35; 14 Tier 1 slots at CCC ≥ 0.79, unchanged). New Good slot: `knee_angle_r / side_left` via v38 at LoA 9.78° / CCC 0.903 — first Category A LoA-wall crossing. |
+| `results/deploy_ready_models_v40_selective.json` | Per-slot oracle-best across the v35 reader pool + v37/v38/v39 calibrated readers, with the v36 LoA-then-CCC tie-break (**12 Good slots**, +1 vs v35; 14 Tier 1 slots at CCC ≥ 0.79, unchanged). New Good slot: `knee_angle_r / side_left` via v38 at LoA 9.78° / CCC 0.903 — first Category A LoA-wall crossing. Superseded by v42. |
+| `results/deploy_ready_models_v41_v20_calibrated.json` | v17 base + v20 (GG2 ROM-aware OpenCap-only L2) + ridge L3 + nested-LOSO residual calibration with per-slot fallback to uncalibrated v20 (Agent QQ). |
+| `results/deploy_ready_models_v42_selective.json` | **Recommended:** per-slot oracle-best across the v40 reader pool + v41 (v20 + cal) (**12 Good slots, 14 Tier 1** — unchanged vs v40). v41 did not promote `hip_adduction_r / front_oblique_left` to Tier 1: calibration collapsed CCC from 0.690 to 0.213 on the n=9 OpenCap subject pool, per-slot fallback held v20 uncalibrated. Confirms calibration is not the right lever for v20-based slots. |
 
 ## Methodology — what "validated" means here
 
