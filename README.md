@@ -13,26 +13,38 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `data/*/REPORT.md` | Per-build narratives and findings |
 | `models/` | Trained Layer 2 checkpoints (pretrained weights for DWPose/VideoPose3D excluded; download from source) |
 
-## Current state (as of 2026-06-02 / v28 selective oracle)
+## Current state (as of 2026-06-02 / v32 selective oracle)
 
-**10 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°):
+**11 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°). **13 slots at Tier 1 (CCC ≥ 0.79)** — up from 7 in v28.
+
+See `data/v32_selective_oracle/REPORT.md` for the full delta vs v28. v32 adds three readers to the v28 pool: v29 (mirror-flip Layer 2 + ridge L3), v30 (v23 L2 + learned L3), v31 (mirror-flip L2 + learned L3). Two slot promotions vs v28:
+
+- `hip_adduction_r / front_oblique_right`: Poor → Moderate via v30 (CCC 0.84 → 0.89, LoA tightened 15.74 → 13.80°).
+- `lumbar_extension / front_center`: Moderate → **Good** via v31 (CCC 0.55 → 0.80, LoA 8.48 → 5.95°). Surprise win — front_center was previously the broken view family.
+
+Mirror-flip augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left all unchanged). Learned L3 did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but did tighten LoA on 3 of 5 slots (knee_angle_r FOL/side_left LoA below 11° for the first time).
+
+### v32 deploy slot table (11 Good slots ordered by CCC)
+
+
 
 | Slot | CCC | LoA half | Reader |
 |---|---:|---:|---|
-| hip_adduction_r / side_left | 0.94 | ±9.80° | v17 hand-engineered |
+| hip_adduction_r / side_left | 0.94 | ±9.32° | **v29 mirror-flip Layer 2 (NN)** |
 | knee_angle_r / front_oblique_right | 0.89 | ±8.05° | v24 combined-cohort + ROM-aware learned Layer 2 (LL) |
 | lumbar_extension / side_left | 0.88 | ±6.42° | v23 combined-cohort learned Layer 2 |
-| hip_flexion_r / side_left | 0.86 | ±9.24° | **v26 per-source heads + per-frame SmoothL1 (MM-A)** |
+| hip_flexion_r / side_left | 0.86 | ±9.24° | v26 per-source heads + per-frame SmoothL1 (MM-A) |
 | lumbar_extension / side_right | 0.85 | ±7.03° | v23 combined-cohort learned Layer 2 |
-| lumbar_extension / front_oblique_left | 0.82 | ±5.18° | **v26 per-source heads + per-frame SmoothL1 (MM-A)** |
+| lumbar_extension / front_oblique_left | 0.82 | ±5.18° | v26 per-source heads + per-frame SmoothL1 (MM-A) |
+| **lumbar_extension / front_center** | **0.80** | **±5.95°** | **v31 mirror-flip Layer 2 + learned Layer 3 (NN)** |
 | lumbar_extension / front_oblique_right | 0.79 | ±9.68° | v23 combined-cohort learned Layer 2 |
 | ankle_angle_r / front_oblique_right | 0.73 | ±8.08° | v23 combined-cohort learned Layer 2 |
 | hip_adduction_r / front_oblique_left | 0.69 | ±3.29° | v20 ROM-aware learned Layer 2 |
 | ankle_angle_r / side_right | 0.64 | ±9.46° | v17 hand-engineered |
 
-**Range: CCC 0.64–0.94, single phone camera, no calibration.** v28 selective oracle (10 Good slots, **+1 vs v25**). Reader distribution: v17=6, v20=2, v23=7, v24=2, v26=3, v27=3. The new Good slot via v26 (Agent MM per-source heads) is `hip_flexion_r / side_left` at CCC 0.858 — unexpected lift outside the original target slots. The same v26 reader also pushed `lumbar_extension / front_oblique_left` from CCC 0.71 (v18 reader in v25) up to **CCC 0.82** — a clean Tier 1 (≥0.79) promotion on a target slot.
+**Range: CCC 0.64–0.94, single phone camera, no calibration.** v32 selective oracle: **11 Good slots (+1 vs v28); 13 Tier 1 slots at CCC ≥ 0.79 (+6 vs v28)**. Reader distribution: v17=4, v20=1, v23=5, v24=2, v26=2, v27=2, v29=1, v30=2, v31=4. New Good slot is `lumbar_extension / front_center` at CCC 0.80 via v31 — a Moderate-to-Good promotion. The v32 build also bumped `hip_adduction_r / front_oblique_right` from Poor to Moderate via v30 (CCC 0.84 → 0.89).
 
-> **Floor lift status (MM build):** the 0.79 Tier 1 floor **WAS cleared** on `lumbar_extension / front_oblique_left` (0.71 → 0.82 via v26 MM-A per-source heads). The second target slot `hip_adduction_r / front_oblique_left` was NOT lifted (per-source heads collapsed it; v28 keeps v20 at CCC 0.69, LoA ±3.29°). Net Tier 1 (CCC ≥ 0.79) count: **7 in v28 vs 5 in v25**. See `data/v28_selective_oracle/REPORT.md` for the slot-by-slot verdict and the negative-result discussion on hip_adduction_r/FO_left.
+> **Mirror-flip + learned Layer 3 verdict (NN build):** Mirror flip Layer 2 augmentation did NOT lift the Category B mirror-twin asymmetric slots (hip_adduction_r/side_right, hip_flexion_r/side_right, ankle_angle_r/side_left, ankle_angle_r/front_oblique_left — all unchanged within ±0.01 CCC). Learned Layer 3 (TinyMLP replacing ridge per slot, with ridge fallback if learned underperforms) did NOT promote any Category A LoA-limited knee/hip_flexion borderlines to Good, but it DID tighten LoA on 3 of 5 borderline slots (knee_angle_r/FOL: LoA 11.83→10.77; knee_angle_r/side_left: 11.79→10.15; hip_adduction_r/FOR: 15.74→13.80). See `data/v32_selective_oracle/REPORT.md` for the slot-by-slot verdict.
 
 ## Headline build cycles
 
@@ -40,7 +52,8 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 - **2026-05-29 build cycle:** Selective adoption of blend-retrained lumbar slot (Agent X); rear-view synthetic validation (Agent W, pooled \|r\| 0.74); learned Layer 2 trained on real OpenCap mocap GT (Agent EE2, pooled \|r\| 0.645 frame-level); ensemble of hand-engineered + learned Layer 2 (Agent JJ, the v19 deploy candidate).
 - **2026-06-02 build cycle:** ROM-aware learned Layer 2 (Agent GG2) → v20 deploy candidate; v21 selective oracle across v17/v18/v20 reaches 7 Good slots; combined-cohort OpenCap+ASPset learned Layer 2 (Agent HH2, pooled OpenCap-held \|r\| 0.670, +0.025 vs EE2 OpenCap-only baseline); v23 Phase B Layer 3 retrain on HH2's combined L2 (Agent KK) lifts the v22 selective oracle to **8 Good slots** (CCC 0.64–0.94). Trunk extension now validated from 4 camera angles; ankle dorsi/plantarflexion from 2.
 - **2026-06-02 LL build:** LL combined-cohort + ROM-aware learned Layer 2 (Agent LL) → v24 Phase B Layer 3 retrain; v25 selective oracle adds v24 to the reader pool. Verdict: **9 Good slots** (+1 vs v22), new Good slot is `knee_angle_r / front_oblique_right` at CCC 0.887 via v24. **Floor lift to ≥0.80 was NOT achieved** on any of the 5 sub-0.80 slots Cameron called out. See `data/v25_selective_oracle/REPORT.md`.
-- **2026-06-02 MM build (this work):** Per-source heads learned Layer 2 (Agent MM) addresses HH2's own recommended fix for the OpenCap/ASPset hip_adduction_r convention mismatch. Two variants: v26 (MM-A, per-frame SmoothL1) and v27 (MM-B, ROM-aware). v28 selective oracle adds both to the v25 pool. **Verdict: 10 Good slots (+1 vs v25); 7 Tier 1 slots at CCC ≥ 0.79 (+2 vs v25).** `lumbar_extension / front_oblique_left` lifted from 0.71 to **0.82** via v26 (the only target slot that crossed Tier 1). `hip_adduction_r / front_oblique_left` did NOT lift — convention mismatch was not the bottleneck on the bias-limited slot. Bonus: `hip_flexion_r / side_left` unexpectedly promoted Moderate → Good via v26 at CCC 0.858. See `data/v28_selective_oracle/REPORT.md`.
+- **2026-06-02 MM build:** Per-source heads learned Layer 2 (Agent MM) addresses HH2's own recommended fix for the OpenCap/ASPset hip_adduction_r convention mismatch. Two variants: v26 (MM-A, per-frame SmoothL1) and v27 (MM-B, ROM-aware). v28 selective oracle adds both to the v25 pool. **Verdict: 10 Good slots (+1 vs v25); 7 Tier 1 slots at CCC ≥ 0.79 (+2 vs v25).** `lumbar_extension / front_oblique_left` lifted from 0.71 to **0.82** via v26 (the only target slot that crossed Tier 1). `hip_adduction_r / front_oblique_left` did NOT lift — convention mismatch was not the bottleneck on the bias-limited slot. Bonus: `hip_flexion_r / side_left` unexpectedly promoted Moderate → Good via v26 at CCC 0.858. See `data/v28_selective_oracle/REPORT.md`.
+- **2026-06-02 NN build (this work):** Two combined improvements to attack the remaining gaps. (1) **Mirror-flip Layer 2 augmentation** — flip every clip horizontally + swap L/R keypoint pairs + swap _r/_l target labels, doubling effective coverage. Aimed at Category B (mirror-twin asymmetric) slots. (2) **Per-slot learned Layer 3 (TinyMLP, hidden=32, dropout 0.2, AdamW lr=1e-2 wd=1e-3, 200 epochs w/ early stopping)** replacing ridge regression. Aimed at Category A (LoA-limited knee/hip_flexion borderlines). Per-slot fallback to ridge if learned underperforms by >0.05 CCC keeps no-regression guarantee. v29 = mirror-flip L2 + ridge L3; v30 = v23 L2 + learned L3; v31 = mirror-flip L2 + learned L3. v32 selective oracle adds all three to the v28 pool. **Verdict: 11 Good slots (+1 vs v28); 13 Tier 1 slots at CCC ≥ 0.79 (+6 vs v28).** The new Good slot is `lumbar_extension / front_center` at CCC 0.80 via v31 — a surprise win on a previously-broken view. `hip_adduction_r / front_oblique_right` lifted Poor → Moderate via v30 (CCC 0.84 → 0.89). Category B (mirror-twin) slots did NOT lift (all unchanged within ±0.01 CCC). Category A (LoA-limited) borderlines did NOT promote to Good but DID see LoA tightening on 3 of 5 slots. See `data/v32_selective_oracle/REPORT.md`.
 
 ## Deploy table candidates
 
@@ -59,7 +72,11 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 | `results/deploy_ready_models_v25_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24 (**9 Good slots**, +1 vs v22). |
 | `results/deploy_ready_models_v26_persource_perframe.json` | v17 base + v26 MM-A per-source heads + per-frame SmoothL1 learned-L2 ridge re-fit (Agent MM build) |
 | `results/deploy_ready_models_v27_persource_romaware.json` | v17 base + v27 MM-B per-source heads + ROM-aware learned-L2 ridge re-fit (Agent MM build) |
-| `results/deploy_ready_models_v28_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27 (**10 Good slots**, +1 vs v25; 7 Tier 1 slots at CCC ≥ 0.79, +2 vs v25). Includes `lumbar_extension/front_oblique_left` lifted from 0.71 to 0.82 via v26 and `hip_flexion_r/side_left` promoted Moderate → Good via v26 at CCC 0.858. |
+| `results/deploy_ready_models_v28_selective.json` | Per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27 (**10 Good slots**, +1 vs v25; 7 Tier 1 slots at CCC ≥ 0.79, +2 vs v25). Superseded by v32. |
+| `results/deploy_ready_models_v29_mirrorflip.json` | v17 base + v29 NN mirror-flip per-source per-frame learned-L2 + ridge L3 (Agent NN, Phase 1). |
+| `results/deploy_ready_models_v30_learned_l3.json` | v17 base + v23 HH2 combined L2 + per-slot **learned Layer 3** (TinyMLP) with ridge fallback (Agent NN, Phase 2). |
+| `results/deploy_ready_models_v31_mirrorflip_learned_l3.json` | v17 base + v29 mirror-flip L2 + per-slot learned Layer 3 with ridge fallback (Agent NN, Phase 2). |
+| `results/deploy_ready_models_v32_selective.json` | **Recommended:** per-slot oracle-best across v17/v18/v20/v23/v24/v26/v27/v29/v30/v31 (**11 Good slots**, +1 vs v28; 13 Tier 1 slots at CCC ≥ 0.79, +6 vs v28). New Good slot: `lumbar_extension/front_center` at CCC 0.80 via v31. New Moderate via v30: `hip_adduction_r/front_oblique_right` at CCC 0.89. |
 
 ## Methodology — what "validated" means here
 
