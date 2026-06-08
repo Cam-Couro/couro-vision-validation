@@ -75,6 +75,11 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(REPO_ROOT))
 
 from harness.train_regression_poc import fit_ridge  # noqa: E402
+from harness.per_slot_prediction_dump import DumpAccumulator  # noqa: E402
+
+
+# Agent SS per-clip dump infrastructure for v41 (v20 + nested calibration).
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 # Silence ridge runtime warnings.
 warnings_filter = logging.getLogger("py.warnings")
@@ -689,6 +694,14 @@ def run() -> dict:
             new_tier = chosen_stats.get("classification", "Poor") or "Poor"
             tier_counter[new_tier] = tier_counter.get(new_tier, 0) + 1
 
+            if DUMP_ACCUMULATOR is not None:
+                _pred_dump = pred_cal if chosen == "calibrated" else pred_unc
+                DUMP_ACCUMULATOR.add_slot(
+                    target=target, view=view,
+                    approach=f"{approach}|{chosen}",
+                    pred=_pred_dump, obs=y_out, subjects=subj_out,
+                )
+
             # The "baseline" v20 stats we should match when we fall back.
             v20_baseline_stats = v20_per_slot_by_key.get((target, view), {})
             v20_baseline_ccc = v20_baseline_stats.get("ccc_lin")
@@ -859,13 +872,33 @@ def run() -> dict:
 
 
 def main() -> None:
+    global DUMP_ACCUMULATOR
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--dump-predictions", action="store_true",
+        help="If set, write per-subject (pred, gt) dumps under "
+             "data/per_slot_predictions/per_slot_predictions_v41.json.",
+    )
+    args = parser.parse_args()
     log("=== Agent QQ (calibrate v20) START ===")
+    if args.dump_predictions:
+        DUMP_ACCUMULATOR = DumpAccumulator(
+            reader="v41",
+            loso_discipline=(
+                "Nested LOSO with residual calibration (QQ: base=v20)"
+            ),
+        )
+        log("[SS dump] DUMP_ACCUMULATOR set for reader 'v41'")
     try:
         run()
     except Exception as e:
         log(f"FATAL: {e!r}")
         traceback.print_exc()
         raise
+    if DUMP_ACCUMULATOR is not None:
+        out_path = DUMP_ACCUMULATOR.write()
+        log(f"[SS dump] wrote per-slot predictions to {out_path}")
     log("=== Agent QQ (calibrate v20) DONE ===")
 
 

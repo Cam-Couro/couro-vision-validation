@@ -60,6 +60,13 @@ from harness.learned_layer3 import (  # noqa: E402
     _ccc, _pearson, _classify, _stats_per_subject, _loso_ridge,
     BASELINE_PATH, V17_PATH,
 )
+from harness.per_slot_prediction_dump import DumpAccumulator  # noqa: E402
+
+
+# Agent SS per-clip dump infrastructure (extrema-aware variant). Mirrors
+# the v30/v31 dump logic; records the chosen (ridge or learned_extrema)
+# predictions per held-out subject.
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 
 warnings_filter = logging.getLogger("py.warnings")
@@ -848,6 +855,17 @@ def _orchestrate(tag: str, l2_kind: str) -> dict:
         new_tier = chosen_stats.get("classification", "Poor") or "Poor"
         tier_counter[new_tier] = tier_counter.get(new_tier, 0) + 1
 
+        if DUMP_ACCUMULATOR is not None:
+            if chosen == "learned_extrema":
+                _pred_dump, _obs_dump, _subj_dump = pred_l, obs_l, subj_l
+            else:
+                _pred_dump, _obs_dump, _subj_dump = pred_r, obs_r, subj_r
+            DUMP_ACCUMULATOR.add_slot(
+                target=target, view=view,
+                approach=f"{approach}|{chosen}",
+                pred=_pred_dump, obs=_obs_dump, subjects=_subj_dump,
+            )
+
         slot_record = {
             "target": target,
             "view": view,
@@ -964,10 +982,16 @@ def _orchestrate(tag: str, l2_kind: str) -> dict:
 
 
 def main() -> None:
+    global DUMP_ACCUMULATOR
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--l2", choices=["v23", "v29"], default="v23",
         help="Which L2 model to use as feature source.",
+    )
+    parser.add_argument(
+        "--dump-predictions", default=None,
+        help="If set, also write per-subject (pred, gt) dumps for the "
+             "chosen (ridge|learned_extrema) L3 head.",
     )
     args = parser.parse_args()
     tag = {
@@ -975,7 +999,18 @@ def main() -> None:
         "v29": "v34_mirrorflip_extrema_l3",
     }[args.l2]
     log(f"=== Agent OO ({tag}) START ===")
+    if args.dump_predictions:
+        DUMP_ACCUMULATOR = DumpAccumulator(
+            reader=args.dump_predictions,
+            loso_discipline=(
+                f"Layer-3-LOSO-only (OO: L2={args.l2}, extrema-aware L3)"
+            ),
+        )
+        log(f"[SS dump] DUMP_ACCUMULATOR set for '{args.dump_predictions}'")
     _orchestrate(tag=tag, l2_kind=args.l2)
+    if DUMP_ACCUMULATOR is not None:
+        out_path = DUMP_ACCUMULATOR.write()
+        log(f"[SS dump] wrote per-slot predictions to {out_path}")
     log(f"=== Agent OO ({tag}) DONE ===")
 
 

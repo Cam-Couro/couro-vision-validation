@@ -72,6 +72,12 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(REPO_ROOT))
 
 from harness.train_regression_poc import fit_ridge  # noqa: E402
+from harness.per_slot_prediction_dump import DumpAccumulator  # noqa: E402
+
+
+# Agent SS per-clip dump infrastructure. Records the chosen (calibrated or
+# uncalibrated) outer-LOSO per-subject predictions for each slot.
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 # Silence ridge runtime warnings.
 warnings_filter = logging.getLogger("py.warnings")
@@ -688,6 +694,14 @@ def _run_one_reader(reader_key: str) -> dict:
         new_tier = chosen_stats.get("classification", "Poor") or "Poor"
         tier_counter[new_tier] = tier_counter.get(new_tier, 0) + 1
 
+        if DUMP_ACCUMULATOR is not None:
+            _pred_dump = pred_cal if chosen == "calibrated" else pred_unc
+            DUMP_ACCUMULATOR.add_slot(
+                target=target, view=view,
+                approach=f"{approach}|{chosen}",
+                pred=_pred_dump, obs=y_out, subjects=subj_out,
+            )
+
         slot_record = {
             "target": target,
             "view": view,
@@ -1055,21 +1069,41 @@ def write_report(per_slot_runs: list[dict]) -> None:
 
 
 def main() -> None:
+    global DUMP_ACCUMULATOR
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--readers", nargs="+", default=["v37", "v38", "v39"],
         choices=["v37", "v38", "v39"],
+    )
+    parser.add_argument(
+        "--dump-predictions", action="store_true",
+        help="If set, write per-subject (pred, gt) dumps under "
+             "data/per_slot_predictions/per_slot_predictions_<reader>.json "
+             "for each reader run.",
     )
     args = parser.parse_args()
 
     log("=== Agent PP Lever 2 (residual calibration) START ===")
     runs: list[dict] = []
     for r in args.readers:
+        if args.dump_predictions:
+            DUMP_ACCUMULATOR = DumpAccumulator(
+                reader=r,
+                loso_discipline=(
+                    f"Nested LOSO with residual calibration "
+                    f"(PP reader={r}); chosen = lower-LoA of cal vs uncal."
+                ),
+            )
+            log(f"[SS dump] DUMP_ACCUMULATOR set for reader '{r}'")
         try:
             runs.append(_run_one_reader(r))
         except Exception as e:
             log(f"reader {r} failed: {e!r}")
             traceback.print_exc(file=sys.stdout)
+        if DUMP_ACCUMULATOR is not None:
+            out_path = DUMP_ACCUMULATOR.write()
+            log(f"[SS dump] wrote per-slot predictions to {out_path}")
+            DUMP_ACCUMULATOR = None
     write_report(runs)
     log("=== Agent PP Lever 2 (residual calibration) DONE ===")
 

@@ -46,6 +46,11 @@ import harness.train_ankle_bilateral as ea_ank
 import harness.train_v14_full_dwpose as v14
 from harness.train_multi_metric import VIEW_BUCKET_NAMES
 from harness.train_regression_poc import fit_ridge
+from harness.per_slot_prediction_dump import DumpAccumulator
+
+
+# Agent SS per-clip dump infrastructure.
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 
 RESULTS_DIR = Path(
@@ -454,6 +459,11 @@ def run(skip_combined: bool = False) -> dict:
                 out_rows.append(merged_slot_dict(stats, None))
                 continue
             pred, obs, subj = _loso_extract(X, y, list(subjects), alpha=10.0)
+            if DUMP_ACCUMULATOR is not None:
+                DUMP_ACCUMULATOR.add_slot(
+                    target=target, view=view, approach=approach,
+                    pred=pred, obs=obs, subjects=subj,
+                )
             per_subj = compute_stats_from_pairs(
                 target, view, approach, pred, obs, subj, aggregate_per_subject=True,
             )
@@ -923,17 +933,36 @@ def render_mpi_rear_section() -> str:
 
 
 def main() -> None:
+    global DUMP_ACCUMULATOR
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--skip-combined", action="store_true",
         help="Skip v12/v13/v14 combined datasets (use summary stats only for them)",
     )
+    parser.add_argument(
+        "--dump-predictions", default=None,
+        help="If set, also write per-subject (pred, gt) dumps. Reader tag, "
+             "e.g. 'v17'.",
+    )
     args = parser.parse_args()
+    if args.dump_predictions:
+        DUMP_ACCUMULATOR = DumpAccumulator(
+            reader=args.dump_predictions,
+            loso_discipline=(
+                "Layer-3-LOSO baseline (hand-engineered features per "
+                "approach builder)."
+            ),
+        )
+        print(f"[SS dump] DUMP_ACCUMULATOR set for "
+              f"'{args.dump_predictions}'")
     out = run(skip_combined=args.skip_combined)
     write_outputs(out)
     print(f"\nWrote {OUT_DIR / 'per_slot_validity.json'}")
     print(f"Wrote {OUT_DIR / 'REPORT.md'}")
+    if DUMP_ACCUMULATOR is not None:
+        out_path = DUMP_ACCUMULATOR.write()
+        print(f"[SS dump] wrote per-slot predictions to {out_path}")
 
 
 if __name__ == "__main__":

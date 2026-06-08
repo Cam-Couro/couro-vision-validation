@@ -97,6 +97,15 @@ from harness.couro_keypoints import (
 )
 from harness.parsers import MotionData, parse_mot
 from harness.train_regression_poc import fit_ridge
+from harness.per_slot_prediction_dump import DumpAccumulator
+
+
+# Agent SS per-clip dump infrastructure: when ``DUMP_ACCUMULATOR`` is set
+# by an outer driver (or by main(--dump-predictions <reader_tag>)), the
+# LOSO loop will record per-subject (pred, gt) means for every slot.
+# Downstream scripts (v23, v24, v26, v27, v29) that monkey-patch this
+# module's ``run()`` will inherit this behaviour automatically.
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 
 # -------------------------------------------------------------------------
@@ -712,7 +721,17 @@ def run() -> dict:
                 per_slot_validity.append({**base, "v18_skipped": True,
                                           "skip_reason": f"loso error: {e!r}"})
             v18_models.setdefault(target, {})[view] = entry
+            if DUMP_ACCUMULATOR is not None:
+                DUMP_ACCUMULATOR.add_slot_skip(
+                    target=target, view=view, reason=f"loso error: {e!r}",
+                )
             continue
+
+        if DUMP_ACCUMULATOR is not None:
+            DUMP_ACCUMULATOR.add_slot(
+                target=target, view=view, approach=approach,
+                pred=pred, obs=obs, subjects=subj_arr,
+            )
 
         stats = _compute_stats_per_subject(pred, obs, subj_arr)
         stats["target"] = target
@@ -1069,14 +1088,30 @@ def _write_report(per_slot_out: dict, baseline: dict, v17: dict) -> None:
 
 def main() -> None:
     import argparse
+    global DUMP_ACCUMULATOR
     parser = argparse.ArgumentParser()
     parser.add_argument("--force-retrain-l2", action="store_true")
+    parser.add_argument(
+        "--dump-predictions", default=None,
+        help="If set, also write per-subject (pred, gt) dumps to "
+             "data/per_slot_predictions/per_slot_predictions_<TAG>.json. "
+             "Reader tag, e.g. 'v18'.",
+    )
     args = parser.parse_args()
     log("=== Agent FF Phase B START ===")
     if args.force_retrain_l2 and MODEL_OUT.exists():
         MODEL_OUT.unlink()
         log(f"removed cached L2 checkpoint at {MODEL_OUT}")
+    if args.dump_predictions:
+        DUMP_ACCUMULATOR = DumpAccumulator(
+            reader=args.dump_predictions,
+            loso_discipline="Layer-3-LOSO-only (FF: L2 trained on all OpenCap)",
+        )
+        log(f"[SS dump] DUMP_ACCUMULATOR set for reader '{args.dump_predictions}'")
     run()
+    if DUMP_ACCUMULATOR is not None:
+        out_path = DUMP_ACCUMULATOR.write()
+        log(f"[SS dump] wrote per-slot predictions to {out_path}")
     log("=== Agent FF Phase B DONE ===")
 
 

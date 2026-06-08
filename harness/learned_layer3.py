@@ -58,6 +58,14 @@ if __package__ in (None, ""):
     sys.path.insert(0, str(REPO_ROOT))
 
 from harness.train_regression_poc import RidgeModel, fit_ridge  # noqa: E402
+from harness.per_slot_prediction_dump import DumpAccumulator  # noqa: E402
+
+
+# Agent SS per-clip dump infrastructure. When set by main(), the LOSO loop
+# records the WINNING (ridge or learned) per-subject predictions for every
+# slot. The dump matches the deploy reports' aggregation (per-subject means
+# across each subject's held-out clips).
+DUMP_ACCUMULATOR: DumpAccumulator | None = None
 
 
 # Silence noisy ridge warnings from degenerate features during LOSO.
@@ -756,6 +764,17 @@ def _orchestrate(tag: str, l2_kind: str) -> dict:
         new_tier = chosen_stats.get("classification", "Poor") or "Poor"
         tier_counter[new_tier] = tier_counter.get(new_tier, 0) + 1
 
+        if DUMP_ACCUMULATOR is not None:
+            if chosen == "learned":
+                _pred_dump, _obs_dump, _subj_dump = pred_l, obs_l, subj_l
+            else:
+                _pred_dump, _obs_dump, _subj_dump = pred_r, obs_r, subj_r
+            DUMP_ACCUMULATOR.add_slot(
+                target=target, view=view,
+                approach=f"{approach}|{chosen}",
+                pred=_pred_dump, obs=_obs_dump, subjects=_subj_dump,
+            )
+
         slot_record = {
             "target": target,
             "view": view,
@@ -867,10 +886,16 @@ def _orchestrate(tag: str, l2_kind: str) -> dict:
 
 
 def main() -> None:
+    global DUMP_ACCUMULATOR
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--l2", choices=["v23", "v29"], default="v23",
         help="Which L2 model to use as feature source.",
+    )
+    parser.add_argument(
+        "--dump-predictions", default=None,
+        help="If set, also write per-subject (pred, gt) dumps for the "
+             "chosen (ridge|learned) L3 head. Reader tag, e.g. 'v30'.",
     )
     args = parser.parse_args()
     tag = {
@@ -878,7 +903,20 @@ def main() -> None:
         "v29": "v31_mirrorflip_learned_l3",
     }[args.l2]
     log(f"=== Agent NN Phase 2 ({tag}) START ===")
+    if args.dump_predictions:
+        DUMP_ACCUMULATOR = DumpAccumulator(
+            reader=args.dump_predictions,
+            loso_discipline=(
+                f"Layer-3-LOSO-only (NN: L2 source={args.l2}, "
+                f"learned L3 with ridge fallback)"
+            ),
+        )
+        log(f"[SS dump] DUMP_ACCUMULATOR set for reader "
+            f"'{args.dump_predictions}'")
     _orchestrate(tag=tag, l2_kind=args.l2)
+    if DUMP_ACCUMULATOR is not None:
+        out_path = DUMP_ACCUMULATOR.write()
+        log(f"[SS dump] wrote per-slot predictions to {out_path}")
     log(f"=== Agent NN Phase 2 ({tag}) DONE ===")
 
 
