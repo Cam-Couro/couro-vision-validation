@@ -1,3 +1,5 @@
 {
-  "v17": "ok (183.4s) -> /Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/per_slot_predictions/per_slot_predictions_v17.json"
+  "v23": "ok (1963.3s) -> /Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/per_slot_predictions/per_slot_predictions_v23.json",
+  "v26": "ok (434.1s) -> /Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/per_slot_predictions/per_slot_predictions_v26.json",
+  "v31": "ok (586.3s) -> /Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/data/per_slot_predictions/per_slot_predictions_v31.json"
 }

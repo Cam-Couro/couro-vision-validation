@@ -1,0 +1,994 @@
+{
+  "version": "v43_ensemble_oracle",
+  "produced_by": "harness.build_v43_ensemble (Agent SS)",
+  "description": "v42 oracle pool + per-slot ensembles (ccc_weighted, equal_weight, top3). Per-slot fallback to v42 pick if ensemble CCC regresses by more than 0.02 vs v42 or ensemble tier is no better.",
+  "tier_counts": {
+    "Excellent": 0,
+    "Good": 12,
+    "Moderate": 5,
+    "Poor": 6
+  },
+  "tier1_count_ccc_ge_0p79": 14,
+  "v42_tier_counts": {
+    "Excellent": 0,
+    "Good": 12,
+    "Moderate": 5,
+    "Poor": 6
+  },
+  "v42_tier1_count": 14,
+  "delta_good_vs_v42": 0,
+  "delta_tier1_vs_v42": 0,
+  "n_slots_using_ensemble": 2,
+  "ensemble_flavour_used": {
+    "equal_weight": 1,
+    "top3": 1
+  },
+  "reader_distribution": {
+    "v26": 2,
+    "v17": 4,
+    "v27": 1,
+    "ensemble:equal_weight(v17+v23+v26+v31)": 1,
+    "v20": 1,
+    "v30": 2,
+    "v31": 3,
+    "v38": 1,
+    "v24": 2,
+    "ensemble:top3(v17+v23+v26+v31)": 1,
+    "v23": 3,
+    "v37": 1,
+    "v33": 1
+  },
+  "promotions_vs_v42": [],
+  "demotions_vs_v42": [],
+  "picks": [
+    {
+      "slot": "hip_flexion_r|side_left",
+      "v42_reader": "v26",
+      "v42_ccc": 0.8582900929385497,
+      "v42_loa": 9.24008527067677,
+      "v42_tier": "Good",
+      "v43_reader": "v26",
+      "v43_ccc": 0.8582900929385497,
+      "v43_loa": 9.24008527067677,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.722 < 0.858",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.7222032468184231,
+          "loa_half_width_deg": 12.502429495202142,
+          "classification": "Moderate",
+          "n_subjects": 12
+        },
+        "equal_weight": {
+          "ccc_lin": 0.7021912648825598,
+          "loa_half_width_deg": 12.925406470072849,
+          "classification": "Moderate",
+          "n_subjects": 12
+        },
+        "top3": {
+          "ccc_lin": 0.7079472029150853,
+          "loa_half_width_deg": 12.824948181308237,
+          "classification": "Moderate",
+          "n_subjects": 12
+        }
+      },
+      "n_common_subjects": 12
+    },
+    {
+      "slot": "hip_flexion_r|front_oblique_left",
+      "v42_reader": "v17",
+      "v42_ccc": 0.8430113813944956,
+      "v42_loa": 11.28941475337648,
+      "v42_tier": "Moderate",
+      "v43_reader": "v17",
+      "v43_ccc": 0.8430113813944956,
+      "v43_loa": 11.28941475337648,
+      "v43_tier": "Moderate",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.804 < 0.843",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8024403297171624,
+          "loa_half_width_deg": 11.144943166761818,
+          "classification": "Moderate",
+          "n_subjects": 21
+        },
+        "equal_weight": {
+          "ccc_lin": 0.8042357337673757,
+          "loa_half_width_deg": 11.080473319025051,
+          "classification": "Moderate",
+          "n_subjects": 21
+        },
+        "top3": {
+          "ccc_lin": 0.8042074859340267,
+          "loa_half_width_deg": 11.02093777324694,
+          "classification": "Moderate",
+          "n_subjects": 21
+        }
+      },
+      "n_common_subjects": 21
+    },
+    {
+      "slot": "hip_flexion_r|front_oblique_right",
+      "v42_reader": "v17",
+      "v42_ccc": 0.696904701391751,
+      "v42_loa": 18.49855512429397,
+      "v42_tier": "Poor",
+      "v43_reader": "v17",
+      "v43_ccc": 0.696904701391751,
+      "v43_loa": 18.49855512429397,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.662 < 0.697",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.6610893943202794,
+          "loa_half_width_deg": 16.367140557740232,
+          "classification": "Poor",
+          "n_subjects": 17
+        },
+        "equal_weight": {
+          "ccc_lin": 0.662441592810056,
+          "loa_half_width_deg": 16.289886560252096,
+          "classification": "Poor",
+          "n_subjects": 17
+        },
+        "top3": {
+          "ccc_lin": 0.6577686692526278,
+          "loa_half_width_deg": 16.347591372917474,
+          "classification": "Poor",
+          "n_subjects": 17
+        }
+      },
+      "n_common_subjects": 17
+    },
+    {
+      "slot": "hip_flexion_r|side_right",
+      "v42_reader": "v27",
+      "v42_ccc": 0.5835494584310499,
+      "v42_loa": 16.945228239662736,
+      "v42_tier": "Poor",
+      "v43_reader": "v27",
+      "v43_ccc": 0.5835494584310499,
+      "v43_loa": 16.945228239662736,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.293 < 0.584",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.2676504861688424,
+          "loa_half_width_deg": 21.172256036298336,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.21179648537008858,
+          "loa_half_width_deg": 21.424983960538356,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.2927786989622811,
+          "loa_half_width_deg": 20.328020820996365,
+          "classification": "Poor",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "hip_adduction_r|side_left",
+      "v42_reader": "v39",
+      "v42_ccc": 0.9432710398544941,
+      "v42_loa": 9.624240357218767,
+      "v42_tier": "Good",
+      "v43_reader": "ensemble:equal_weight(v17+v23+v26+v31)",
+      "v43_ccc": 0.9437517265070915,
+      "v43_loa": 8.705571586049157,
+      "v43_tier": "Good",
+      "promoted": true,
+      "promotion_reason": "same-tier LoA tighter (+0.92)",
+      "ensemble_flavour": "equal_weight",
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.9434143157504717,
+          "loa_half_width_deg": 8.732561811887718,
+          "classification": "Good",
+          "n_subjects": 12
+        },
+        "equal_weight": {
+          "ccc_lin": 0.9437517265070915,
+          "loa_half_width_deg": 8.705571586049157,
+          "classification": "Good",
+          "n_subjects": 12
+        },
+        "top3": {
+          "ccc_lin": 0.9380490997094412,
+          "loa_half_width_deg": 9.34874256309679,
+          "classification": "Good",
+          "n_subjects": 12
+        }
+      },
+      "n_common_subjects": 12
+    },
+    {
+      "slot": "hip_adduction_r|front_oblique_left",
+      "v42_reader": "v20",
+      "v42_ccc": 0.6902316507450474,
+      "v42_loa": 3.294880738484353,
+      "v42_tier": "Good",
+      "v43_reader": "v20",
+      "v43_ccc": 0.6902316507450474,
+      "v43_loa": 3.294880738484353,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): -0.225 < 0.690",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": -0.22451100431730453,
+          "loa_half_width_deg": 6.443090842279888,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": -0.33585316253094477,
+          "loa_half_width_deg": 6.419784121240896,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": -0.36244085399217196,
+          "loa_half_width_deg": 6.715713204927951,
+          "classification": "Poor",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "hip_adduction_r|front_center",
+      "v42_reader": "v30",
+      "v42_ccc": 0.7928115296697548,
+      "v42_loa": 17.99777075740233,
+      "v42_tier": "Poor",
+      "v43_reader": "v30",
+      "v43_ccc": 0.7928115296697548,
+      "v43_loa": 17.99777075740233,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.672 < 0.793",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.6389906904864336,
+          "loa_half_width_deg": 19.70147558593425,
+          "classification": "Poor",
+          "n_subjects": 22
+        },
+        "equal_weight": {
+          "ccc_lin": 0.6181058011790602,
+          "loa_half_width_deg": 20.167594350815016,
+          "classification": "Poor",
+          "n_subjects": 22
+        },
+        "top3": {
+          "ccc_lin": 0.6722000498135595,
+          "loa_half_width_deg": 19.190446252997596,
+          "classification": "Poor",
+          "n_subjects": 22
+        }
+      },
+      "n_common_subjects": 22
+    },
+    {
+      "slot": "hip_adduction_r|front_oblique_right",
+      "v42_reader": "v30",
+      "v42_ccc": 0.8887527573435977,
+      "v42_loa": 13.799692387128982,
+      "v42_tier": "Moderate",
+      "v43_reader": "v30",
+      "v43_ccc": 0.8887527573435977,
+      "v43_loa": 13.799692387128982,
+      "v43_tier": "Moderate",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.841 < 0.889",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8128616895354296,
+          "loa_half_width_deg": 16.72552225215779,
+          "classification": "Poor",
+          "n_subjects": 17
+        },
+        "equal_weight": {
+          "ccc_lin": 0.8088736370530387,
+          "loa_half_width_deg": 16.864681894660208,
+          "classification": "Poor",
+          "n_subjects": 17
+        },
+        "top3": {
+          "ccc_lin": 0.8406794670447774,
+          "loa_half_width_deg": 15.467665247328569,
+          "classification": "Poor",
+          "n_subjects": 17
+        }
+      },
+      "n_common_subjects": 17
+    },
+    {
+      "slot": "hip_adduction_r|side_right",
+      "v42_reader": "v31",
+      "v42_ccc": 0.27745337215887705,
+      "v42_loa": 15.277227054386026,
+      "v42_tier": "Poor",
+      "v43_reader": "v31",
+      "v43_ccc": 0.27745337215887705,
+      "v43_loa": 15.277227054386026,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "no improvement",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.1606177364426405,
+          "loa_half_width_deg": 17.183353848767243,
+          "classification": "Poor",
+          "n_subjects": 10
+        },
+        "equal_weight": {
+          "ccc_lin": 0.2788221283524833,
+          "loa_half_width_deg": 16.089168774371124,
+          "classification": "Poor",
+          "n_subjects": 10
+        },
+        "top3": {
+          "ccc_lin": 0.2652860044336801,
+          "loa_half_width_deg": 16.53586262848619,
+          "classification": "Poor",
+          "n_subjects": 10
+        }
+      },
+      "n_common_subjects": 10
+    },
+    {
+      "slot": "knee_angle_r|side_left",
+      "v42_reader": "v38",
+      "v42_ccc": 0.9028235116501194,
+      "v42_loa": 9.77826106406334,
+      "v42_tier": "Good",
+      "v43_reader": "v38",
+      "v43_ccc": 0.9028235116501194,
+      "v43_loa": 9.77826106406334,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "no improvement",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8870282148316767,
+          "loa_half_width_deg": 10.590172063250357,
+          "classification": "Moderate",
+          "n_subjects": 12
+        },
+        "equal_weight": {
+          "ccc_lin": 0.8880797458915155,
+          "loa_half_width_deg": 10.53506664346922,
+          "classification": "Moderate",
+          "n_subjects": 12
+        },
+        "top3": {
+          "ccc_lin": 0.88462097039068,
+          "loa_half_width_deg": 10.840631054914459,
+          "classification": "Moderate",
+          "n_subjects": 12
+        }
+      },
+      "n_common_subjects": 12
+    },
+    {
+      "slot": "knee_angle_r|front_oblique_left",
+      "v42_reader": "v31",
+      "v42_ccc": 0.9277598738499382,
+      "v42_loa": 10.767945490831499,
+      "v42_tier": "Moderate",
+      "v43_reader": "v31",
+      "v43_ccc": 0.9277598738499382,
+      "v43_loa": 10.767945490831499,
+      "v43_tier": "Moderate",
+      "promoted": false,
+      "promotion_reason": "in LoA band but no LoA tightening",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.9092592387385825,
+          "loa_half_width_deg": 11.17515918916087,
+          "classification": "Moderate",
+          "n_subjects": 21
+        },
+        "equal_weight": {
+          "ccc_lin": 0.9072888276381722,
+          "loa_half_width_deg": 11.22999866308178,
+          "classification": "Moderate",
+          "n_subjects": 21
+        },
+        "top3": {
+          "ccc_lin": 0.9207617563181496,
+          "loa_half_width_deg": 10.926262827745738,
+          "classification": "Moderate",
+          "n_subjects": 21
+        }
+      },
+      "n_common_subjects": 21
+    },
+    {
+      "slot": "knee_angle_r|front_oblique_right",
+      "v42_reader": "v24",
+      "v42_ccc": 0.8868065777280054,
+      "v42_loa": 8.050820133218757,
+      "v42_tier": "Good",
+      "v43_reader": "v24",
+      "v43_ccc": 0.8868065777280054,
+      "v43_loa": 8.050820133218757,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.853 < 0.887",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8196635187363741,
+          "loa_half_width_deg": 9.805640150093039,
+          "classification": "Good",
+          "n_subjects": 8
+        },
+        "equal_weight": {
+          "ccc_lin": 0.790784840973888,
+          "loa_half_width_deg": 10.333632916846437,
+          "classification": "Moderate",
+          "n_subjects": 8
+        },
+        "top3": {
+          "ccc_lin": 0.8525932933518365,
+          "loa_half_width_deg": 9.014389241105164,
+          "classification": "Good",
+          "n_subjects": 8
+        }
+      },
+      "n_common_subjects": 8
+    },
+    {
+      "slot": "knee_angle_r|side_right",
+      "v42_reader": "v27",
+      "v42_ccc": 0.812773246549619,
+      "v42_loa": 12.916354950232247,
+      "v42_tier": "Moderate",
+      "v43_reader": "ensemble:top3(v17+v23+v26+v31)",
+      "v43_ccc": 0.8344893477427774,
+      "v43_loa": 12.428043155077336,
+      "v43_tier": "Moderate",
+      "promoted": true,
+      "promotion_reason": "LoA-band tighter LoA (+0.49)",
+      "ensemble_flavour": "top3",
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8092225665698376,
+          "loa_half_width_deg": 13.49287355686468,
+          "classification": "Moderate",
+          "n_subjects": 10
+        },
+        "equal_weight": {
+          "ccc_lin": 0.7894755878134819,
+          "loa_half_width_deg": 14.92189042464804,
+          "classification": "Moderate",
+          "n_subjects": 10
+        },
+        "top3": {
+          "ccc_lin": 0.8344893477427774,
+          "loa_half_width_deg": 12.428043155077336,
+          "classification": "Moderate",
+          "n_subjects": 10
+        }
+      },
+      "n_common_subjects": 10
+    },
+    {
+      "slot": "ankle_angle_r|side_left",
+      "v42_reader": "v24",
+      "v42_ccc": 0.3750532965240261,
+      "v42_loa": 13.039320669079173,
+      "v42_tier": "Poor",
+      "v43_reader": "v24",
+      "v43_ccc": 0.3750532965240261,
+      "v43_loa": 13.039320669079173,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.157 < 0.375",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.07755945636445867,
+          "loa_half_width_deg": 13.805447263997124,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.09234716315638687,
+          "loa_half_width_deg": 14.036828158536009,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.157158662692986,
+          "loa_half_width_deg": 13.39520675474034,
+          "classification": "Poor",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "ankle_angle_r|front_oblique_left",
+      "v42_reader": "v17",
+      "v42_ccc": 0.5564202399199353,
+      "v42_loa": 10.783663503757765,
+      "v42_tier": "Moderate",
+      "v43_reader": "v17",
+      "v43_ccc": 0.5564202399199353,
+      "v43_loa": 10.783663503757765,
+      "v43_tier": "Moderate",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.344 < 0.556",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.3444313693920598,
+          "loa_half_width_deg": 12.219557944933653,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.21714288426925094,
+          "loa_half_width_deg": 13.304864248944332,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.33611958245092444,
+          "loa_half_width_deg": 12.160461635345404,
+          "classification": "Poor",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "ankle_angle_r|front_center",
+      "v42_reader": "v23",
+      "v42_ccc": 0.207141223675246,
+      "v42_loa": 13.014521080972765,
+      "v42_tier": "Poor",
+      "v43_reader": "v23",
+      "v43_ccc": 0.207141223675246,
+      "v43_loa": 13.014521080972765,
+      "v43_tier": "Poor",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.136 < 0.207",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": -0.08601099957644112,
+          "loa_half_width_deg": 14.744112991491104,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.029517297030960354,
+          "loa_half_width_deg": 14.064910215364161,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.13589342977818386,
+          "loa_half_width_deg": 13.248756590218964,
+          "classification": "Poor",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "ankle_angle_r|front_oblique_right",
+      "v42_reader": "v37",
+      "v42_ccc": 0.7509675465163836,
+      "v42_loa": 8.030630983214847,
+      "v42_tier": "Good",
+      "v43_reader": "v37",
+      "v43_ccc": 0.7509675465163836,
+      "v43_loa": 8.030630983214847,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.635 < 0.751",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.6301956564462432,
+          "loa_half_width_deg": 9.400198980585303,
+          "classification": "Good",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.4504864828334917,
+          "loa_half_width_deg": 11.379418137705049,
+          "classification": "Moderate",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.6351117143115036,
+          "loa_half_width_deg": 9.421810114578914,
+          "classification": "Good",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "ankle_angle_r|side_right",
+      "v42_reader": "v17",
+      "v42_ccc": 0.6444525837467407,
+      "v42_loa": 9.464688044211842,
+      "v42_tier": "Good",
+      "v43_reader": "v17",
+      "v43_ccc": 0.6444525837467407,
+      "v43_loa": 9.464688044211842,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.488 < 0.644",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.48800632752946704,
+          "loa_half_width_deg": 10.573810007652403,
+          "classification": "Moderate",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.18832782390088457,
+          "loa_half_width_deg": 13.031453508369653,
+          "classification": "Poor",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.42755772298810163,
+          "loa_half_width_deg": 10.961218566368862,
+          "classification": "Moderate",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "lumbar_extension|side_left",
+      "v42_reader": "v23",
+      "v42_ccc": 0.8841183527574499,
+      "v42_loa": 6.415778234057263,
+      "v42_tier": "Good",
+      "v43_reader": "v23",
+      "v43_ccc": 0.8841183527574499,
+      "v43_loa": 6.415778234057263,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.856 < 0.884",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.8321464289389893,
+          "loa_half_width_deg": 6.653583546513521,
+          "classification": "Good",
+          "n_subjects": 12
+        },
+        "equal_weight": {
+          "ccc_lin": 0.8270594999170993,
+          "loa_half_width_deg": 6.699041503561926,
+          "classification": "Good",
+          "n_subjects": 12
+        },
+        "top3": {
+          "ccc_lin": 0.8556870374011945,
+          "loa_half_width_deg": 6.3605995482730915,
+          "classification": "Good",
+          "n_subjects": 12
+        }
+      },
+      "n_common_subjects": 12
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_left",
+      "v42_reader": "v26",
+      "v42_ccc": 0.8233472619457114,
+      "v42_loa": 5.1786502766939835,
+      "v42_tier": "Good",
+      "v43_reader": "v26",
+      "v43_ccc": 0.8233472619457114,
+      "v43_loa": 5.1786502766939835,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.663 < 0.823",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.645278378141135,
+          "loa_half_width_deg": 6.851373426944522,
+          "classification": "Good",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.5868035920353206,
+          "loa_half_width_deg": 7.2980435664200165,
+          "classification": "Moderate",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.6631449953751056,
+          "loa_half_width_deg": 6.654969572362833,
+          "classification": "Good",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "lumbar_extension|front_center",
+      "v42_reader": "v31",
+      "v42_ccc": 0.7996515696112582,
+      "v42_loa": 5.946737870458056,
+      "v42_tier": "Good",
+      "v43_reader": "v31",
+      "v43_ccc": 0.7996515696112582,
+      "v43_loa": 5.946737870458056,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.701 < 0.800",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.6546764268209752,
+          "loa_half_width_deg": 6.918888931994065,
+          "classification": "Good",
+          "n_subjects": 9
+        },
+        "equal_weight": {
+          "ccc_lin": 0.6430219912099674,
+          "loa_half_width_deg": 7.001533243342753,
+          "classification": "Good",
+          "n_subjects": 9
+        },
+        "top3": {
+          "ccc_lin": 0.7010088752714374,
+          "loa_half_width_deg": 6.493340451752283,
+          "classification": "Good",
+          "n_subjects": 9
+        }
+      },
+      "n_common_subjects": 9
+    },
+    {
+      "slot": "lumbar_extension|front_oblique_right",
+      "v42_reader": "v33",
+      "v42_ccc": 0.8044449184571639,
+      "v42_loa": 8.798675749459619,
+      "v42_tier": "Good",
+      "v43_reader": "v33",
+      "v43_ccc": 0.8044449184571639,
+      "v43_loa": 8.798675749459619,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.744 < 0.804",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.7441271725980669,
+          "loa_half_width_deg": 8.55293874962995,
+          "classification": "Good",
+          "n_subjects": 17
+        },
+        "equal_weight": {
+          "ccc_lin": 0.7401377633312666,
+          "loa_half_width_deg": 8.522867283857531,
+          "classification": "Good",
+          "n_subjects": 17
+        },
+        "top3": {
+          "ccc_lin": 0.7384558167649019,
+          "loa_half_width_deg": 8.57598312227605,
+          "classification": "Good",
+          "n_subjects": 17
+        }
+      },
+      "n_common_subjects": 17
+    },
+    {
+      "slot": "lumbar_extension|side_right",
+      "v42_reader": "v23",
+      "v42_ccc": 0.8481787605188315,
+      "v42_loa": 7.02608920151227,
+      "v42_tier": "Good",
+      "v43_reader": "v23",
+      "v43_ccc": 0.8481787605188315,
+      "v43_loa": 7.02608920151227,
+      "v43_tier": "Good",
+      "promoted": false,
+      "promotion_reason": "ccc regressed (>0.02): 0.651 < 0.848",
+      "ensemble_flavour": null,
+      "ensemble_readers": [
+        "v17",
+        "v23",
+        "v26",
+        "v31"
+      ],
+      "ensemble_stats": {
+        "ccc_weighted": {
+          "ccc_lin": 0.6505496196414282,
+          "loa_half_width_deg": 9.629884625262362,
+          "classification": "Good",
+          "n_subjects": 10
+        },
+        "equal_weight": {
+          "ccc_lin": 0.6261736869308477,
+          "loa_half_width_deg": 9.809624776960785,
+          "classification": "Good",
+          "n_subjects": 10
+        },
+        "top3": {
+          "ccc_lin": 0.5952485744013443,
+          "loa_half_width_deg": 10.204853648339329,
+          "classification": "Moderate",
+          "n_subjects": 10
+        }
+      },
+      "n_common_subjects": 10
+    }
+  ],
+  "loaded_readers": [
+    "v17",
+    "v23",
+    "v26",
+    "v31"
+  ]
+}

@@ -1,0 +1,1874 @@
+{
+  "version": "per_slot_predictions_v1",
+  "reader": "v26",
+  "loso_discipline": "Layer-3-LOSO-only (MM-A: per-source per-frame L2)",
+  "aggregation": "per_subject",
+  "produced_by": "Agent SS (per_slot_prediction_dump)",
+  "slots": [
+    {
+      "target": "hip_flexion_r",
+      "view": "side_left",
+      "approach": "v12_combined",
+      "fold_records": [
+        {
+          "subject": "aspset_4448",
+          "pred": 68.33130635618838,
+          "gt": 73.67261807018038,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 77.28312089801284,
+          "gt": 72.05854535557032,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 74.23311677155587,
+          "gt": 74.17376281858928,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 82.63110002403796,
+          "gt": 88.26214250666668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 82.94717198669612,
+          "gt": 76.29781612333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 90.27095263171371,
+          "gt": 97.24200655666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 77.46367831472031,
+          "gt": 75.58479804000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 78.32637252348566,
+          "gt": 79.48490163833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 65.4593721173701,
+          "gt": 65.42050438000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 76.83135024340287,
+          "gt": 80.91477874666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 76.07941994876707,
+          "gt": 70.45223797,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 62.888217835729854,
+          "gt": 59.582707741666674,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_flexion_r",
+      "view": "front_oblique_left",
+      "approach": "v13_dwpose_hybrid",
+      "fold_records": [
+        {
+          "subject": "aspset_11ac",
+          "pred": 67.35702872697233,
+          "gt": 65.51737182702765,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 68.24118685679896,
+          "gt": 68.37084179606468,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 71.47386319837847,
+          "gt": 72.05854535557033,
+          "n_clips": 60
+        },
+        {
+          "subject": "aspset_5ff4",
+          "pred": 66.0334415296808,
+          "gt": 63.905868960952915,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 73.03170041887137,
+          "gt": 74.17376281858928,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 61.771976916806324,
+          "gt": 60.18068653668198,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 66.89570178732939,
+          "gt": 64.53688401207137,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_bae6",
+          "pred": 67.24740607113897,
+          "gt": 65.6787843783907,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 61.13099920700601,
+          "gt": 62.643908008502486,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 68.23950537185631,
+          "gt": 68.0042704690207,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 77.64720426096413,
+          "gt": 82.87431782632191,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_fb7c",
+          "pred": 61.240517478488194,
+          "gt": 62.18158043048329,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 85.80928663893268,
+          "gt": 88.26214250666668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 78.6895436104624,
+          "gt": 76.29781612333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 87.74650833027385,
+          "gt": 97.24200655666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 77.61973496298619,
+          "gt": 75.58479804000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 68.43120837733143,
+          "gt": 79.48490163833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 63.20981337821664,
+          "gt": 65.42050438000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 76.17056449395751,
+          "gt": 80.91477874666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 76.7362973996458,
+          "gt": 70.45223797,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 78.95372831014102,
+          "gt": 59.582707741666674,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_flexion_r",
+      "view": "front_oblique_right",
+      "approach": "v13_dwpose_hybrid",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 61.70620891640378,
+          "gt": 62.65850363464426,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 69.70848307026371,
+          "gt": 68.37084179606468,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_a779",
+          "pred": 66.43236991933865,
+          "gt": 68.54140064428789,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 63.47131444231335,
+          "gt": 60.18068653668198,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 66.79443068960448,
+          "gt": 64.53688401207137,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 59.28240824807441,
+          "gt": 62.643908008502486,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 69.16518078718163,
+          "gt": 68.0042704690207,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 77.9183916471691,
+          "gt": 82.87431782632191,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 76.02241972448819,
+          "gt": 88.26214250666668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 86.28269328640859,
+          "gt": 76.29781612333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 80.85379594674292,
+          "gt": 97.24200655666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 81.28705668208822,
+          "gt": 75.58479804000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 80.76711209613123,
+          "gt": 79.48490163833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 58.41760776590947,
+          "gt": 65.42050438000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 75.09073183634143,
+          "gt": 80.91477874666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 91.76027199210698,
+          "gt": 70.45223797,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 79.18574318996868,
+          "gt": 59.582707741666674,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_flexion_r",
+      "view": "side_right",
+      "approach": "event_anchored",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 77.49485422418486,
+          "gt": 88.26214250666668,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 86.50199995080135,
+          "gt": 76.29781612333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 73.05174700225257,
+          "gt": 97.24200655666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 75.77990325237762,
+          "gt": 75.58479804000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 75.96247512864814,
+          "gt": 79.48490163833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 71.65077539896083,
+          "gt": 65.42050438000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 82.14544338227766,
+          "gt": 80.91477874666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject8",
+          "pred": 85.14265961488537,
+          "gt": 70.45223797,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 74.99823787949352,
+          "gt": 60.301214806000004,
+          "n_clips": 5
+        }
+      ]
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "side_left",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "aspset_4448",
+          "pred": 43.625992458698285,
+          "gt": 44.336010769269166,
+          "n_clips": 18
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 38.11614568163211,
+          "gt": 49.19426254722822,
+          "n_clips": 19
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 40.904222527168784,
+          "gt": 41.78570747727858,
+          "n_clips": 16
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 11.957549527063932,
+          "gt": 13.734770121666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 11.841044591048616,
+          "gt": 9.168160883333332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 10.11147077618961,
+          "gt": 12.00441647,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 22.9000102374674,
+          "gt": 9.671625611666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 11.689466665121989,
+          "gt": 12.658422400000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 17.861832751191937,
+          "gt": 9.758316086666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 14.861337234390382,
+          "gt": 8.624363605,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 19.70505787021587,
+          "gt": 15.582237229999999,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 15.49082461774166,
+          "gt": 9.715162098333332,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "front_oblique_left",
+      "approach": "v9_phased",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 9.356602942117803,
+          "gt": 13.734770121666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 8.558155812359958,
+          "gt": 9.168160883333332,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 10.4501926080203,
+          "gt": 12.00441647,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 12.527045944583351,
+          "gt": 9.671625611666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 10.581973649027342,
+          "gt": 12.658422400000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 16.184573761747146,
+          "gt": 9.758316086666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 12.79682769939541,
+          "gt": 8.624363605,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject8",
+          "pred": 9.896663951275572,
+          "gt": 15.582237229999999,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 9.360338190999904,
+          "gt": 9.715162098333332,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "front_center",
+      "approach": "v12_combined",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 40.67240579469817,
+          "gt": 38.018878793861084,
+          "n_clips": 25
+        },
+        {
+          "subject": "aspset_11ac",
+          "pred": 41.050920341681426,
+          "gt": 39.66927959339246,
+          "n_clips": 44
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 38.41911428585145,
+          "gt": 39.54542662114345,
+          "n_clips": 20
+        },
+        {
+          "subject": "aspset_4448",
+          "pred": 38.0893993877701,
+          "gt": 44.336010769269166,
+          "n_clips": 36
+        },
+        {
+          "subject": "aspset_5ff4",
+          "pred": 38.36567611728141,
+          "gt": 34.570146915858516,
+          "n_clips": 42
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 41.52598601043376,
+          "gt": 41.78570747727858,
+          "n_clips": 16
+        },
+        {
+          "subject": "aspset_a779",
+          "pred": 35.250362486543146,
+          "gt": 47.41551829907104,
+          "n_clips": 38
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 43.232833578191006,
+          "gt": 43.09740393429069,
+          "n_clips": 23
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 38.92956328928591,
+          "gt": 42.767234041815655,
+          "n_clips": 21
+        },
+        {
+          "subject": "aspset_bae6",
+          "pred": 39.863888736400305,
+          "gt": 45.93413839452965,
+          "n_clips": 48
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 45.72606658027514,
+          "gt": 46.92396413625797,
+          "n_clips": 25
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 40.91303635262741,
+          "gt": 43.79363762640723,
+          "n_clips": 21
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 37.29522179146385,
+          "gt": 50.309723607026775,
+          "n_clips": 12
+        },
+        {
+          "subject": "aspset_fb7c",
+          "pred": 38.71004550513244,
+          "gt": 36.42346205804521,
+          "n_clips": 46
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 32.605737453675744,
+          "gt": 13.734770121666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 23.69429216298047,
+          "gt": 9.168160883333332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 32.76252522368261,
+          "gt": 12.00441647,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 25.01377434283171,
+          "gt": 9.671625611666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 15.580307599145238,
+          "gt": 12.658422400000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 40.81805183639452,
+          "gt": 9.758316086666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 34.85002753087605,
+          "gt": 8.624363605,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 30.63078880040382,
+          "gt": 15.582237229999999,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 31.100073345262444,
+          "gt": 9.715162098333332,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "front_oblique_right",
+      "approach": "v12_combined",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 44.612428461897906,
+          "gt": 38.018878793861084,
+          "n_clips": 25
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 39.42401435251079,
+          "gt": 39.54542662114345,
+          "n_clips": 20
+        },
+        {
+          "subject": "aspset_a779",
+          "pred": 35.06515184307574,
+          "gt": 47.41551829907104,
+          "n_clips": 19
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 42.76809959154672,
+          "gt": 43.09740393429069,
+          "n_clips": 23
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 38.858845581643436,
+          "gt": 42.767234041815655,
+          "n_clips": 21
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 43.631231027209914,
+          "gt": 46.92396413625797,
+          "n_clips": 25
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 38.96377185762809,
+          "gt": 43.79363762640723,
+          "n_clips": 21
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 35.73207350730249,
+          "gt": 50.309723607026775,
+          "n_clips": 12
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 16.21236365117032,
+          "gt": 13.734770121666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 26.181316500028895,
+          "gt": 9.168160883333332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 16.433953556728564,
+          "gt": 12.00441647,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 26.620878932302144,
+          "gt": 9.671625611666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 3.7451221610994643,
+          "gt": 12.658422400000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 29.754941077152353,
+          "gt": 9.758316086666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 24.58469622528234,
+          "gt": 8.624363605,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 34.67781187508672,
+          "gt": 15.582237229999999,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 18.951530715724818,
+          "gt": 9.715162098333332,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "hip_adduction_r",
+      "view": "side_right",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 16.68068738737165,
+          "gt": 38.018878793861084,
+          "n_clips": 25
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 14.501694818717207,
+          "gt": 13.734770121666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 14.645530559095292,
+          "gt": 9.168160883333332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 21.460067588058706,
+          "gt": 12.00441647,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 17.663780776212896,
+          "gt": 9.671625611666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 16.624131332690123,
+          "gt": 12.658422400000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 17.608124464878983,
+          "gt": 9.758316086666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 5.865822839515341,
+          "gt": 8.624363605,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 16.2827505995505,
+          "gt": 15.582237229999999,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 8.102896041721129,
+          "gt": 9.715162098333332,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "side_left",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "aspset_4448",
+          "pred": 82.45121123939131,
+          "gt": 82.26104203447784,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 79.68007143345852,
+          "gt": 81.65156900200932,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 83.17466886388408,
+          "gt": 78.56946185474703,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 102.90758928386066,
+          "gt": 107.09662964500001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 101.51003588145024,
+          "gt": 96.31872243833332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 102.36597524060419,
+          "gt": 110.09454881666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 98.47527866082432,
+          "gt": 97.83031283333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 92.46673541605152,
+          "gt": 106.5677571,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 92.13367619551907,
+          "gt": 82.29646604333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 108.43676214152701,
+          "gt": 107.3449473,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 97.47999549474513,
+          "gt": 95.47135639666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 102.41832922555949,
+          "gt": 112.23909201333333,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "front_oblique_left",
+      "approach": "v12_combined",
+      "fold_records": [
+        {
+          "subject": "aspset_11ac",
+          "pred": 68.92516063836867,
+          "gt": 70.10649774095855,
+          "n_clips": 29
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 78.65761636324785,
+          "gt": 74.37438518516973,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 78.863215716398,
+          "gt": 81.65156900200935,
+          "n_clips": 60
+        },
+        {
+          "subject": "aspset_5ff4",
+          "pred": 73.52541211558747,
+          "gt": 68.65867032134183,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 79.45223748905526,
+          "gt": 78.56946185474703,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 76.71121727516258,
+          "gt": 74.30423508494191,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 77.99984949166861,
+          "gt": 77.22833266445808,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_bae6",
+          "pred": 74.42362758367885,
+          "gt": 70.01209111023731,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 76.35558581882478,
+          "gt": 73.56978943721201,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 74.75197245033327,
+          "gt": 72.1814466735559,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 85.31541750124478,
+          "gt": 90.2555008367597,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_fb7c",
+          "pred": 68.31410966166432,
+          "gt": 69.27782777007738,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 104.54819921549476,
+          "gt": 107.09662964500001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 100.56788578466374,
+          "gt": 96.31872243833332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 96.76885073497641,
+          "gt": 110.09454881666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 99.43610842407351,
+          "gt": 97.83031283333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 97.30755683105745,
+          "gt": 106.5677571,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 85.37387913438069,
+          "gt": 82.29646604333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 90.8489792257812,
+          "gt": 107.3449473,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 85.16368421303983,
+          "gt": 95.47135639666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 102.01002843907735,
+          "gt": 112.23909201333333,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "front_oblique_right",
+      "approach": "v9_phased",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 105.75714284858839,
+          "gt": 107.09662964500001,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 101.48580383367113,
+          "gt": 96.31872243833332,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 103.44983345291625,
+          "gt": 110.09454881666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 99.81194530818368,
+          "gt": 97.83031283333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 111.66247083841525,
+          "gt": 106.5677571,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 85.8919028922407,
+          "gt": 82.29646604333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 102.52857569591895,
+          "gt": 107.3449473,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject8",
+          "pred": 102.35887945374719,
+          "gt": 95.47135639666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 108.57792543129214,
+          "gt": 112.23909201333333,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "knee_angle_r",
+      "view": "side_right",
+      "approach": "v12_combined",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 60.714384578990284,
+          "gt": 79.19716206130525,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 102.11455284874363,
+          "gt": 107.09662964500001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 103.93046741241483,
+          "gt": 96.31872243833332,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 98.0558440667697,
+          "gt": 110.09454881666666,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 98.85080804734592,
+          "gt": 97.83031283333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 100.89360434969979,
+          "gt": 106.5677571,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 94.92241174407759,
+          "gt": 82.29646604333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 109.73334941584237,
+          "gt": 107.3449473,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 102.12715867504562,
+          "gt": 95.47135639666665,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 102.44591302047981,
+          "gt": 112.23909201333333,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "ankle_angle_r",
+      "view": "side_left",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "opencap_subject10",
+          "pred": 71.83716053908466,
+          "gt": 73.09895799333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 75.29797104757621,
+          "gt": 74.26016682833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 75.07522821802719,
+          "gt": 65.79085530833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 68.51050286071093,
+          "gt": 75.20156640833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 74.3248818237811,
+          "gt": 81.76605418166668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 76.80165857998442,
+          "gt": 61.40048852333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 74.53324219465158,
+          "gt": 67.813847075,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 66.73153624941436,
+          "gt": 67.49526218000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 76.43355315414098,
+          "gt": 81.71282681666668,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "ankle_angle_r",
+      "view": "front_oblique_left",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "opencap_subject10",
+          "pred": 74.12457448569677,
+          "gt": 73.09895799333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 77.02453842848028,
+          "gt": 74.26016682833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 76.6343645496254,
+          "gt": 65.79085530833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 65.13288735780878,
+          "gt": 75.20156640833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 74.51973136189645,
+          "gt": 81.76605418166668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 79.10803564056363,
+          "gt": 61.40048852333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 71.60663109499905,
+          "gt": 67.813847075,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 65.20085853217356,
+          "gt": 67.49526218000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 74.8130812176078,
+          "gt": 81.71282681666668,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "ankle_angle_r",
+      "view": "front_center",
+      "approach": "event_anchored_bilateral",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 71.547536275382,
+          "gt": 73.09895799333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 73.37138912298023,
+          "gt": 74.26016682833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 70.71616034161119,
+          "gt": 65.79085530833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 73.42970159639061,
+          "gt": 75.20156640833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 76.10631599122699,
+          "gt": 81.76605418166668,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 72.6389430120767,
+          "gt": 61.40048852333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 71.23682836861487,
+          "gt": 67.813847075,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject8",
+          "pred": 76.79272586011906,
+          "gt": 67.49526218000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 70.79622178975664,
+          "gt": 81.71282681666668,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "ankle_angle_r",
+      "view": "front_oblique_right",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "opencap_subject10",
+          "pred": 69.6251564907732,
+          "gt": 73.09895799333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 70.62165142681535,
+          "gt": 74.26016682833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 72.05365262811661,
+          "gt": 65.79085530833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 71.9562015453727,
+          "gt": 75.20156640833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 80.82964599885177,
+          "gt": 81.76605418166668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 71.60996606461097,
+          "gt": 61.40048852333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 71.24833797010446,
+          "gt": 67.813847075,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 68.26662931423989,
+          "gt": 67.49526218000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 76.2594076416305,
+          "gt": 81.71282681666668,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "ankle_angle_r",
+      "view": "side_right",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "opencap_subject10",
+          "pred": 69.36682111722077,
+          "gt": 73.09895799333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 71.66242927878983,
+          "gt": 74.26016682833334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 74.48902240250906,
+          "gt": 65.79085530833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 74.29361664180995,
+          "gt": 75.20156640833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 78.4391920169915,
+          "gt": 81.76605418166668,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 73.95273129852141,
+          "gt": 61.40048852333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 71.30940609839978,
+          "gt": 67.813847075,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 69.67337445749071,
+          "gt": 67.49526218000001,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 75.37247860194034,
+          "gt": 81.71282681666668,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "lumbar_extension",
+      "view": "side_left",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "aspset_4448",
+          "pred": 26.762154459642844,
+          "gt": 20.651741743924955,
+          "n_clips": 29
+        },
+        {
+          "subject": "aspset_4d9e",
+          "pred": 25.176117230101706,
+          "gt": 25.61922883421303,
+          "n_clips": 29
+        },
+        {
+          "subject": "aspset_7b5d",
+          "pred": 26.986310916297906,
+          "gt": 24.932164979686547,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 37.52673040241961,
+          "gt": 42.82107993166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 38.73718038626389,
+          "gt": 45.94565729333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 33.91496963350374,
+          "gt": 33.87182747166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 27.63057566317552,
+          "gt": 28.992338314999998,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 32.49236998574534,
+          "gt": 33.80497647666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 27.35512222555589,
+          "gt": 33.05176108833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 33.220726897795195,
+          "gt": 36.42850859333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 28.086264609200175,
+          "gt": 37.17155485833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 30.264715629933637,
+          "gt": 34.23856390833334,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "lumbar_extension",
+      "view": "front_oblique_left",
+      "approach": "event_anchored",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 40.886028173223124,
+          "gt": 42.82107993166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 41.26539168041619,
+          "gt": 45.94565729333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 35.99849645147796,
+          "gt": 33.87182747166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 32.21293194654219,
+          "gt": 28.992338314999998,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 33.181857949065005,
+          "gt": 33.80497647666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 31.226076613384432,
+          "gt": 33.05176108833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 36.39881590920075,
+          "gt": 36.42850859333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject8",
+          "pred": 36.769848252495315,
+          "gt": 37.17155485833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 37.627457471679406,
+          "gt": 34.23856390833334,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "lumbar_extension",
+      "view": "front_center",
+      "approach": "event_anchored",
+      "fold_records": [
+        {
+          "subject": "subject10",
+          "pred": 40.209402195255876,
+          "gt": 42.82107993166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject11",
+          "pred": 38.55365317280356,
+          "gt": 45.94565729333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject2",
+          "pred": 39.245373267898195,
+          "gt": 33.87182747166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject3",
+          "pred": 34.97347596767376,
+          "gt": 28.992338314999998,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject4",
+          "pred": 33.10610550357298,
+          "gt": 33.80497647666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject5",
+          "pred": 29.139485686174684,
+          "gt": 33.05176108833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject7",
+          "pred": 37.206970429885594,
+          "gt": 36.340519140000005,
+          "n_clips": 5
+        },
+        {
+          "subject": "subject8",
+          "pred": 38.854990397964976,
+          "gt": 37.17155485833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "subject9",
+          "pred": 31.966264995286725,
+          "gt": 34.23856390833334,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "lumbar_extension",
+      "view": "front_oblique_right",
+      "approach": "v13_dwpose_hybrid",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 22.04763689580004,
+          "gt": 20.253629122598724,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_14ce",
+          "pred": 25.318164062590686,
+          "gt": 25.797074351215727,
+          "n_clips": 29
+        },
+        {
+          "subject": "aspset_a779",
+          "pred": 23.84722397978944,
+          "gt": 21.68987085808236,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_b3c1",
+          "pred": 22.548989922404633,
+          "gt": 20.182700738352043,
+          "n_clips": 29
+        },
+        {
+          "subject": "aspset_b8e1",
+          "pred": 24.320264877961083,
+          "gt": 25.3711547351631,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_c9f8",
+          "pred": 21.546281504649645,
+          "gt": 21.370097223128717,
+          "n_clips": 28
+        },
+        {
+          "subject": "aspset_d26c",
+          "pred": 24.482839055132654,
+          "gt": 22.695342193172632,
+          "n_clips": 30
+        },
+        {
+          "subject": "aspset_eb61",
+          "pred": 26.65526583559173,
+          "gt": 23.05177594521536,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 35.133128252357785,
+          "gt": 42.82107993166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 31.18072938506247,
+          "gt": 45.32183276600001,
+          "n_clips": 5
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 29.076987894072033,
+          "gt": 33.87182747166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 24.77012169191001,
+          "gt": 28.992338314999998,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 30.065630823761765,
+          "gt": 33.80497647666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 24.589039856569496,
+          "gt": 33.05176108833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 30.639559042589465,
+          "gt": 36.42850859333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 31.355784862098307,
+          "gt": 37.17155485833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 31.570718576935747,
+          "gt": 34.23856390833334,
+          "n_clips": 6
+        }
+      ]
+    },
+    {
+      "target": "lumbar_extension",
+      "view": "side_right",
+      "approach": "v14_full_dwpose",
+      "fold_records": [
+        {
+          "subject": "aspset_04ac",
+          "pred": 29.09227441810036,
+          "gt": 20.253629122598724,
+          "n_clips": 30
+        },
+        {
+          "subject": "opencap_subject10",
+          "pred": 33.76867451474194,
+          "gt": 42.82107993166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject11",
+          "pred": 37.25047285626294,
+          "gt": 45.94565729333334,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject2",
+          "pred": 31.992289913834043,
+          "gt": 33.87182747166667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject3",
+          "pred": 29.486968000080918,
+          "gt": 28.992338314999998,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject4",
+          "pred": 32.4699657453343,
+          "gt": 33.80497647666667,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject5",
+          "pred": 29.671379366439925,
+          "gt": 33.05176108833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject7",
+          "pred": 40.76931877521067,
+          "gt": 36.42850859333333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject8",
+          "pred": 32.91945878618939,
+          "gt": 37.17155485833333,
+          "n_clips": 6
+        },
+        {
+          "subject": "opencap_subject9",
+          "pred": 35.70824823482324,
+          "gt": 34.23856390833334,
+          "n_clips": 6
+        }
+      ]
+    }
+  ]
+}
