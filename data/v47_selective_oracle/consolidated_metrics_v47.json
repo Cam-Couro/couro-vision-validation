@@ -1,0 +1,186 @@
+[
+  {
+    "metric": "hip_adduction_r",
+    "view": "front_oblique_right",
+    "ccc": 0.96,
+    "loa_half_deg": 8.51,
+    "tier": "Good",
+    "reader": "v44 (VideoPose3D L2)"
+  },
+  {
+    "metric": "hip_adduction_r",
+    "view": "side_left",
+    "ccc": 0.946,
+    "loa_half_deg": 9.32,
+    "tier": "Good",
+    "reader": "v44 (VideoPose3D L2)"
+  },
+  {
+    "metric": "knee_angle_r",
+    "view": "side_left",
+    "ccc": 0.903,
+    "loa_half_deg": 9.78,
+    "tier": "Good",
+    "reader": "v38 (v31 + residual calibration)"
+  },
+  {
+    "metric": "knee_angle_r",
+    "view": "front_oblique_right",
+    "ccc": 0.887,
+    "loa_half_deg": 8.05,
+    "tier": "Good",
+    "reader": "v24 (combined+ROM-aware L2)"
+  },
+  {
+    "metric": "lumbar_extension",
+    "view": "side_left",
+    "ccc": 0.884,
+    "loa_half_deg": 6.42,
+    "tier": "Good",
+    "reader": "v23 (HH2 combined L2)"
+  },
+  {
+    "metric": "hip_flexion_r",
+    "view": "side_left",
+    "ccc": 0.858,
+    "loa_half_deg": 9.24,
+    "tier": "Good",
+    "reader": "v26 (per-source heads L2)"
+  },
+  {
+    "metric": "lumbar_extension",
+    "view": "side_right",
+    "ccc": 0.848,
+    "loa_half_deg": 7.03,
+    "tier": "Good",
+    "reader": "v23 (HH2 combined L2)"
+  },
+  {
+    "metric": "lumbar_extension",
+    "view": "front_oblique_left",
+    "ccc": 0.823,
+    "loa_half_deg": 5.18,
+    "tier": "Good",
+    "reader": "v26 (per-source heads L2)"
+  },
+  {
+    "metric": "lumbar_extension",
+    "view": "front_oblique_right",
+    "ccc": 0.804,
+    "loa_half_deg": 8.8,
+    "tier": "Good",
+    "reader": "v33 (extrema-aware learned L3)"
+  },
+  {
+    "metric": "lumbar_extension",
+    "view": "front_center",
+    "ccc": 0.8,
+    "loa_half_deg": 5.95,
+    "tier": "Good",
+    "reader": "v31 (mirror-flip L2 + learned L3)"
+  },
+  {
+    "metric": "ankle_angle_r",
+    "view": "front_oblique_right",
+    "ccc": 0.751,
+    "loa_half_deg": 8.03,
+    "tier": "Good",
+    "reader": "v37 (v23 + residual calibration)"
+  },
+  {
+    "metric": "hip_adduction_r",
+    "view": "front_oblique_left",
+    "ccc": 0.69,
+    "loa_half_deg": 3.29,
+    "tier": "Good",
+    "reader": "v20 (ROM-aware L2)"
+  },
+  {
+    "metric": "ankle_angle_r",
+    "view": "side_right",
+    "ccc": 0.644,
+    "loa_half_deg": 9.46,
+    "tier": "Good",
+    "reader": "v17 (hand-engineered)"
+  },
+  {
+    "metric": "ankle_angle_r",
+    "view": "side_left",
+    "ccc": 0.638,
+    "loa_half_deg": 9.2,
+    "tier": "Good",
+    "reader": "v46 (flip-TTA L1)"
+  },
+  {
+    "metric": "knee_angle_r",
+    "view": "front_oblique_left",
+    "ccc": 0.928,
+    "loa_half_deg": 10.77,
+    "tier": "Moderate",
+    "reader": "v31 (mirror-flip L2 + learned L3)"
+  },
+  {
+    "metric": "hip_adduction_r",
+    "view": "front_center",
+    "ccc": 0.897,
+    "loa_half_deg": 11.95,
+    "tier": "Moderate",
+    "reader": "v44 (VideoPose3D L2)"
+  },
+  {
+    "metric": "hip_flexion_r",
+    "view": "front_oblique_left",
+    "ccc": 0.843,
+    "loa_half_deg": 11.29,
+    "tier": "Moderate",
+    "reader": "v17 (hand-engineered)"
+  },
+  {
+    "metric": "knee_angle_r",
+    "view": "side_right",
+    "ccc": 0.819,
+    "loa_half_deg": 13.66,
+    "tier": "Moderate",
+    "reader": "v39 (v17 + residual calibration)"
+  },
+  {
+    "metric": "ankle_angle_r",
+    "view": "front_oblique_left",
+    "ccc": 0.556,
+    "loa_half_deg": 10.78,
+    "tier": "Moderate",
+    "reader": "v17 (hand-engineered)"
+  },
+  {
+    "metric": "hip_flexion_r",
+    "view": "front_oblique_right",
+    "ccc": 0.697,
+    "loa_half_deg": 18.5,
+    "tier": "Poor",
+    "reader": "v17 (hand-engineered)"
+  },
+  {
+    "metric": "hip_flexion_r",
+    "view": "side_right",
+    "ccc": 0.584,
+    "loa_half_deg": 16.95,
+    "tier": "Poor",
+    "reader": "v27 (per-source ROM-aware L2)"
+  },
+  {
+    "metric": "hip_adduction_r",
+    "view": "side_right",
+    "ccc": 0.277,
+    "loa_half_deg": 15.28,
+    "tier": "Poor",
+    "reader": "v31 (mirror-flip L2 + learned L3)"
+  },
+  {
+    "metric": "ankle_angle_r",
+    "view": "front_center",
+    "ccc": 0.207,
+    "loa_half_deg": 13.01,
+    "tier": "Poor",
+    "reader": "v23 (HH2 combined L2)"
+  }
+]
