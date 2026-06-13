@@ -24,6 +24,7 @@ data/aspset510_couro_keypoints/
 data/opencap_dwpose_keypoints/
 data/couro_keypoints/
 data/dwpose_flip_tta_keypoints/
+data/dwpose_rtmpose_ensemble_keypoints/
 data/mpi_inf_3dhp/
 data/mpi_inf_3dhp_dwpose/
 data/LabValidation_withVideos/
@@ -52,3 +53,6 @@ data/**/*.npz
 .vscode/
 .idea/
 *.swp
+
+# Confidential investor materials — never commit to public repo
+docs/*investor*
