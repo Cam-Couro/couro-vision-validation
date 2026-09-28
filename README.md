@@ -15,6 +15,12 @@ Validation of Couro's single-phone-camera biomechanical CV pipeline against gold
 
 ## Current state (as of 2026-06-12 / v49 selective oracle)
 
+> **Licence correction (2026-09-28):** VideoPose3D, the lifter behind the v44 reader and the view-aware blend, is
+> **CC BY-NC 4.0 (non-commercial)**, not Apache 2.0 as earlier files stated. Three v49 hip-adduction slots
+> (front_oblique_right, side_left, front_center) are therefore **research-only**. On a licence-clean basis the
+> scoreboard is provisionally 13 Good / 5 Moderate / 5 Poor, pending a lineage audit. See
+> [`docs/LICENCE_CORRECTION_2026-09-28.md`](docs/LICENCE_CORRECTION_2026-09-28.md).
+
 **14 validated deploy slots** clearing the standard biomechanics validity bar (Lin's CCC > 0.60 AND Bland-Altman 95% LoA half-width < ±10°) — **unchanged vs v47**. **10 slots at Tier 1 (CCC ≥ 0.79 AND Good)** — corrected count (prior builds' `tier1` field over-counted by including LoA-failing slots; the consolidated artifacts are authoritative). v49 is the **final modeling lever** of the campaign: a **Layer 1 two-architecture detector ensemble** (Agent VV2, "v48" candidate) — confidence-weighted average of **DWPose-L + RTMPose-Halpe26** keypoints on the same single-camera frame, the strongest available attack on the detector-side left/right asymmetry. Smoke check confirmed the two detectors' Halpe-26 keypoints align directly (no remap, no L/R swap). **Result: v48 is adopted in 0 of 23 slots — clean negative.** On the geometry-reader probe it tightened LoA on side-camera slots (e.g. mirror twin `hip_adduction_r/side_right` LoA 13.5° → 8.4°) and lifted some CCCs (knee/side-left 0.58 → 0.77), but never beat the existing deployed reader on any slot, and the mirror-twin CCC stayed ~0.22 (Poor). Two independent detectors could not crack what one flipped detector (v46) already maxed out. Latency 142 ms/frame (two detectors). **Campaign-closing verdict: the remaining stuck slots are DATA-limited, not model-limited** — every architectural lever across all four layers (L1 detector, L2 angle reconstruction, L3 ROM, calibration, ensembling, 3D lifting) is now exhausted. The next gains require cohort expansion, not more modeling. See `data/v49_selective_oracle/REPORT.md` and `consolidated_metrics_v49.json` (source of truth).
 
 ---

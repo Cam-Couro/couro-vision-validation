@@ -2,7 +2,7 @@
 
 Lifts Halpe-26 2D keypoints (already cached from DWPose-L) into Human3.6M
 canonical 3D joint positions via the pretrained VideoPose3D temporal model
-(Pavllo et al. 2019, FAIR, Apache 2.0). Joint angles are then computed
+(Pavllo et al. 2019, FAIR; CC BY-NC 4.0, non-commercial -- research-only). Joint angles are then computed
 directly from 3D vectors in the canonical body-centered frame, which is
 view-invariant by construction -- the geometric step-change vs Couro's
 deployed 2D-keypoint Layer 2.
@@ -424,7 +424,7 @@ def run_inference_all_clips(
         "produced_by": "harness.learned_layer2_videopose3d (Agent TT)",
         "produced_date": time.strftime("%Y-%m-%d"),
         "model_checkpoint": str(CHECKPOINT_PATH.name),
-        "model_license": "Apache-2.0",
+        "model_license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
         "model_citation": (
             "Pavllo et al., '3D human pose estimation in video with "
             "temporal convolutions and semi-supervised training', CVPR 2019."

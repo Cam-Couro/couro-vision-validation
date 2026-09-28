@@ -2,7 +2,7 @@
   "version": "v44_videopose3d_l2",
   "produced_by": "harness.layer3_retrain_on_videopose3d_l2 (Agent TT)",
   "produced_date": "2026-06-08",
-  "description": "v17 deploy base + per-slot ridge weights re-fit using VideoPose3D-lifted 3D-derived Layer 2 angle traces (Pavllo et al. 2019, FAIR, Apache 2.0). VideoPose3D is pretrained on Human3.6M (Ionescu et al. 2014) -- 11 subjects disjoint from the L3 LOSO pool, so L3 LOSO is clean.",
+  "description": "v17 deploy base + per-slot ridge weights re-fit using VideoPose3D-lifted 3D-derived Layer 2 angle traces (Pavllo et al. 2019, FAIR; CC BY-NC 4.0, non-commercial). VideoPose3D is pretrained on Human3.6M (Ionescu et al. 2014) -- 11 subjects disjoint from the L3 LOSO pool, so L3 LOSO is clean.",
   "loso_discipline": "Layer-3-LOSO (clean -- VideoPose3D L2 pretraining cohort Human3.6M does not overlap with OpenCap or ASPset)",
   "v17_base_path": "/Users/cameronvan/Documents/Claude/Projects/Couro/research-agent/multiview-validation/results/deploy_ready_models_v17_selective.json",
   "approaches": {
@@ -22,7 +22,7 @@
     "license": "Apache 2.0"
   },
   "l2_model": "videopose3d_h36m.bin",
-  "l2_model_license": "Apache-2.0",
+  "l2_model_license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
   "models": {
     "hip_flexion_r": {
       "side_left": {
@@ -3934,7 +3934,7 @@
               "w_lifter_oblique": 0.5,
               "w_lifter_side": 0.15
             },
-            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (Apache 2.0)",
+            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (CC BY-NC 4.0, non-commercial; research-only)",
             "fixes": [
               "hip_flexion_r sign flip",
               "synthetic 3D toe for ankle"

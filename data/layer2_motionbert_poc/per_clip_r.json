@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "model": "VideoPose3D pretrained_h36m_detectron_coco.bin",
-  "license": "Apache 2.0",
+  "license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
   "device": "cpu",
   "remap": "Halpe-26 -> H36M-17 (see harness/videopose3d.py)",
   "clips": [

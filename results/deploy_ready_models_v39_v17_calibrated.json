@@ -4758,7 +4758,7 @@
               "w_lifter_oblique": 0.5,
               "w_lifter_side": 0.15
             },
-            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (Apache 2.0)",
+            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (CC BY-NC 4.0, non-commercial; research-only)",
             "fixes": [
               "hip_flexion_r sign flip",
               "synthetic 3D toe for ankle"

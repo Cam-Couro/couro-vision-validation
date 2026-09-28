@@ -767,7 +767,7 @@ def write_v16_deploy(results: list[SlotResult]) -> None:
                 "w_lifter_oblique": DEFAULT_W_OBLIQUE,
                 "w_lifter_side": DEFAULT_W_SIDE,
             },
-            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (Apache 2.0)",
+            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (CC BY-NC 4.0, non-commercial; research-only)",
             "fixes": ["hip_flexion_r sign flip", "synthetic 3D toe for ankle"],
             "scope": "OpenCap (RTMPose + DWPose) clips only; ASPset fall back to Couro-only",
         },

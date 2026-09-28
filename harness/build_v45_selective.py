@@ -331,7 +331,7 @@ def write_deploy(v45_out: dict) -> None:
     out["v45_tier1_count"] = v45_out["tier1_count_ccc_ge_0p79"]
     out["v45_reader_distribution"] = v45_out["reader_distribution"]
     out["v44_l2_model"] = "videopose3d_h36m.bin"
-    out["v44_l2_model_license"] = "Apache-2.0"
+    out["v44_l2_model_license"] = "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)"
     V45_DEPLOY_PATH.write_text(json.dumps(out, indent=2))
     print(f"[v45] wrote {V45_DEPLOY_PATH}")
 
@@ -370,7 +370,7 @@ def write_report(v45_out: dict) -> None:
     lines.append(
         "**Build:** v43 pool (v42 readers + v43 ensembles) + v44 "
         "(VideoPose3D 2D->3D pose lifting, Pavllo et al. 2019, "
-        "FAIR, Apache 2.0). Per-slot selective oracle picks the reader "
+        "FAIR; CC BY-NC 4.0, non-commercial). Per-slot selective oracle picks the reader "
         "with the highest tier; LoA-then-CCC tie-break (LoA-limited band: "
         "Moderate with CCC >= 0.79). v44 cannot regress CCC by more than "
         f"{FALLBACK_CCC_TOLERANCE} vs v43."

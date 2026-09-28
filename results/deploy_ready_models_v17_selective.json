@@ -2,7 +2,7 @@
   "version": "v17_selective",
   "produced_by": "harness.build_v17_selective",
   "produced_date": "2026-05-29",
-  "description": "v17 selective adoption: v15 deploy table with ONE slot (lumbar_extension/front_oblique_right/v13_dwpose_hybrid) replaced by the v16 blend-retrained weights (Agent U recommendation). All other 22 slots remain identical to v15. Single phone camera; VideoPose3D (Apache 2.0) is the upstream lifter for the blended slot.",
+  "description": "v17 selective adoption: v15 deploy table with ONE slot (lumbar_extension/front_oblique_right/v13_dwpose_hybrid) replaced by the v16 blend-retrained weights (Agent U recommendation). All other 22 slots remain identical to v15. Single phone camera; VideoPose3D (CC BY-NC 4.0, non-commercial) is the upstream lifter for the blended slot.",
   "approaches": {
     "full_trial": {
       "feature_pool": "13 ROM-based features across all 5 metrics, computed across the full trial duration",
@@ -2319,7 +2319,7 @@
               "w_lifter_oblique": 0.5,
               "w_lifter_side": 0.15
             },
-            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (Apache 2.0)",
+            "lifter": "VideoPose3D pretrained_h36m_detectron_coco.bin (CC BY-NC 4.0, non-commercial; research-only)",
             "fixes": [
               "hip_flexion_r sign flip",
               "synthetic 3D toe for ankle"

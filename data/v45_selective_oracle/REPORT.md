@@ -1,11 +1,13 @@
 # v45 Selective Oracle: VideoPose3D 3D Pose Lifting (Agent TT)
 
 **Date:** 2026-06-08
-**Build:** v43 pool (v42 readers + v43 ensembles) + v44 (VideoPose3D 2D->3D pose lifting, Pavllo et al. 2019, FAIR, Apache 2.0). Per-slot selective oracle picks the reader with the highest tier; LoA-then-CCC tie-break (LoA-limited band: Moderate with CCC >= 0.79). v44 cannot regress CCC by more than 0.02 vs v43.
+**Build:** v43 pool (v42 readers + v43 ensembles) + v44 (VideoPose3D 2D->3D pose lifting, Pavllo et al. 2019, FAIR; CC BY-NC 4.0, non-commercial -- see `docs/LICENCE_CORRECTION_2026-09-28.md`). Per-slot selective oracle picks the reader with the highest tier; LoA-then-CCC tie-break (LoA-limited band: Moderate with CCC >= 0.79). v44 cannot regress CCC by more than 0.02 vs v43.
 
 **Verdict:** **13 validated Good-tier slots** (v43 was 12, delta +1). Tier 1 (CCC >= 0.79) count: **14** (v43 was 14, delta +0).
 
 v44 (VideoPose3D) is picked in **2** / 23 slots.
+
+> **Licence correction (2026-09-28):** VideoPose3D is CC BY-NC 4.0 (non-commercial), not Apache 2.0. The v44 picks in this build are **research-only**. The licence-clean alternatives are the v43 picks in the table below. See `docs/LICENCE_CORRECTION_2026-09-28.md`.
 
 ## 1. The mirror twin verdict: hip_adduction_r/side_right
 

@@ -8,7 +8,7 @@ Layer 2 |r| from 0.514 → 0.55–0.65.
 Model picked:
     VideoPose3D (Pavllo et al., CVPR 2019, Facebook AI Research)
     - https://github.com/facebookresearch/VideoPose3D
-    - Apache 2.0 license (commercially permissive)
+    - CC BY-NC 4.0 licence (non-commercial; NOT commercially permissive -- corrected 2026-09-28)
     - Pretrained checkpoint `pretrained_h36m_detectron_coco.bin` (68 MB,
       already on disk at models/videopose3d_h36m.bin)
     - 243-frame receptive field temporal convnet
@@ -528,7 +528,7 @@ def main() -> None:
     out_obj = {
         "version": "1.0",
         "model": "VideoPose3D pretrained_h36m_detectron_coco.bin",
-        "license": "Apache 2.0",
+        "license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
         "device": "cpu",
         "remap": "Halpe-26 -> H36M-17 (see harness/videopose3d.py)",
         "clips": [clip_result_to_dict(c) for c in clip_results],

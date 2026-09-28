@@ -87,5 +87,5 @@ Do NOT claim the blend itself is a product feature. The blend is an internal Lay
 
 - v15, v16, biomech_validity_stats, and blend_layer3_integration source files were not modified (verified by re-reading; no writes outside `results/deploy_ready_models_v17_selective.json` and `data/v17_selective_adoption/`).
 - Single phone camera only -- the blend is internal Layer-2 augmentation, not a multi-camera product claim.
-- VideoPose3D (`pretrained_h36m_detectron_coco.bin`) is the upstream lifter for the promoted slot: Apache 2.0, commercial-clean.
+- VideoPose3D (`pretrained_h36m_detectron_coco.bin`) is the upstream lifter for the promoted slot: CC BY-NC 4.0 (non-commercial; weights trained on Human3.6M, academic-only). Research-only, NOT commercial-clean (licence corrected 2026-09-28). See `docs/LICENCE_CORRECTION_2026-09-28.md`.
 - The blend was applied to OpenCap clips only (RTMPose + DWPose); ASPset rows fell back to Couro-only Layer 2 for the promoted slot, per Agent U's REPORT -- meaning the lift propagates through 53 of 287 (~18%) of the LOSO rows on this slot, and the 0.11 CCC gain is doing real work despite the dilution.

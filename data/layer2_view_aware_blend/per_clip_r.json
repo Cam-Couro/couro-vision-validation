@@ -2,7 +2,7 @@
   "version": "1.0",
   "build": "view_aware_blend",
   "model": "VideoPose3D pretrained_h36m_detectron_coco.bin",
-  "license": "Apache 2.0",
+  "license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
   "device": "cpu",
   "fixes_applied": [
     "hip_flexion_r sign flip",

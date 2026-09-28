@@ -3,7 +3,7 @@
 Sister script to ``layer3_retrain_on_combined_l2`` (KK -> v23) and
 ``layer3_retrain_on_persource_perframe_l2`` (MM -> v26): same Phase B
 pipeline, but the Layer 2 angle stream comes from VideoPose3D 2D->3D
-lifting (Pavllo et al. 2019, FAIR, Apache 2.0) instead of from a
+lifting (Pavllo et al. 2019, FAIR; CC BY-NC 4.0, non-commercial) instead of from a
 keypoint CNN trained on OpenCap.
 
 Pipeline
@@ -613,7 +613,7 @@ def run() -> dict:
         "description": (
             "v17 deploy base + per-slot ridge weights re-fit using "
             "VideoPose3D-lifted 3D-derived Layer 2 angle traces "
-            "(Pavllo et al. 2019, FAIR, Apache 2.0). VideoPose3D is "
+            "(Pavllo et al. 2019, FAIR; CC BY-NC 4.0, non-commercial). VideoPose3D is "
             "pretrained on Human3.6M (Ionescu et al. 2014) -- 11 subjects "
             "disjoint from the L3 LOSO pool, so L3 LOSO is clean."
         ),
@@ -625,7 +625,7 @@ def run() -> dict:
         "approaches": v17.get("approaches"),
         "training_dataset": v17.get("training_dataset"),
         "l2_model": "videopose3d_h36m.bin",
-        "l2_model_license": "Apache-2.0",
+        "l2_model_license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
         "models": v44_models,
         "calibration_fix": v17.get("calibration_fix"),
         "selective_adoption": v17.get("selective_adoption"),
