@@ -12,7 +12,7 @@ Replacing Couro's hand-engineered anthropometric Layer 2 reconstruction with a *
 |---|---:|---:|---|
 | Couro hand-engineered baseline | 0.514 | — | — |
 | Agent S synthetic-only CNN | 0.495 | −0.019 | CC-BY 4.0 |
-| Agent R view-aware blend | 0.581 | +0.067 | Apache 2.0 |
+| Agent R view-aware blend | 0.581 | +0.067 | CC BY-NC 4.0 (VideoPose3D; non-commercial) |
 | **Learned Layer 2, real GT (this work)** | **0.645** | **+0.131** | CC-BY 4.0 |
 
 ## Per-metric, subject-mean across 9 LOSO folds

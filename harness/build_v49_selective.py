@@ -195,6 +195,10 @@ def build_v49() -> dict:
             "tier": chosen_tier, "reader": chosen_reader,
             "tier1": is_tier1,
         })
+        # Licence correction 2026-09-28: VideoPose3D (v44) is CC BY-NC 4.0 ->
+        # its slots are research-only (docs/LICENCE_CORRECTION_2026-09-28.md).
+        if "VideoPose3D" in str(chosen_reader):
+            consolidated[-1]["licence_status"] = "research-only (CC BY-NC VideoPose3D reader)"
         new_picks.append({
             "slot": slot_str,
             "v47_reader": base_reader, "v47_ccc": base_ccc,

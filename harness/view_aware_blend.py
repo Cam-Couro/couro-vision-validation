@@ -927,7 +927,7 @@ def write_report(clips: list[ClipResult], agg: dict, out_path: Path) -> None:
     L("## Constraints honoured")
     L("")
     L("- Single phone camera (one DWPose stream per clip, no multi-cam fusion).")
-    L("- VideoPose3D is Apache 2.0 (commercial-clean).")
+    L("- VideoPose3D is CC BY-NC 4.0 (non-commercial; weights trained on Human3.6M, academic-only). Research-only, NOT commercial-clean (licence corrected 2026-09-28).")
     L("- No modifications to `results/deploy_ready_models.json` or "
       "any data under `data/biomech_validity_stats/` or "
       "`data/layer2_motionbert_poc/`.")
@@ -1022,7 +1022,7 @@ def main() -> None:
         "version": "1.0",
         "build": "view_aware_blend",
         "model": "VideoPose3D pretrained_h36m_detectron_coco.bin",
-        "license": "Apache 2.0",
+        "license": "CC-BY-NC-4.0 (non-commercial; weights trained on Human3.6M, academic-only)",
         "device": "cpu",
         "fixes_applied": [
             "hip_flexion_r sign flip",

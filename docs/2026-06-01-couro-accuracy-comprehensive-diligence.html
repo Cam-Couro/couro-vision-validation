@@ -118,6 +118,7 @@
 </style>
 </head>
 <body>
+<div style="margin:0;padding:14px 20px;background:#fff4e5;color:#5a3200;border-bottom:3px solid #ff9800;font:14px/1.5 -apple-system,Segoe UI,Helvetica,Arial,sans-serif;"><strong>Licence correction (2026-09-28).</strong> This document labelled FAIR&#39;s VideoPose3D (the 2D&rarr;3D lifter behind the view-aware blend and the v44 reader) as Apache 2.0 / commercial-clean. That was wrong: VideoPose3D is licensed <strong>CC BY-NC 4.0 (non-commercial)</strong>, and its pretrained weights are trained on Human3.6M (academic-only licence). Any result here that depends on VideoPose3D is <strong>research-only</strong> and is not a basis for commercial product claims. Metric values are unchanged. Details: <a href="LICENCE_CORRECTION_2026-09-28.md">docs/LICENCE_CORRECTION_2026-09-28.md</a>.</div>
 
 <div class="header">
   <div class="header-inner">
@@ -146,7 +147,7 @@
     </div>
     <div class="callout callout-green">
       <span class="label">Headline finding for diligence</span>
-      <strong>Every headline validation number in this report is commercial-clean.</strong> The four Good-tier slots (CCC 0.74–0.94) are all measured on OpenCap (CC-BY 4.0), ASPset-510 (CC0), and Fukuchi (CC-BY) data, and the rear-view |r| 0.74 is on SMPL-Body synthetic (CC-BY 4.0). The <em>only</em> research-only evidence anywhere in the report is the 8-subject MPI-INF-3DHP rear-view geometric sanity check — it is footnoted, demoted to "academic-grade evidence the pipeline works at 180°," and is not used to back any product or marketing claim.
+      <strong>Every headline validation number in this report is commercial-clean.</strong> <strong>Correction (2026-09-28):</strong> not so. The lumbar front-oblique slot (view-aware blend) depends on VideoPose3D, which is CC BY-NC 4.0 (non-commercial), so it is research-only. The four Good-tier slots (CCC 0.74–0.94) are all measured on OpenCap (CC-BY 4.0), ASPset-510 (CC0), and Fukuchi (CC-BY) data, and the rear-view |r| 0.74 is on SMPL-Body synthetic (CC-BY 4.0). The <em>only</em> research-only evidence anywhere in the report is the 8-subject MPI-INF-3DHP rear-view geometric sanity check — it is footnoted, demoted to "academic-grade evidence the pipeline works at 180°," and is not used to back any product or marketing claim.
     </div>
   </div>
 
@@ -175,7 +176,7 @@
     <div class="section-header"><div class="section-icon icon-purple">1</div><h2>Executive summary</h2></div>
     <p class="summary-text">Couro takes a <strong>single phone video</strong>, runs a pose-estimation pipeline, reconstructs joint angles in 3D, predicts range of motion (ROM) per trial, and outputs sport-specific scoring — <strong>no calibration, no second camera</strong>. The ROM-prediction layer (Layer 3, the layer that ships) was measured against gold-standard motion capture using the standard biomechanics validity criteria: <strong>Lin's Concordance Correlation Coefficient (CCC) &gt; 0.60</strong> and <strong>Bland-Altman 95% limits of agreement (LoA) within ±10°</strong>.</p>
     <p class="summary-text">By those criteria, <strong>4 deploy slots are validated in v17 (CCC 0.74–0.94)</strong>: lumbar trunk extension on side-view (CCC 0.83), lumbar trunk extension on front-oblique view (CCC 0.74, view-aware blend), hip adduction on side-view (CCC 0.94, mirror-pair caveat), and ankle dorsi/plantarflexion on side-view (CCC 0.64, preliminary). Cross-view validation of lumbar trunk extension — the same biomech reading from two independent camera angles — is the new product-capability claim. Separately, the rear-view path is now validated at <strong>pooled |r| 0.74 on commercial-clean synthetic data</strong>, replacing the academic-only MPI cohort in pitch and diligence materials.</p>
-    <p class="summary-text">All four validated slots and the rear-view result are <span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span>.</p>
+    <p class="summary-text">All four validated slots and the rear-view result are <span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span>. <strong>Correction (2026-09-28):</strong> the lumbar front-oblique slot uses the view-aware blend with VideoPose3D, which is CC BY-NC 4.0 (non-commercial); that slot is research-only.</p>
   </div>
 
   <!-- ═══ 2 MEANING ═══ -->
@@ -218,7 +219,7 @@
         <h4>Lumbar trunk extension <span style="font-size:11px;color:var(--accent-light)">(cross-view)</span></h4>
         <div class="ccc">0.74</div><div class="ccc-l">CCC (95% CI 0.45–0.89)</div>
         <div class="err">±9.2° 95% LoA · <strong>−1.6° bias</strong> · 4.1° MAE</div>
-        <div class="meta-line">OpenCap + view-aware blend retrain · <span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span><br>Same measurement from a second camera position. Lifts product flexibility for sports where side placement isn't possible.</div>
+        <div class="meta-line">OpenCap + view-aware blend retrain (VideoPose3D, CC BY-NC 4.0) · <span class="pill pill-ro">RESEARCH-ONLY ⚠️</span> <em>(corrected 2026-09-28)</em><br>Same measurement from a second camera position. Lifts product flexibility for sports where side placement isn't possible.</div>
       </div>
       <div class="v-card flag">
         <div class="v-joint">Frontal · Side-left camera · n = 12 · ⚠ flagged</div>
@@ -281,7 +282,7 @@
       <thead><tr><th>Stage</th><th>What it does</th><th>Accuracy vs mocap</th><th>Provenance</th></tr></thead>
       <tbody>
         <tr><td><strong>1 · Keypoints</strong></td><td>DWPose-L (ICCV 2023) detects 26 body landmarks per frame.</td><td class="num">Pixel r = 0.98 (front 0.989, side 0.985, rear 0.983)</td><td><span class="pill pill-ro">RESEARCH-ONLY ⚠️</span><br><span style="font-size:11px;color:var(--text-dim)">rear figure on MPI cohort</span></td></tr>
-        <tr><td><strong>2 · Joint angles</strong></td><td>2D keypoints → anthropometric 3D reconstruction → angles in degrees.</td><td class="num">Pooled |r| 0.514 baseline → 0.581 with view-aware blend</td><td><span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span></td></tr>
+        <tr><td><strong>2 · Joint angles</strong></td><td>2D keypoints → anthropometric 3D reconstruction → angles in degrees.</td><td class="num">Pooled |r| 0.514 baseline → 0.581 with view-aware blend</td><td><span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span> baseline only · <span class="pill pill-ro">RESEARCH-ONLY ⚠️</span> blend (VideoPose3D, CC BY-NC 4.0)</td></tr>
         <tr><td><strong>3 · Range of motion</strong></td><td>Per-(metric × view) ridge regression — the model that ships. Measured against CCC + Bland-Altman.</td><td class="num">23 deploy slots; 4 Good (CCC 0.74–0.94)</td><td><span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span></td></tr>
         <tr><td><strong>4 · Sport scoring</strong></td><td>Compare measured ROM to sport-specific population norms (calibration, not measurement).</td><td class="num">303 subjects across 5 datasets</td><td><span class="pill pill-cc">COMMERCIAL-CLEAN ✅</span></td></tr>
       </tbody>
@@ -358,7 +359,7 @@
     <p class="summary-text">Two build cycles (2026-05-28 and 2026-05-29) attempted to lift the validated slot count. Net result: <strong>+1 Good slot, commercial-clean rear-view validated, two slots demoted, and four honest negatives that closed dead-end levers cleanly.</strong></p>
     <div class="build-row"><div class="bh"><span class="bt">#1 · Calibration bias correction</span><span class="tag tag-null">NULL RESULT</span></div><div class="bd">Bias correction is mathematically a no-op when the ridge has an unregularized intercept (train residual mean already zero). Lifting the 3 over-shooting slots needs per-athlete calibration (product feature) or a model-architecture change — multi-week, not one-day.</div></div>
     <div class="build-row"><div class="bh"><span class="bt">#2 · Demote 2 broken front_center slots</span><span class="tag tag-ship">SHIPPED</span></div><div class="bd">hip_flexion_r and knee_r on front_center had positive per-trial r but negative/near-zero per-subject CCC — they track rep variation but can't rank athletes. Removed from deploy. 25 → 23 slots.</div></div>
-    <div class="build-row"><div class="bh"><span class="bt">#3 · View-aware blend (Couro + VideoPose3D)</span><span class="tag tag-ship">SHIPPED · real win</span></div><div class="bd">FAIR's VideoPose3D (Apache 2.0) wins front views (+0.149) where Couro's depth ambiguity is worst; Couro wins side views (−0.260 for VP3D). A view classifier gates a soft blend → pooled Layer 2 |r| 0.514 → 0.581, ~0.07ms extra/frame (effectively free).</div></div>
+    <div class="build-row"><div class="bh"><span class="bt">#3 · View-aware blend (Couro + VideoPose3D)</span><span class="tag tag-ship">SHIPPED · real win</span></div><div class="bd">FAIR's VideoPose3D (CC BY-NC 4.0 — non-commercial; corrected 2026-09-28) wins front views (+0.149) where Couro's depth ambiguity is worst; Couro wins side views (−0.260 for VP3D). A view classifier gates a soft blend → pooled Layer 2 |r| 0.514 → 0.581, ~0.07ms extra/frame (effectively free).</div></div>
     <div class="build-row"><div class="bh"><span class="bt">#4 · Production synthetic Layer 2</span><span class="tag tag-partial">PARTIAL</span></div><div class="bd">5K bursts × 9 frames with realistic DWPose-noise injection. Pooled |r| 0.495 (below 0.514 baseline) but knee/ankle sim-to-real gaps closed substantially. The diligence win: this pipeline IS the commercial-clean rear-view validation path.</div></div>
     <div class="build-row"><div class="bh"><span class="bt">#5 · v17 selective adoption</span><span class="tag tag-ship">SHIPPED</span></div><div class="bd">Layer 3 integration of the blend produced one clean Good-tier promotion: lumbar / front_oblique_right from CCC 0.63 (LoA 10.18°) → 0.74 (LoA 9.16°). The cross-view trunk claim.</div></div>
     <div class="build-row"><div class="bh"><span class="bt">#6 · Rear-view synthetic validation</span><span class="tag tag-ship">SHIPPED · strong win</span></div><div class="bd">Rear arcs in the synthetic pipeline → pooled |r| 0.738 loose / 0.676 strict, commercial-clean. Hip/knee/ankle transfer with modest degradation; lumbar degenerate only at the exact 180° singular angle, recoverable with 20° offset.</div></div>

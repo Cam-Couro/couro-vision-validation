@@ -9,7 +9,7 @@ Pooled |r| 0.514 → 0.516 — essentially a tie. But per-camera-bucket reveals 
 
 ## Model picked
 
-**VideoPose3D** (Pavllo et al., CVPR 2019, FAIR). Apache 2.0. 243-frame temporal convnet, ~17M params. Pretrained `pretrained_h36m_detectron_coco.bin` already on disk. MotionBERT skipped because its checkpoint required manual Google Drive download.
+**VideoPose3D** (Pavllo et al., CVPR 2019, FAIR). CC BY-NC 4.0, non-commercial (licence corrected 2026-09-28; see `docs/LICENCE_CORRECTION_2026-09-28.md`). 243-frame temporal convnet, ~17M params. Pretrained `pretrained_h36m_detectron_coco.bin` already on disk. MotionBERT skipped because its checkpoint required manual Google Drive download.
 
 ## Per-metric
 

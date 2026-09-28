@@ -1,6 +1,7 @@
 # Couro Vision — Internal Technical Reference (v47)
 
 **Status:** Internal. Contains engineering detail, known bugs, and honest negative results not intended for external distribution.
+**Licence correction (2026-09-28):** VideoPose3D (the v44 reader) is CC BY-NC 4.0 (non-commercial), not Apache 2.0. The three v44 hip-adduction slots below are research-only. See `docs/LICENCE_CORRECTION_2026-09-28.md`.
 **Date:** 2026-06-10
 **Deploy version:** v47 selective oracle
 **Repo:** github.com/Cam-Couro/couro-vision-validation @ `275e83c`
@@ -62,8 +63,8 @@ CCC and LoA are on held-out OpenCap subjects (n=9 LOSO). "Reader" = the (Layer-2
 
 | # | Metric | View | CCC | LoA ± | Reader |
 |--|--|--|--|--|--|
-| 1 | Hip adduction | front-oblique-R | 0.960 | 8.5° | v44 VideoPose3D |
-| 2 | Hip adduction | side-left | 0.946 | 9.3° | v44 VideoPose3D |
+| 1 | Hip adduction | front-oblique-R | 0.960 | 8.5° | v44 VideoPose3D — **research-only (CC BY-NC)** |
+| 2 | Hip adduction | side-left | 0.946 | 9.3° | v44 VideoPose3D — **research-only (CC BY-NC)** |
 | 3 | Knee flexion | side-left | 0.903 | 9.8° | v38 calibrated mirror-flip+learned-L3 |
 | 4 | Knee flexion | front-oblique-R | 0.887 | 8.1° | v24 combined+ROM-aware L2 |
 | 5 | Lumbar extension | side-left | 0.884 | 6.4° | v23 HH2 combined L2 |
@@ -84,7 +85,7 @@ CCC and LoA are on held-out OpenCap subjects (n=9 LOSO). "Reader" = the (Layer-2
 | Metric | View | CCC | LoA ± | Reader | Why not Good |
 |--|--|--|--|--|--|
 | Knee flexion | front-oblique-L | 0.928 | 10.8° | v31 mirror-flip + learned L3 | LoA misses ±10° by 0.8° |
-| Hip adduction | front-center | 0.897 | 11.9° | v44 VideoPose3D | LoA |
+| Hip adduction | front-center | 0.897 | 11.9° | v44 VideoPose3D — **research-only (CC BY-NC)** | LoA |
 | Hip flexion | front-oblique-L | 0.843 | 11.3° | v17 hand-engineered | LoA |
 | Knee flexion | side-right | 0.819 | 13.7° | v39 calibrated hand-engineered | LoA |
 | Ankle dorsi/plantarflex | front-oblique-L | 0.556 | 10.8° | v17 hand-engineered | CCC + LoA |
@@ -151,7 +152,7 @@ Model architecture (learned L2): `TemporalKeypointCNNConf` — 66 input channels
 | Fukuchi RBDS | 28 | L4 sport-score calibration | CC-BY | figshare 4543435 |
 | MPI-INF-3DHP | 8 | L1 keypoint reference only | **Non-commercial (academic only)** | vcai.mpi-inf.mpg.de/3dhp-dataset |
 
-**Commercial-clean status:** all deployed weights, code, and validation numbers derive from OpenCap (CC-BY), ASPset (CC0), and DWPose/VideoPose3D (Apache 2.0). MPI-INF-3DHP is used only as an academic L1 keypoint reference and is NOT in any deployed path. No license risk in the shipped system.
+**Commercial-clean status (corrected 2026-09-28):** this section originally said all deployed weights derive from OpenCap (CC-BY), ASPset (CC0), and DWPose/VideoPose3D (Apache 2.0), with no licence risk. That was wrong for VideoPose3D: it is **CC BY-NC 4.0 (non-commercial)** and its pretrained weights are trained on Human3.6M (academic-only). The v44 VideoPose3D reader is therefore **research-only**, as is any slot using the VideoPose3D view-aware blend. MPI-INF-3DHP is used only as an academic L1 keypoint reference and is NOT in any deployed path. See `docs/LICENCE_CORRECTION_2026-09-28.md`.
 
 ---
 

@@ -101,7 +101,7 @@ Latency target met: per-frame inference overhead < 1 ms, well under the 5 ms bud
 ## Constraints honoured
 
 - Single phone camera (one DWPose stream per clip, no multi-cam fusion).
-- VideoPose3D is Apache 2.0 (commercial-clean).
+- VideoPose3D is CC BY-NC 4.0 (non-commercial; weights trained on Human3.6M, academic-only). Research-only, NOT commercial-clean (licence corrected 2026-09-28). See `docs/LICENCE_CORRECTION_2026-09-28.md`.
 - No modifications to `results/deploy_ready_models.json` or any data under `data/biomech_validity_stats/` or `data/layer2_motionbert_poc/`.
 
 ## Honest reporting (where the blend underperforms)

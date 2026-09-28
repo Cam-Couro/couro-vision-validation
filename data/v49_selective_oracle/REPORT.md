@@ -6,6 +6,16 @@
 
 **SINGLE CAMERA ONLY.** Two DETECTORS (two architectures) on the SAME single-camera frame. This is NOT multi-camera fusion. The inference contract is unchanged: 1 video stream -> keypoints -> 5 angles.
 
+> **Licence correction (2026-09-28):** the v44 reader "VideoPose3D L2" uses FAIR's VideoPose3D, which is **CC BY-NC 4.0 (non-commercial)** and trained on Human3.6M (academic-only). It is not Apache 2.0. The three v49 slots it serves are **research-only (not for commercial product use)**:
+>
+> | Slot | v49 (VideoPose3D) | Licence-clean fallback | Tier with fallback |
+> | --- | --- | --- | --- |
+> | hip_adduction_r/front_oblique_right | 0.960 ±8.51 Good | v30 0.889 ±13.80 | Moderate |
+> | hip_adduction_r/side_left | 0.946 ±9.32 Good | ensemble v17+v23+v26+v31 0.944 ±8.71 | Good |
+> | hip_adduction_r/front_center | 0.897 ±11.95 Moderate | v30 0.793 ±18.00 | Poor |
+>
+> Licence-clean scoreboard: **13 Good / 5 Moderate / 5 Poor, PROVISIONAL.** A lineage audit still has to confirm that v23/v26/v30/v31/v33 do not use the VideoPose3D view-aware blend. `consolidated_metrics_v49.json` flags the three rows with `licence_status`. The metric values below are unchanged. See `docs/LICENCE_CORRECTION_2026-09-28.md`.
+
 ## 1. Keypoint correspondence: did DWPose & RTMPose Halpe-26 indices align?
 
 **YES -- indices align directly; no remap needed for RTMPose.** The built-in 1-frame smoke check confirmed both detectors emit 26 keypoints in the identical Halpe-26 index order. On a Cam0 clip (subject10/DJ1) the mean DWPose-vs-RTMPose distance over the six torso/limb joints {L/R shoulder, L/R hip, L/R knee} was ~4.8 px, and the L_hip same-index distance (0.9 px) was far smaller than the crossed L_hip-vs-R_hip distance (33.2 px) -- ruling out an L/R label swap. The DWPose re-inference pass also reproduced the cached `opencap_dwpose_keypoints` to ~4.1 px, validating the shared bbox / pre-processing path. RTMPose-Halpe26 outputs Halpe-26 directly; DWPose is remapped from COCO-WholeBody-133 via the verbatim `dwpose_to_halpe26`. Both land in the same 26-index layout.
