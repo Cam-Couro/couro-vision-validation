@@ -106,6 +106,8 @@ from harness.parsers import parse_mot  # noqa: E402
 # Paths.
 # -------------------------------------------------------------------------
 
+from harness.frame_timing import require_mocap_times
+
 DATA_ROOT: Final[Path] = REPO_ROOT / "data"
 OUT_DIR: Final[Path] = DATA_ROOT / "learned_layer2_persource_mirrorflip"
 MODEL_OUT: Final[Path] = (
@@ -186,15 +188,19 @@ def _load_opencap_clip_lr(
     if not mot_path.exists():
         return None
     try:
-        clip = _load_opencap_keypoints(kp_path)
-    except Exception:
-        return None
-    try:
         gt = parse_mot(mot_path)
     except Exception:
         return None
 
-    t_sec = clip["t_ms"] / 1000.0
+    # Source-media PTS are not mocap time. Fail closed outside the legacy
+    # loader's broad exception handler so unvalidated clips cannot be skipped
+    # silently into a different training cohort.
+    t_sec = np.asarray(require_mocap_times(kp_path, mot_path, gt.time), dtype=np.float64)
+
+    try:
+        clip = _load_opencap_keypoints(kp_path)
+    except Exception:
+        return None
     n_frames = t_sec.shape[0]
     angles_r = np.full(
         (n_frames, len(DEPLOY_METRICS)), np.nan, dtype=np.float32

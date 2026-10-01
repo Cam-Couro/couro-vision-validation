@@ -16,7 +16,10 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-import onnxruntime as ort
+
+if __package__ in (None, ""):
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from harness.frame_timing import PTS_KEYPOINT_SCHEMA, SourceMediaClock, cache_timing_label, sha256_file
 
 INPUT_W, INPUT_H = 288, 384
 SIMCC_SPLIT_RATIO = 2.0
@@ -25,6 +28,8 @@ STD_BGR = np.array([58.395, 57.12, 57.375], dtype=np.float32)
 
 
 def load_session(onnx_path):
+    import onnxruntime as ort
+
     return ort.InferenceSession(
         onnx_path,
         providers=["CUDAExecutionProvider", "CPUExecutionProvider"],
@@ -120,8 +125,12 @@ def dwpose_to_halpe26(xy_dw, conf_dw):
 
 
 def process_video(video_path, box_csv, sess, out_path, batch_size=8):
-    if out_path.exists() and out_path.stat().st_size > 1000:
-        return True
+    if out_path.exists():
+        existing = json.loads(out_path.read_text())
+        raise FileExistsError(
+            f"{out_path}: existing {cache_timing_label(existing)} cache left unchanged; "
+            "use a new output directory to recapture source PTS"
+        )
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         return False
@@ -131,9 +140,11 @@ def process_video(video_path, box_csv, sess, out_path, batch_size=8):
     bboxes = read_bboxes(box_csv)
     input_name = sess.get_inputs()[0].name
 
-    all_xy, all_conf, all_time = [], [], []
+    clock = SourceMediaClock(cap, cv2, fps)
+    source_sha256 = sha256_file(video_path)
+    all_xy, all_conf, all_timing = [], [], []
     frame_idx = 0
-    batch_imgs, batch_minv, batch_fi = [], [], []
+    batch_imgs, batch_minv, batch_timing = [], [], []
 
     def flush():
         if not batch_imgs:
@@ -141,46 +152,56 @@ def process_video(video_path, box_csv, sess, out_path, batch_size=8):
         x = np.stack(batch_imgs, axis=0)
         out = sess.run(None, {input_name: x})
         sx_batch, sy_batch = out[0], out[1]
-        for sx, sy, M_inv, fi in zip(sx_batch, sy_batch, batch_minv, batch_fi):
+        for sx, sy, M_inv, frame_timing in zip(sx_batch, sy_batch, batch_minv, batch_timing):
             xy_crop, conf_dw = decode_simcc(sx, sy)
             xy_orig = transform_back(xy_crop, M_inv)
             xy_halpe, conf_halpe = dwpose_to_halpe26(xy_orig, conf_dw)
             all_xy.append(xy_halpe.tolist())
             all_conf.append(conf_halpe.tolist())
-            all_time.append(fi / fps)
-        batch_imgs.clear(); batch_minv.clear(); batch_fi.clear()
+            all_timing.append(frame_timing)
+        batch_imgs.clear(); batch_minv.clear(); batch_timing.clear()
 
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        bbox = bboxes[min(frame_idx, len(bboxes) - 1)] if len(bboxes) > 0 else np.array([0, 0, width, height], dtype=np.float32)
-        chw, M_inv = preprocess_crop(frame, bbox)
-        batch_imgs.append(chw); batch_minv.append(M_inv); batch_fi.append(frame_idx)
-        if len(batch_imgs) >= batch_size:
-            flush()
-        frame_idx += 1
-    flush()
-    cap.release()
+    try:
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+            frame_timing = clock.read(cap)
+            bbox = bboxes[min(frame_idx, len(bboxes) - 1)] if len(bboxes) > 0 else np.array([0, 0, width, height], dtype=np.float32)
+            chw, M_inv = preprocess_crop(frame, bbox)
+            batch_imgs.append(chw); batch_minv.append(M_inv); batch_timing.append(frame_timing)
+            if len(batch_imgs) >= batch_size:
+                flush()
+            frame_idx += 1
+        flush()
+    finally:
+        cap.release()
 
     seq = [
         {
             "frame_idx": i,
-            "timestamp_ms": all_time[i] * 1000.0,
+            **all_timing[i],
             "keypoints": all_xy[i],
             "keypoint_scores": all_conf[i],
         }
         for i in range(frame_idx)
     ]
     payload = {
-        "schema_version": "couro-dwpose-halpe26-v1",
+        "schema_version": PTS_KEYPOINT_SCHEMA,
+        "timing": clock.metadata(seq, source_sha256),
         "video_metadata": {
-            "width": width, "height": height, "fps": fps, "total_frames": frame_idx,
+            "width": width, "height": height,
+            "fps": fps if np.isfinite(fps) and fps > 0 else None,
+            "total_frames": frame_idx,
         },
         "keypoints_sequence": seq,
     }
-    with open(out_path, "w") as f:
-        json.dump(payload, f)
+    if payload["timing"]["validity"] != "valid":
+        print(f"WARNING {out_path.name}: invalid source PTS; frame-paired training is blocked", flush=True)
+    # Exclusive creation also protects an existing cache created during this run.
+    serialized = json.dumps(payload, allow_nan=False)
+    with open(out_path, "x") as f:
+        f.write(serialized)
     return True
 
 

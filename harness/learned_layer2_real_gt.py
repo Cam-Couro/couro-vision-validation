@@ -48,6 +48,8 @@ else:
     from .smpl_layer2_poc import HALPE26_INDEX, HALPE26_TO_SMPL
 
 
+from harness.frame_timing import require_mocap_times
+
 DATA_ROOT: Final[Path] = REPO_ROOT / "data"
 LAB: Final[Path] = DATA_ROOT / "LabValidation_withVideos"
 OPENCAP_KP: Final[Path] = DATA_ROOT / "opencap_dwpose_keypoints"
@@ -147,18 +149,22 @@ def build_clip_dataset(
         return None
 
     try:
-        clip = load_opencap_clip(kp_path)
-    except Exception as e:
-        log(f"  failed to load {kp_path.name}: {e}")
-        return None
-
-    try:
         gt = parse_mot(mot_path)
     except Exception as e:
         log(f"  failed to parse {mot_path.name}: {e}")
         return None
 
-    t_sec = clip["t_ms"] / 1000.0
+    # Source-media PTS are not mocap time. Fail closed outside the legacy
+    # loader's broad exception handler so unvalidated clips cannot be skipped
+    # silently into a different training cohort.
+    t_sec = np.asarray(require_mocap_times(kp_path, mot_path, gt.time), dtype=np.float64)
+
+    try:
+        clip = load_opencap_clip(kp_path)
+    except Exception as e:
+        log(f"  failed to load {kp_path.name}: {e}")
+        return None
+
     n_frames = t_sec.shape[0]
 
     angles = np.full((n_frames, len(DEPLOY_METRICS)), np.nan, dtype=np.float32)
