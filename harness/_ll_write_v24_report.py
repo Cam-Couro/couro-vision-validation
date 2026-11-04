@@ -37,10 +37,25 @@ def _by_slot(d: dict) -> dict[tuple[str, str], dict]:
     return {(s["target"], s["view"]): s for s in d["slots"]}
 
 
+TIERS = ("Excellent", "Good", "Moderate", "Poor")
+
+
+def _tier(slot: dict) -> str:
+    cls = slot.get("classification")
+    # Preserve the report's historical LoA-only mapping, but never invent a tier.
+    if isinstance(cls, str) and cls.startswith("LoA-only"):
+        return "Poor"
+    return cls if isinstance(cls, str) and cls in TIERS else "Not assessable"
+
+
+def _finite_number(value: object) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
 def _fmt(v: object, prec: int = 2) -> str:
     if v is None:
         return "-"
-    if isinstance(v, float) and math.isnan(v):
+    if isinstance(v, float) and not math.isfinite(v):
         return "-"
     if isinstance(v, (int, float)):
         return f"{v:.{prec}f}"
@@ -48,12 +63,9 @@ def _fmt(v: object, prec: int = 2) -> str:
 
 
 def _tier_counts(slots: list[dict]) -> dict[str, int]:
-    counts = {"Excellent": 0, "Good": 0, "Moderate": 0, "Poor": 0}
+    counts = dict.fromkeys((*TIERS, "Not assessable"), 0)
     for s in slots:
-        cls = s.get("classification") or "Poor"
-        if cls.startswith("LoA-only"):
-            cls = "Poor"
-        counts[cls] = counts.get(cls, 0) + 1
+        counts[_tier(s)] += 1
     return counts
 
 
@@ -78,15 +90,15 @@ def main() -> None:
     promotions = []
     demotions = []
     unchanged = []
+    unassessable = []
     tier_rank = {"Excellent": 4, "Good": 3, "Moderate": 2, "Poor": 1}
     for key, v24_slot in v24_by.items():
         v17_slot = v17_by.get(key, {})
-        b_tier = v17_slot.get("classification", "Poor")
-        if b_tier and b_tier.startswith("LoA-only"):
-            b_tier = "Poor"
-        n_tier = v24_slot.get("classification", "Poor")
-        if n_tier and n_tier.startswith("LoA-only"):
-            n_tier = "Poor"
+        b_tier = _tier(v17_slot)
+        n_tier = _tier(v24_slot)
+        if b_tier not in tier_rank or n_tier not in tier_rank:
+            unassessable.append((key, b_tier, n_tier))
+            continue
         if tier_rank.get(n_tier, 0) > tier_rank.get(b_tier, 0):
             promotions.append((key, b_tier, n_tier))
         elif tier_rank.get(n_tier, 0) < tier_rank.get(b_tier, 0):
@@ -103,9 +115,11 @@ def main() -> None:
     lines.append(f"**Date:** {time.strftime('%Y-%m-%d')}")
     lines.append("**Build:** Agent LL (Phase B follow-up to HH2 + GG2)")
     lines.append(
-        f"**Verdict:** **{v24_counts['Good']} Good / "
+        f"**Verdict:** **{v24_counts['Excellent']} Excellent / "
+        f"{v24_counts['Good']} Good / "
         f"{v24_counts['Moderate']} Moderate / "
-        f"{v24_counts['Poor']} Poor.** "
+        f"{v24_counts['Poor']} Poor / "
+        f"{v24_counts['Not assessable']} Not assessable.** "
         "v24 = HH2's combined cohort + GG2's ROM-aware loss."
     )
     lines.append("")
@@ -189,7 +203,7 @@ def main() -> None:
         "| **v24 (LL)** |"
     )
     lines.append("| --- | ---: | ---: | ---: | ---: | ---: |")
-    for tier in ("Excellent", "Good", "Moderate", "Poor"):
+    for tier in (*TIERS, "Not assessable"):
         lines.append(
             f"| {tier} | {v17_counts.get(tier, 0)} | "
             f"{v18_counts.get(tier, 0)} | {v20_counts.get(tier, 0)} | "
@@ -199,7 +213,9 @@ def main() -> None:
     lines.append(
         f"Promotions vs v17: {len(promotions)} | "
         f"Demotions vs v17: {len(demotions)} | "
-        f"Unchanged vs v17: {len(unchanged)}"
+        f"Unchanged vs v17: {len(unchanged)} | "
+        f"Not assessable vs v17: {len(unassessable)} "
+        f"(scope: {len(v24_by)} v24 slots)"
     )
     lines.append("")
 
@@ -231,12 +247,8 @@ def main() -> None:
     for key, v24_slot in v24_by.items():
         tgt, view = key
         b = v17_by.get(key, {})
-        b_tier = b.get("classification") or "Poor"
-        if b_tier.startswith("LoA-only"):
-            b_tier = "Poor"
-        n_tier = v24_slot.get("classification") or "Poor"
-        if n_tier.startswith("LoA-only"):
-            n_tier = "Poor"
+        b_tier = _tier(b)
+        n_tier = _tier(v24_slot)
         lines.append(
             f"| {tgt} | {view} | "
             f"{v24_slot.get('n_subjects', '?')} | "
@@ -270,9 +282,7 @@ def main() -> None:
         best_reader = None
         best_val = float("-inf")
         for r, val in learned.items():
-            if val is None or (
-                isinstance(val, float) and math.isnan(val)
-            ):
+            if not _finite_number(val):
                 continue
             if val > best_val:
                 best_val = val
@@ -287,20 +297,24 @@ def main() -> None:
     # Did v24 beat v23 anywhere?
     v24_beats_v23 = []
     v23_beats_v24 = []
+    assessed_pairs = 0
     for key in v24_by.keys():
         c23 = v23_by.get(key, {}).get("ccc_lin")
         c24 = v24_by.get(key, {}).get("ccc_lin")
-        if c23 is None or c24 is None:
+        if not (_finite_number(c23) and _finite_number(c24)):
             continue
-        if isinstance(c23, float) and math.isnan(c23):
-            continue
-        if isinstance(c24, float) and math.isnan(c24):
-            continue
+        assessed_pairs += 1
         if c24 > c23 + 0.005:
             v24_beats_v23.append((key, c23, c24))
         elif c23 > c24 + 0.005:
             v23_beats_v24.append((key, c23, c24))
 
+    lines.append(
+        f"v23/v24 CCC comparison coverage: {assessed_pairs}/{len(v24_by)} "
+        f"v24 slots assessed; {len(v24_by) - assessed_pairs} not assessable. "
+        "Conclusions below apply only to assessed pairs."
+    )
+    lines.append("")
     lines.append("## Where v24 beat v23 (LL beat HH2)")
     lines.append("")
     if v24_beats_v23:
@@ -317,7 +331,10 @@ def main() -> None:
             )
     else:
         lines.append(
-            "*(No slot where v24 beats v23 by more than 0.005 CCC.)*"
+            "*(Comparison not assessable: no paired finite CCC values.)*"
+            if assessed_pairs == 0 else
+            f"*(Among {assessed_pairs} assessed pairs, no slot where v24 beats "
+            "v23 by more than 0.005 CCC.)*"
         )
     lines.append("")
 
@@ -337,7 +354,10 @@ def main() -> None:
             )
     else:
         lines.append(
-            "*(No slot where v23 beats v24 by more than 0.005 CCC.)*"
+            "*(Comparison not assessable: no paired finite CCC values.)*"
+            if assessed_pairs == 0 else
+            f"*(Among {assessed_pairs} assessed pairs, no slot where v23 beats "
+            "v24 by more than 0.005 CCC.)*"
         )
     lines.append("")
 
@@ -411,3 +431,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
