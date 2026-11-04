@@ -20,6 +20,7 @@ from pathlib import Path
 import numpy as np
 
 from .parsers import MotionData
+from .frame_timing import cache_timing_label, require_source_media_times
 
 
 KP = {
@@ -59,6 +60,7 @@ class CouroKeypointSeries:
     width: int
     height: int
     fps: float
+    timestamp_source: str = "legacy_unverified_timestamp_ms"
 
 
 def load_couro_output(path: Path) -> CouroKeypointSeries:
@@ -81,6 +83,11 @@ def load_couro_output(path: Path) -> CouroKeypointSeries:
     """
     with open(path) as f:
         d = json.load(f)
+    timestamp_source = cache_timing_label(d)
+    # New PTS caches must never fall through to the legacy ordinal fallback.
+    source_times = (require_source_media_times(d, path.name)
+                    if "timing" in d or timestamp_source != "legacy_unverified_timestamp_ms"
+                    else None)
     frames = d.get("keypoints_sequence") or d.get("frames") or d.get("keypoint_frames") or []
     if not frames:
         raise ValueError(f"no keypoints_sequence in {path}")
@@ -103,13 +110,15 @@ def load_couro_output(path: Path) -> CouroKeypointSeries:
         for j, c in enumerate(scores[:26]):
             conf[i, j] = float(c)
         ts_ms = fr.get("timestamp_ms")
-        if ts_ms is not None:
+        if source_times is not None:
+            times[i] = source_times[i]
+        elif ts_ms is not None:
             times[i] = float(ts_ms) / 1000.0
         else:
             times[i] = float(fr.get("timestamp", fr.get("time", i / max(d.get("fps", 30), 1))))
     meta = d.get("video_metadata") or d.get("metadata") or d
     return CouroKeypointSeries(
-        time=times, xy=xy, confidence=conf,
+        time=times, xy=xy, confidence=conf, timestamp_source=timestamp_source,
         width=int(meta.get("width", 0)) or int(d.get("width", 0)),
         height=int(meta.get("height", 0)) or int(d.get("height", 0)),
         fps=float(meta.get("fps", 0)) or float(d.get("fps", 30)),

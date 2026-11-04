@@ -78,6 +78,8 @@ else:
 # Paths and constants.
 # -------------------------------------------------------------------------
 
+from harness.frame_timing import require_mocap_times
+
 DATA_ROOT: Final[Path] = REPO_ROOT / "data"
 LAB: Final[Path] = DATA_ROOT / "LabValidation_withVideos"
 OPENCAP_KP: Final[Path] = DATA_ROOT / "opencap_dwpose_keypoints"
@@ -174,15 +176,19 @@ def build_opencap_clip(kp_path: Path, halpe_idx_arr: np.ndarray) -> dict | None:
     if not mot_path.exists():
         return None
     try:
-        clip = _load_opencap_keypoints(kp_path)
-    except Exception:
-        return None
-    try:
         gt = parse_mot(mot_path)
     except Exception:
         return None
 
-    t_sec = clip["t_ms"] / 1000.0
+    # Source-media PTS are not mocap time. Fail closed outside the legacy
+    # loader's broad exception handler so unvalidated clips cannot be skipped
+    # silently into a different training cohort.
+    t_sec = np.asarray(require_mocap_times(kp_path, mot_path, gt.time), dtype=np.float64)
+
+    try:
+        clip = _load_opencap_keypoints(kp_path)
+    except Exception:
+        return None
     n_frames = t_sec.shape[0]
     angles = np.full((n_frames, len(DEPLOY_METRICS)), np.nan, dtype=np.float32)
     for k, metric in enumerate(DEPLOY_METRICS):
